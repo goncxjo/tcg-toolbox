@@ -1,85 +1,33 @@
-import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterContentInit, AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR, FormsModule, ReactiveFormsModule, ControlContainer, FormGroupDirective, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-currency-select',
   templateUrl: './currency-select.component.html',
   styleUrls: ['./currency-select.component.scss'],
-  providers: [
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  viewProviders: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CurrencySelectComponent),
-      multi: true
+      provide: ControlContainer,
+      useExisting: FormGroupDirective,
     },
   ]
 })
-export class CurrencySelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
-  value!: boolean;
-  control!: NgControl;
-  isDisabled!: boolean;
-
+export class CurrencySelectComponent implements AfterContentInit {
+  childForm: any;
+  
+  @Input() isDisabled: boolean = false;
+  @Input() showOptionAll: boolean = false;
+  @Input() name: string = '';
   @Input() innerLabel: string = "";
-
-  @ViewChild('input', { static: false, read: NgControl }) input: any;
-
-  onChange = (_: any) => { }
-  onTouch = () => { }
-
+  
   constructor(
-    private injector: Injector,
+    public parentForm: FormGroupDirective
   ) { }
 
-  ngDoCheck(): void {
-    if (this.input && this.control) {
-      if (this.control.touched) {
-        this.input.control.markAsTouched();
-      } else {
-        this.input.control.markAsUntouched();
-      }
-    }
-  }
-
-  ngAfterViewInit() {
-    if (this.control != null) {
-      this.input.control.setValidators(this.control.control?.validator);
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
-  writeValue(value: boolean): void {
-    this.value = value;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  ngOnInit(): void {
-    this.control = this.injector.get(NgControl);
-  }
-
-  onModelChange(_event: any) {
-    this.notifyValueChange();
-  }
-
-  notifyValueChange() {
-    if (this.onChange) {
-      this.onChange(this.value);
-    }
-
-    if (this.onTouch) {
-      this.onTouch();
-    }
-  }
-
-  compareSelectedValue(item: boolean, value: boolean) {
-    return (!item || !value) ? false : item === value;
+  ngAfterContentInit(): void {
+    this.childForm = this.parentForm.form;
+    this.childForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
   }
 }

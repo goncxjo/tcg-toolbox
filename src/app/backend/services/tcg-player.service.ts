@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
-import { AppConfigService } from 'src/app/core';
 import { Card, CardPrice } from '../models';
-import { CardPriceTcgPlayer, CardPriceTcgPlayerType, ExpansionTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
+import { CardPriceTcgPlayer, ExpansionTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
 import { FiltersTcgPlayerQuery, createTcgPlayerQuery } from './tcg-player-search-query';
 import { CardService } from './card.service';
+import { AppConfigService } from '../../core';
 
 @Injectable({
     providedIn: 'root'
@@ -60,52 +60,15 @@ export class TcgPlayerService {
         return this.cardService.getTcgPlayerCard(response$, this.imageEndpoint, this.productUrl);
     }
 
-
-    public getCardPrices(tcg_player_id: number): Observable<CardPriceTcgPlayer[]> {
-        const url = `${this.priceEndpoint}/product/${tcg_player_id}/pricepoints`;
+    public getCardPrice(tcg_player_id: number): Observable<CardPriceTcgPlayer> {
+        const url = `${this.priceEndpoint}/product/${tcg_player_id}/pricepoints?mpfev=1821`;
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         });
         return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers }).pipe(
             map((res: ProductPriceTcgPlayer[]) => {
-                let tcg_player_normal_mp = new CardPrice('USD', res[0].marketPrice);
-                let tcg_player_foil_mp = new CardPrice('USD', res[1].marketPrice);
-
-                let tcg_player_normal_lmp = new CardPrice('USD', res[0].listedMedianPrice);
-                let tcg_player_foil_lmp = new CardPrice('USD', res[1].listedMedianPrice);    
-                
-                return [
-                    {
-                        tcg_player_normal: tcg_player_normal_mp.currency_value != null ? tcg_player_normal_mp : null,
-                        tcg_player_foil: tcg_player_foil_mp.currency_value != null ? tcg_player_foil_mp : null
-                    },
-                    {
-                        tcg_player_normal: tcg_player_normal_lmp.currency_value != null ? tcg_player_normal_lmp : null,
-                        tcg_player_foil: tcg_player_foil_lmp.currency_value != null ? tcg_player_foil_lmp : null
-                    },
-                ];
-            })
-        );
-    }
-
-
-    public getCardPrice(tcg_player_id: number, type: string = CardPriceTcgPlayerType.MARKET_PRICE): Observable<CardPriceTcgPlayer> {
-        const url = `${this.priceEndpoint}/product/${tcg_player_id}/pricepoints`;
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-        });
-        return this.httpClient.get<ProductPriceTcgPlayer[]>(url, { headers: headers }).pipe(
-            map((res: ProductPriceTcgPlayer[]) => {
-                let tcg_player_normal: CardPrice;
-                let tcg_player_foil: CardPrice;
-
-                if (type == CardPriceTcgPlayerType.LISTED_MEDIAN_PRICE) {
-                    tcg_player_normal = new CardPrice('USD', res[0].listedMedianPrice);
-                    tcg_player_foil = new CardPrice('USD', res[1].listedMedianPrice);                    
-                } else {
-                    tcg_player_normal = new CardPrice('USD', res[0].marketPrice);
-                    tcg_player_foil = new CardPrice('USD', res[1].marketPrice);
-                }
+                const tcg_player_normal = new CardPrice('USD', res[0].listedMedianPrice);
+                const tcg_player_foil = new CardPrice('USD', res[1].listedMedianPrice);
                 
                 return {
                     tcg_player_normal: tcg_player_normal.currency_value != null ? tcg_player_normal : null,

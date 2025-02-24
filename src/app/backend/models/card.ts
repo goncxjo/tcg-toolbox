@@ -17,6 +17,7 @@ export class Card {
 	expansion_name: string = '';
 	tcg_player_url: string = '';
 	price: CardPrice = new CardPrice();
+	selectedPrice: string = 'custom';
 	prices: Map<string, CardPrice | null> = new Map<string, CardPrice | null>();
 	multiplier: number = 1;
 	releaseDate: Date | null = null;
@@ -89,6 +90,21 @@ export class Card {
 			console.log(`error al mapear #${value}`)
 		}
 	}
+
+	getPrecioOrDefault() {
+		if (this.selectedPrice) {
+			return this.prices.get(this.selectedPrice);
+		}
+		else {
+			let precio: CardPrice | null = new CardPrice();
+			this.prices.forEach(price => {
+				if (!precio?.currency_value && price?.currency_value) {
+					precio = price;
+				}
+			});
+			return precio;
+		}
+	  }
 }
 
 export class CardPrices {

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
 import { AppConfig } from "./app-config.model";
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AppConfigService {
 
     private httpClient!: HttpClient;
@@ -31,12 +33,12 @@ export class AppConfigService {
 
     // TODO: esto está por el AuthModule, ya que el método load no llega a traerle la data.
     // ver si es posible evitar esto.
-    getPromise() {
-        return this.httpClient.get(this.jsonFile);
+    getPromise(): Observable<AppConfig> {
+        return this.httpClient.get<AppConfig>(this.jsonFile || "{}");
     }
 
     get() {
-        return this.config;
+        return this.config || {};
     }
 
     InitAppConfig(): AppConfig {

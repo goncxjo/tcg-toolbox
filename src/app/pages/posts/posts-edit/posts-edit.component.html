@@ -1,0 +1,152 @@
+@if (showCustomDolar) {
+	<div class="input-group mb-3">
+		<span class="input-group-text">$</span>
+		<input type="number" [min]="0" class="form-control" id="custom" [formControl]="customDolarInput">
+		<span class="input-group-text">.00</span>
+	</div>
+}
+<div class="card mb-3">
+	<div class="card-header fw-bold d-flex align-items-center">
+		<span>Cartas</span>
+		<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
+			<div class="btn-group card-item-actions border me-2" role="group">
+				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'asc')">
+					<fa-icon [icon]="sortUpIcon" />
+				</button>
+				<button type="button" class="btn btn-sm btn-primary" (click)="sort('precio', 'desc')">
+					<fa-icon [icon]="sortDownIcon" />
+				</button>
+			</div>
+			<button type="button" class="btn btn-sm btn-info me-2" (click)="openExportImg()">
+				<fa-icon [icon]="imageIcon" />
+			</button>
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-success" (click)="toggleDolar()">
+					{{ dolarService.userCurrency() }}
+				</button>
+				<div class="btn-group" ngbDropdown role="group">
+					<button type="button" class="btn btn-sm btn-success" ngbDropdownToggle></button>
+					<div class="dropdown-menu" ngbDropdownMenu>
+						<button ngbDropdownItem (click)="toggleCustomDolar()">
+							@if (!showCustomDolar) {
+								Fijar dólar custom
+							}
+							@else {
+								Quitar dólar custom
+							}
+						</button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="card-body p-0">
+		@if (post$ | async; as post) {
+		<div class="card-grid">
+			@for(card of cards(); track card) {
+			<div class="card-item-container col-12 col-md-6 col-xl-4">
+				<div class="d-flex">
+					<div class="img-container card-reduced-img-container-height text-center">
+						<img [src]="card.image_url" onerror="this.onerror=null;this.src='assets/card-back.png';" />
+					</div>
+
+					<div class="card-item-details font-small d-flex-grow-1 ">
+						<small class="card-item-details-name fw-bold mb-1">{{ card.name }}</small>
+						<small class="card-item-details-expansion text-muted">{{ card.expansion_name }}</small>
+						<small class="card-item-details-code text-muted">{{ card.code.default + ' # ' + card.rarity_name }}</small>
+
+						<small class="card-item-details-price fw-bold mt-2">
+							Precio: <span class="text-primary ms-2">{{ getPrice(card) | currency }}</span>
+						</small>
+						@if (card.multiplier > 1) {
+						<small class="card-item-details-price fw-bold mt-1">
+							Subtotal: <span class="text-primary ms-2">{{ getPrice(card) * card.multiplier | currency
+								}}</span>
+						</small>
+						}
+						<div class="row g-0 mt-auto">
+							<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+								<div class="btn-group card-item-actions border me-1" role="group">
+									<button type="button" class="btn btn-sm" (click)="changeMultiplier(card, -1)">
+										<fa-icon [icon]="minusIcon" />
+									</button>
+									<button type="button" class="btn btn-sm border-0" disabled>
+										{{ card.multiplier }}
+									</button>
+									<button type="button" class="btn btn-sm" (click)="changeMultiplier(card, 1)">
+										<fa-icon [icon]="plusIcon" />
+									</button>
+								</div>
+								<button type="button" class="btn btn-sm btn-primary me-1" disabled>
+									<fa-icon [icon]="viewIcon" />
+								</button>
+								<button type="button" class="btn btn-sm bg-danger text-white"
+									(click)="removeCard(card)">
+									<fa-icon [icon]="trashIcon" />
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			}
+		</div>
+		}
+		@if(noData) {
+		<div class="d-flex flex-column no-cards text-center text-muted justify-content-center px-4">
+			<p class="card-text">No agregaste ninguna carta.</p>
+			<p class="card-text">¡Agregá cartas usando el buscador!</p>
+		</div>
+		}
+	</div>
+	<div class="card-footer">
+		<p class="card-text fw-bold text-end">
+			TOTAL: <span class="ms-2">{{ total() | currency }}</span>
+		</p>
+	</div>
+</div>
+
+@defer {
+	@if (!enableCreateMode && !readonly && !id && !noData) {
+	<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
+		<button class="btn btn-success" type="button" (click)="enableCreateMode = !enableCreateMode">
+			<fa-icon [icon]="plusIcon"></fa-icon> Crear publicación
+		</button>
+	</div>
+	}
+	@else if(!noData) {
+	<div class="card mb-3">
+		<div class="card-header fw-bold">
+			{{ title }} publicación
+		</div>
+		<div class="card-body">
+			<form class="row g-3 mb-3" [formGroup]="form">
+				<div class="col-md-6">
+					<label for="name" class="form-label">Nombre</label>
+					<input type="text" class="form-control" id="name" formControlName="name" placeholder="Escriba el nombre de la publicación">
+				</div>
+				<!-- <div class="col-md-6">
+					<label for="customDolar" class="form-label">Fijar dolar</label>
+					<input type="number" class="form-control" id="customDolar" min="0">
+				</div> -->
+				<div class="col-12">
+					<label for="description" class="form-label">Descripción</label>
+					<input type="textarea" class="form-control" id="description" formControlName="description" placeholder="Describa brevemente su publicación">
+				</div>
+			</form>
+			@if (editMode) {
+				<div class="d-grid gap-3 d-sm-flex justify-content-sm-end">
+					<button class="btn btn-primary" type="button" (click)="save()" disabled>
+						<fa-icon [icon]="saveIcon"></fa-icon> Guardar
+					</button>
+					<button class="btn btn-secondary" type="button" (click)="enableCreateMode = !enableCreateMode">
+						<fa-icon [icon]="closeIcon"></fa-icon> Cancelar
+					</button>
+				</div>	
+			}
+		</div>
+	</div>
+	}
+}

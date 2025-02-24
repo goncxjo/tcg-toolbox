@@ -1,0 +1,84 @@
+<ng-template #rt let-r="result" let-t="term">
+	<div class="d-flex flex-row align-items-center" (click)="blurInput()">
+		<img class="col-2 me-3" [src]="r['image_url']" style="width: 3rem" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+		<div class="col d-flex flex-column text-truncate">
+			<ngb-highlight [result]="r.name" [term]="t" class="text-truncate"></ngb-highlight>
+			<small class="text-muted text-truncate">{{r['expansion_name']}}</small>
+			<small class="text-muted text-truncate">{{r.code.default}}</small>
+		</div>
+	</div>
+</ng-template>
+
+
+<div class="mb-1 row">
+	<div class="col-12">
+		<div class="input-group">
+			<input
+				id="typeahead-template"
+				#cardSearcherInput
+				type="text"
+				class="form-control"
+				[(ngModel)]="model"
+				[ngbTypeahead]="search"
+				[resultTemplate]="rt"
+				[inputFormatter]="formatter"
+				[resultFormatter]="formatter"
+				[editable]="false"
+				placeholder="Escribí acá el nombre de la carta"
+				(selectItem)="agregarCarta()"
+				(keyup.enter)="blurInput()"
+			/>
+		</div>
+	</div>
+	<div class="col-12">
+		<div id="advancedSearch" class="form-text text-end">
+			<button
+				type="button"
+				class="btn btn-link text-decoration-none"
+				style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+				(click)="toggleBusquedaAvanzada()"
+			>
+				Búsqueda avanzada...
+			</button>
+		</div>
+	</div>
+</div>
+<!-- 
+<div @myInsertRemoveTrigger class="card text-bg-secondary mb-3" [hidden]="!mostrarBusquedaAvanzada">
+	<div class="card-body">
+		<div class="alert alert-info d-flex flex-row align-items-center py-2">
+			<span>
+				<fa-icon icon="circle-info" class="me-3"/>
+			</span>
+			<small>
+				Primero filtrás y luego escribís el nombre de la carta
+			</small>
+		</div>
+
+		<form [formGroup]="form" class="row g-3">
+			<div class="col-12">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="isPreRelease" formControlName="isPreRelease" (change)="onIsPreReleaseChanged($event)">
+					<label class="form-check-label" for="isPreRelease">Pre-Release</label>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<label for="category" class="form-label">Expansión</label>
+				<app-expansion-select formControlName="expansion" [mostrarOpcionTodos]="true" [esPreRelease]="esPreRelease"></app-expansion-select>
+			</div>
+			<div class="col-md-6">
+				<label for="category" class="form-label">Categoría</label>
+				<app-category-select formControlName="category" [mostrarOpcionTodos]="true"></app-category-select>
+			</div>
+			
+			<div class="col-6">
+				<label for="color" class="form-label">Color</label>
+				<app-color-multiselect formControlName="colors"></app-color-multiselect>
+			</div>
+			<div class="col-6">
+				<label for="rarity" class="form-label">Rareza</label>
+				<app-rarity-multiselect formControlName="rarities"></app-rarity-multiselect>
+			</div>
+		</form>
+	</div>
+</div> -->

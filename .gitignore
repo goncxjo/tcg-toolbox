@@ -40,5 +40,6 @@ Thumbs.db
 # Config files
 src/assets/config/*
 /src/environments/environment.ts
+/src/environments/environment.*.ts
 /src/environments/.env
-/src/proxy.conf.js
+/src/proxy.conf.*

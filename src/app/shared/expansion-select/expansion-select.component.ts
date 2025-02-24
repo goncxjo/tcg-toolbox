@@ -1,122 +1,60 @@
-import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, AfterContentInit } from '@angular/core';
+import { FormControl, FormGroupDirective, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import * as _ from 'lodash';
-import { TcgPlayerService } from 'src/app/backend';
-import { ExpansionTcgPlayer } from 'src/app/backend/models/tcg-player';
+import { ExpansionTcgPlayer, TcgPlayerService } from '../../backend';
+import { Observable, map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-expansion-select',
   templateUrl: './expansion-select.component.html',
   styleUrls: ['./expansion-select.component.scss'],
-  providers: [
+  standalone: true,
+  imports: [ReactiveFormsModule, AsyncPipe],
+  viewProviders: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ExpansionSelectComponent),
-      multi: true
+      provide: ControlContainer,
+      useExisting: FormGroupDirective,
     },
   ]
 })
-export class ExpansionSelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
-  value!: ExpansionTcgPlayer;
-  control!: NgControl;
-  isDisabled!: boolean;
+export class ExpansionSelectComponent implements AfterContentInit {
+  data$!: Observable<ExpansionTcgPlayer[]>;
 
-  @Input() mostrarOpcionTodos: boolean = true;
-  @Input() esPreRelease: boolean = false;
+  chlidForm: any;
 
-  data$: ExpansionTcgPlayer[] = [];
+  @Input() isDisabled: boolean = false;
+  @Input() showOptionAll: boolean = false;
+  @Input() name: string = '';
 
-  @ViewChild('input', { static: false, read: NgControl }) input: any;
+  private _esPreRelease!: boolean;
+  @Input() set esPreRelease(value: boolean) {
+    this._esPreRelease = value;
+    this.data$ = this.tcgPlayerService.getDigimonExpansions().pipe(
+      map((data: ExpansionTcgPlayer[]) => this.filterData(data))
+    );
+  }
 
-  onChange = (_: any) => { }
-  onTouch = () => { }
+  get esPreRelease(): boolean {
+    return this._esPreRelease;
+  }
 
   constructor(
-    private injector: Injector,
-    private tcgPlayerService: TcgPlayerService
+    private tcgPlayerService: TcgPlayerService,
+    public parentForm: FormGroupDirective
   ) { }
 
-  ngDoCheck(): void {
-    if (this.input && this.control) {
-      if (this.control.touched) {
-        this.input.control.markAsTouched();
-      } else {
-        this.input.control.markAsUntouched();
+  filterData(data: ExpansionTcgPlayer[]): ExpansionTcgPlayer[] {
+    return _.filter(data, (d: ExpansionTcgPlayer) => {
+      if (this.esPreRelease) {
+        return d.abbreviation.includes("_PR");
       }
-    }
+      return !d.abbreviation.includes("_PR");
+    })  
   }
-
-  ngAfterViewInit() {
-    if (this.control != null) {
-      this.input.control.setValidators(this.control.control?.validator);
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
-  writeValue(value: ExpansionTcgPlayer): void {
-    this.value = value;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
-  ngOnInit(): void {
-    this.control = this.injector.get(NgControl);
-  }
-
-  onModelChange(_event: any) {
-    this.notifyValueChange();
-  }
-
-  notifyValueChange() {
-    if (this.onChange) {
-      this.onChange(this.value);
-    }
-
-    if (this.onTouch) {
-      this.onTouch();
-    }
-  }
-
-  compareSelectedValue(item: ExpansionTcgPlayer, value: ExpansionTcgPlayer) {
-    return (!item || !value) ? false : item.setNameId === value.setNameId;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    for (const propName in changes) {
-      if(propName != 'mostrarOpcionTodos') {
-        const changedProp = changes[propName];
-        if (changedProp.isFirstChange()) {
-          this.refreshData(false);
-        } else {
-          const from = JSON.stringify(changedProp.previousValue);
-          const to = JSON.stringify(changedProp.currentValue);
-          if(to != from) this.refreshData(true);
-        }
-      }
-    }
-  }
-
-  private refreshData(refreshValue: boolean) {
-    this.tcgPlayerService.getDigimonExpansions().subscribe((data: ExpansionTcgPlayer[]) => {
-      this.data$ = _.filter(data, (d: ExpansionTcgPlayer) => {
-        if (this.esPreRelease) {
-          return d.abbreviation.includes("_PR");
-        }
-        return !d.abbreviation.includes("_PR");
-      })
-      
-      if (this.value && refreshValue) {
-        this.value = data[0];
-      }
-    });
+  
+  ngAfterContentInit(): void {
+    this.chlidForm = this.parentForm.form;
+    this.chlidForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
   }
 }

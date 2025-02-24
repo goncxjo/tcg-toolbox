@@ -1,0 +1,38 @@
+.app-subtitle {
+    border-left: 1px white solid;
+}
+
+.bg-modal-content {
+	background-color: #e9ecef; // $gray-200
+}
+
+.export-font {
+    font-size: 0.65rem;
+}
+
+.bg-badge-unit-price-export-card {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: auto;
+}
+
+.bg-badge-multiplier-export-card {
+    background: rgba(25, 25, 25, .5);
+    color: white;
+    font-size: x-large;
+    border: 1px white solid;
+}
+
+.bg-badge-total-export-card {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: auto;
+}
+
+.card-export-item {
+    border: #6c757d 1px solid; // $gray-600
+    border-radius: 7px;
+    width: auto;
+}

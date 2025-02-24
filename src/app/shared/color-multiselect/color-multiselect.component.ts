@@ -1,90 +1,43 @@
-import { AfterViewInit, Component, DoCheck, forwardRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterContentInit, Component, Input, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormsModule, ControlContainer, FormGroupDirective, FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { ListItem } from 'src/app/backend/models/list-item';
+import { ListItem } from '../../backend/models/list-item';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-color-multiselect',
   templateUrl: './color-multiselect.component.html',
   styleUrls: ['./color-multiselect.component.scss'],
-  providers: [
+  standalone: true,
+  imports: [ReactiveFormsModule, AsyncPipe, FormsModule],
+  viewProviders: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ColorMultiSelectComponent),
-      multi: true
+      provide: ControlContainer,
+      useExisting: FormGroupDirective,
     },
   ]
+
 })
-export class ColorMultiSelectComponent implements OnInit, ControlValueAccessor, DoCheck, AfterViewInit {
-  values!: ListItem[];
-  control!: NgControl;
-  isDisabled!: boolean;
+export class ColorMultiSelectComponent implements  OnInit, AfterContentInit {
+  data$!: Observable<ListItem[]>;
 
-  data$: ListItem[] = [];
+  chlidForm: any;
 
-  @ViewChild('input', { static: false, read: NgControl }) input: any;
-
-  onChange = (_: any) => { }
-  onTouch = () => { }
-
+  @Input() isDisabled: boolean = false;
+  @Input() name: string = '';
+  
   constructor(
-    private injector: Injector
-  ) {
-    this.values = [];
-  }
+    public parentForm: FormGroupDirective
+  ) { }
 
-  ngDoCheck(): void {
-    if (this.input && this.control) {
-      if (this.control.touched) {
-        this.input.control.markAsTouched();
-      } else {
-        this.input.control.markAsUntouched();
-      }
-    }
+  ngAfterContentInit(): void {
+    this.chlidForm = this.parentForm.form;
+    this.chlidForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
   }
-
-  ngAfterViewInit() {
-    if (this.control != null) {
-      this.input.control.setValidators(this.control.control?.validator);
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
-  writeValue(values: ListItem[]): void {
-    this.values = values;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
-
   ngOnInit(): void {
-    this.getDigimonColors().subscribe(data => {
-      this.data$ = data;
-    });
-    this.control = this.injector.get(NgControl);
+    this.data$ = this.getDigimonColors();
   }
 
-  onModelChange(_event: any) {
-    this.notifyValueChange();
-  }
-
-  notifyValueChange() {
-    if (this.onChange) {
-      this.onChange(this.values);
-    }
-
-    if (this.onTouch) {
-      this.onTouch();
-    }
-  }
 
   getDigimonColors(): Observable<ListItem[]> {
     return of([

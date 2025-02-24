@@ -1,0 +1,36 @@
+@if(!editDolarMode) {
+    <div class="bg-success text-center py-0 border-0 rounded-0 mb-3">
+        @if(dataService.dolar()) {
+            <small class="text-white fw-bold">
+                Dólar hoy: {{ dataService.dolar()?.venta | currency }}
+            </small>
+            <!-- <button type="button" class="btn btn-outline-success btn-sm border-0" (click)="toggleEditDolarMode()">
+                <fa-icon [icon]="editIcon" />
+            </button> -->
+        }
+        @else {
+            <small class="text-white fw-bold">
+                <fa-icon id="loading-logo" [icon]="loadingIcon" animation="spin" class="me-2"/>
+                Obteniendo cotización
+            </small>
+        }
+    </div>
+} @else {
+    <div class="alert alert-warning text-center py-1">
+        <form class="row row-cols-auto g-3 justify-content-center align-items-center">
+            <label for="dolar" class="col-4 col-md-2 col-form-label col-form-label-sm text-end">Dólar custom: </label>
+            <div class="col-6 col-md-2">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text">ARS</span>
+                    <input type="number" [min]="0" [formControl]="dolarVentaInput" class="form-control form-control-sm" name="dolarVentaInput" >
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-success btn-sm border-0" (click)="updateDolarVenta()">
+                <fa-icon [icon]="applyIcon" ></fa-icon>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-sm border-0" (click)="toggleEditDolarMode()">
+                <fa-icon [icon]="banIcon" ></fa-icon>
+            </button>
+        </form>
+    </div>
+}

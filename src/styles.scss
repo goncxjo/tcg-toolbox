@@ -1,13 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap');
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: "Source Sans 3", sans-serif;
+
+    // box-shadow: none !important;
 }
 
 body {
 	min-height: 100vh;
+}
+
+$phi: 1.6180339887498948482;
+$app-navbar-height-default: 3.64rem;
+$btn-home-height: 125px;
+
+app-root {
+	@extend .d-flex;
+	@extend .flex-column;
+	@extend .min-vh-100;
 }
 
 @font-face {
@@ -20,44 +34,116 @@ body {
 	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
 }
 
-$border-width: 0;
+@font-face {
+	font-family: pixel-digivolve;
+	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
+}
 
-$font-family-base: "Montserrat",-apple-system,sans-serif !important;
+$font-family-base: "Montserrat", -apple-system, sans-serif !important;
 $app-navbar-height-default: 3.5rem;
 
 /* Importing Bootstrap SCSS file. */
+@import './assets/bootswatch/zephyr/variables';
 @import 'bootstrap/scss/bootstrap';
+@import './assets/bootswatch/zephyr/bootswatch';
+
 // regular style toast
 @import 'ngx-toastr/toastr';
+@import 'ngx-toastr/toastr-bs5-alert';
 
-body {
-	background-color: $gray-200;
+/* Core Grid CSS */
+@import 'ag-grid-community/styles/ag-grid.css';
+/* Quartz Theme Specific CSS */
+@import 'ag-grid-community/styles/ag-theme-quartz.css';
+  
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+    line-height: 1.33;
 }
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 4px 0px;
+    border-radius: 15px;
+    text-align: center;
+    // font-size: 12px;
+    line-height: 1.42857;
+}
+
+@include media-breakpoint-down(md) {
+    .card-search-modal-height {
+        height: 100%;
+        max-width: none;
+        width: 100vw;
+        margin: 0;     
+        & .modal-content  {
+            height: 100%;
+            border-radius: 0;
+            & > * {
+                height: 100%;
+				& .modal-header {
+					padding: 0;
+					& > div > div > div {
+						border-radius: 0;
+					}
+				}
+				
+				& .modal-body {
+					padding-top: 0;
+					padding-right: 0;
+					padding-left: 0;
+
+					& > .list-group {
+						border-radius: 0;
+					}
+				}
+            }
+        }
+    }
+
+    .modal-filter {
+        border-radius: 0;
+		border-top: 0;
+    }
+}
+
+.modal-dialog-scrollable .modal-body {
+    scrollbar-width: none;
+}
+
+// body {
+// 	background-color: $gray-200;
+// }
 
 hr {
 	border-width: 1px;
 }
 
-.app-container {
-	display: flex;
-	flex-direction: column;
-	min-height: calc(100vh - $app-navbar-height-default*2);
-}
+// #ngb-typeahead-0 {
+// 	width: 100%;
+// 	overflow-y: scroll;
+// 	overflow-x: hidden;
+// 	max-height: 50vh;
 
-#ngb-typeahead-0 {
-	width: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 50vh;
-
-	.dropdown-item.active, .dropdown-item:active {
-		background-color: $gray-100;
-		color: black;
-	}
-}
+// 	.dropdown-item.active,
+// 	.dropdown-item:active {
+// 		background-color: $gray-100;
+// 		color: black;
+// 	}
+// }
 
 .cursor-loader {
 	cursor: wait;
+
 	* {
 		cursor: wait !important;
 	}
@@ -69,25 +155,25 @@ hr {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(0, 0, 0, 0.4);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	z-index: 1000;
-  }
-  
-  /* card-info */
-  .list-group-item.list-group-item-action .bg-list-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 10px; 
-    height: 100%;
-    background-color: $gray-200;
+}
+
+/* card-info */
+.list-group-item.list-group-item-action .bg-list-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 100%;
+	background-color: $gray-200;
 }
 
 .list-group-item.list-group-item-action.card-price-active .bg-list-item {
-    background-color: $primary;
+	background-color: $primary;
 }
 
 .no-radius {
@@ -98,16 +184,28 @@ hr {
 	height: $app-navbar-height-default;
 }
 
+nav {
+	.input-group-sm > .form-control, .input-group-sm > .form-select, .input-group-sm > .input-group-text, .input-group-sm > .btn {
+		padding: 0.19rem 0.5rem;
+		font-size: 0.875rem;
+		border-radius: var(--bs-border-radius-sm);
+	}
+}
+
 .app-offcanvas {
 	height: calc($app-navbar-height-default - $hr-margin-y);
 	padding-top: $navbar-padding-y;
 	padding-bottom: 0;
-	
-    display: flex;
-    flex-wrap: inherit;
-    align-items: center;
-    justify-content: space-between;
+
+	display: flex;
+	flex-wrap: inherit;
+	align-items: center;
+	justify-content: space-between;
 	font-size: $navbar-toggler-font-size;
+}
+
+.offcanvas.offcanvas-end {
+    width: 300px;
 }
 
 .offcanvas-footer {
@@ -115,31 +213,22 @@ hr {
 	height: $app-navbar-height-default;
 }
 
-.card-reduced-height {
-	height: 12rem;
-}
-
-.card-reduced-img-container-height {
-	height: 10rem;
-}
-
-
 .translate-middle-sm-multiplier {
-    @extend .translate-middle;
+	@extend .translate-middle;
 }
 
 .translate-middle-sm-multiplier-buttons {
-    @extend .translate-middle;
+	@extend .translate-middle;
 }
 
 @include media-breakpoint-down(sm) {
 	.translate-middle-sm-multiplier {
 		transform: translate(-75%, -25%) !important;
 	}
-	
+
 	.translate-middle-sm-multiplier-buttons {
 		transform: translate(-75%, -50%) !important;
-	}	
+	}
 }
 
 $bg-wsp: #25d366;
@@ -171,4 +260,54 @@ $bg-fb: #1877f2;
 	--bs-btn-active-color: var(--bs-btn-hover-color);
 	--bs-btn-active-bg: #{shade-color($bg-fb, 20%)};
 	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
+}
+
+.card-grid {
+	@extend .row;
+	@extend .g-0;
+
+	overflow: hidden;
+	& .card-item-container {
+		@extend .p-3;
+		box-shadow: 1px 1px 0px 0px var(--bs-border-color);
+		
+		.card-reduced-height {
+			height: 12rem;
+		}
+
+		.card-reduced-img-container-height {
+			height: 10rem;
+		}
+		.img-container > img {
+			@extend .mh-100;
+			@extend .rounded;
+			outline: solid 1px var(--bs-border-color);
+		}
+		.card-item-details {
+			@extend .d-flex;
+			@extend .flex-column;
+			@extend .lh-sm;
+			@extend .ps-3;
+			overflow: hidden;
+			.card-item-details-expansion {
+				white-space: nowrap;
+			}
+		}
+	}
+}
+
+.no-cards {
+    height: 10em;
+    align-content: center;
+	@extend .text-muted;
+	@extend .text-center;
+}
+
+@include media-breakpoint-up(md) {
+    .home-card {
+        background-image: linear-gradient(to left, transparent, var(--bs-card-bg) 90%), url('https://world.digimoncard.com/images/products/goods/official_sleeve_silver/img_pkg.png');
+        background-repeat: no-repeat;
+        background-size: 55%;
+        background-position: 111% 50%;
+    }
 }
