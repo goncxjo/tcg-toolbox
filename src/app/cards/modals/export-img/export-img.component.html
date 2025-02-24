@@ -1,0 +1,115 @@
+<div class="modal-content" #content>
+	<div class="modal-header bg-dark text-light">
+		<div class="brand flex-grow-1">
+			<img id="brand-logo" src="assets/logo.svg" alt="digi-calc">
+			<span id="app-title" class="d-flex flex-column text-start">
+				<span style="margin-bottom: -7px;">Digimon Card Game</span>
+				<span>Price Calculator&nbsp;&nbsp;</span>
+			</span>
+			<span class="app-subtitle ms-3 ps-3 screenshot-hide">
+				Foto
+			</span>
+		</div>
+		<button type="button" class="btn btn-danger screenshot-hide" (click)="close('close')">
+			&#x2715;
+		</button>
+	</div>
+	<div class="modal-body bg-modal-content">
+		<form [formGroup]="form" class="row g-3 screenshot-hide mb-3">
+			<div class="col-12 col-md-3 col-lg-2">
+				<app-yes-no-select formControlName="showCurrency" [innerLabel]="'Mostrar precios: '" (ngModelChange)="onShowCurrencyChange($event)"></app-yes-no-select>
+			</div>
+
+			<div class="col-12 col-md-3 col-lg-2">
+				<app-currency-select formControlName="currency" [innerLabel]="'Moneda: '" (ngModelChange)="onCurrencyChange($event)" *ngIf="mostrarPrecios"></app-currency-select>
+			</div>
+
+			<div class="btn-group col-12 col-md-3 col-lg-2" role="group">
+				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-0.5)" [disabled]="colExport < 2">
+					<fa-icon icon="search-minus" />
+				</button>
+				<button type="button" class="btn btn-primary btn-sm active" disabled >
+					Zoom
+				</button>
+				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(0.5)" [disabled]="colExport > 5">
+					<fa-icon icon="search-plus" />
+				</button>
+			</div>
+		</form>
+
+		<div class="row screenshot-hide mb-3">
+			<div class="btn-group col-12 col-md-6 col-lg-4" role="group">
+				<button type="button" class="btn btn-primary btn-sm" (click)="download()">
+					<span *ngIf="!descargandoFoto">
+						<fa-icon icon="download" class="me-1"/>Descargar 
+					</span>
+					<span *ngIf="descargandoFoto">
+						<fa-icon icon="sync" [spin]="true" class="me-1"/>Descargando...
+					  </span>
+				</button>
+				<button type="button" class="btn btn-success btn-sm" (click)="screenshot()">
+					<span *ngIf="!capturarFoto">
+						<fa-icon icon="copy" class="me-1"/>Copiar
+					</span>
+					<span *ngIf="capturarFoto">
+						<fa-icon icon="sync" [spin]="true" class="me-1"/>Copiando...
+					  </span>
+				</button>
+			</div>
+		</div>
+
+		<div class="row row-cols-1 mb-3 d-none screenshot-show" *ngIf="mostrarPrecios">
+			<div class="col">
+				<small class="text-secondary-emphasis">
+					<strong>Dólar: </strong>${{ dolar.venta | currency }}
+				</small>
+			</div>
+			<div class="col">
+				<small class="text-secondary-emphasis">
+					<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }}
+				</small>
+			</div>
+			<div class="col">
+				<small class="text-secondary-emphasis">
+					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy hh:mm:ss' }}
+				</small>
+			</div>
+		</div>
+
+		<div class="container-justify">
+			<div class="row justify-content-center">
+				<div *ngFor="let item of cards; let index = index" class="card-export-item p-0 m-2 text-center">
+
+					<span class="bg-badge-unit-price-export-card bg-secondary badge d-block export-font" *ngIf="mostrarPrecios">
+						<span *ngIf="item.multiplier > 1">
+							$ {{ getPrecio(item) | currency}}
+						</span>
+						<span *ngIf="item.multiplier == 1">
+							&nbsp;
+						</span>
+					</span>	
+
+					<div class="img-container d-flex justify-content-center align-items-center">
+						<img [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-back.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
+						<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
+							{{ item.multiplier }}
+						</span>
+					</div>
+
+					<span class="bg-badge-total-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
+						${{ getPrecio(item) * item.multiplier | currency }}
+					</span>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal-footer bg-primary text-light">
+		<div class="alert p-0 text-end fw-bolder" *ngIf="mostrarPrecios">
+			<span>Total:
+				<strong>ARS {{ precioTotal | currency}}</strong> / <strong>USD {{ precioTotalUSD | currency}}</strong>
+			</span>
+		</div>
+	</div>
+</div>

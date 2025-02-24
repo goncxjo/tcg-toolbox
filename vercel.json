@@ -1,0 +1,38 @@
+{
+	"name": "tcg-price-calc",
+	"rewrites": [
+		{
+		  "source": "/tcgplayer-search/:path*",
+		  "destination": "https://mp-search-api.tcgplayer.com/v1/:path*"
+		},
+		{
+		  "source": "/tcgplayer-mpapi/:path*",
+		  "destination": "https://mpapi.tcgplayer.com/v2/:path*"
+		},
+		{
+		  "source": "/tcgplayer-images/:path*",
+		  "destination": "https://product-images.tcgplayer.com/:path*"
+		}
+	],
+	"headers": [
+	  {
+		"source": "/tcgplayer-search/(.*)",
+		"headers": [
+		  { "key": "Access-Control-Allow-Origin", "value": "*" }
+		]
+	  },
+	  {
+		"source": "/tcgplayer-mpapi/(.*)",
+		"headers": [
+		  { "key": "Access-Control-Allow-Origin", "value": "*" }
+		]
+	  },
+	  {
+		"source": "/tcgplayer-images/(.*)",
+		"headers": [
+		  { "key": "Access-Control-Allow-Origin", "value": "*" }
+		]
+	  }
+	]
+  }
+  

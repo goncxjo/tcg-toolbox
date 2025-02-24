@@ -1,0 +1,174 @@
+/* You can add global styles to this file, and also import other style files */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100vh;
+}
+
+@font-face {
+	font-family: pixel-digivolve;
+	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
+}
+
+@font-face {
+	font-family: pixel-digivolve-italic;
+	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
+}
+
+$border-width: 0;
+
+$font-family-base: "Montserrat",-apple-system,sans-serif !important;
+$app-navbar-height-default: 3.5rem;
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+// regular style toast
+@import 'ngx-toastr/toastr';
+
+body {
+	background-color: $gray-200;
+}
+
+hr {
+	border-width: 1px;
+}
+
+.app-container {
+	display: flex;
+	flex-direction: column;
+	min-height: calc(100vh - $app-navbar-height-default*2);
+}
+
+#ngb-typeahead-0 {
+	width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 50vh;
+
+	.dropdown-item.active, .dropdown-item:active {
+		background-color: $gray-100;
+		color: black;
+	}
+}
+
+.cursor-loader {
+	cursor: wait;
+	* {
+		cursor: wait !important;
+	}
+}
+
+.loading-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+  }
+  
+  /* card-info */
+  .list-group-item.list-group-item-action .bg-list-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px; 
+    height: 100%;
+    background-color: $gray-200;
+}
+
+.list-group-item.list-group-item-action.card-price-active .bg-list-item {
+    background-color: $primary;
+}
+
+.no-radius {
+	border-radius: 0;
+}
+
+.nav-default-height {
+	height: $app-navbar-height-default;
+}
+
+.app-offcanvas {
+	height: calc($app-navbar-height-default - $hr-margin-y);
+	padding-top: $navbar-padding-y;
+	padding-bottom: 0;
+	
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+	font-size: $navbar-toggler-font-size;
+}
+
+.offcanvas-footer {
+	padding-top: $navbar-padding-y;
+	height: $app-navbar-height-default;
+}
+
+.card-reduced-height {
+	height: 12rem;
+}
+
+.card-reduced-img-container-height {
+	height: 10rem;
+}
+
+
+.translate-middle-sm-multiplier {
+    @extend .translate-middle;
+}
+
+.translate-middle-sm-multiplier-buttons {
+    @extend .translate-middle;
+}
+
+@include media-breakpoint-down(sm) {
+	.translate-middle-sm-multiplier {
+		transform: translate(-75%, -25%) !important;
+	}
+	
+	.translate-middle-sm-multiplier-buttons {
+		transform: translate(-75%, -50%) !important;
+	}	
+}
+
+$bg-wsp: #25d366;
+$bg-fb: #1877f2;
+
+.btn-whatsapp {
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var($bg-wsp);
+	--bs-btn-border-color: var($bg-wsp);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #{shade-color($bg-wsp, 10%)};
+	--bs-btn-hover-border-color: #{shade-color($bg-wsp, 10%)};
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #{shade-color($bg-wsp, 20%)};
+	--bs-btn-active-border-color: #{shade-color($bg-wsp, 20%)};
+}
+
+.btn-facebook {
+	--bs-btn-font-weight: 600;
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var($bg-fb);
+	--bs-btn-border-color: var($bg-fb);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: #{shade-color($bg-fb, 10%)};
+	--bs-btn-hover-border-color: #{shade-color($bg-fb, 10%)};
+	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+	--bs-btn-active-color: var(--bs-btn-hover-color);
+	--bs-btn-active-bg: #{shade-color($bg-fb, 20%)};
+	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
+}

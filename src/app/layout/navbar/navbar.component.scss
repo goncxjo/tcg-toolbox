@@ -1,0 +1,38 @@
+$nav-brand-padding: 0.7em;
+
+#app-title {
+  padding-left: $nav-brand-padding;
+  font-family: pixel-digivolve;
+  font-size:small;
+}
+
+.brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  display: flex;
+  align-items: center;
+  padding: 0px;
+}
+
+#brand-logo {
+  height: 2em;
+  padding-right: 0.25em;
+  padding-left: 0.5em;
+}
+
+.offcanvas-body {
+  .nav-item .nav-link {
+    opacity: 0.75;
+    &.active {
+      opacity: 1;
+    }
+  }
+  .offcanvas-subtitle {
+    font-size: 0.75rem;
+  }
+}
+
+.app-nav-btn {
+  box-shadow: none;
+}

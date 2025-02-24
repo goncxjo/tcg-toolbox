@@ -1,0 +1,19 @@
+.img-container {
+    text-align: center;
+}
+
+.card-price {
+    font-size: x-large;
+
+    & .card-format {
+        font-size: large;
+    }
+}
+
+.font-small {
+    font-size: 0.8rem;
+}
+
+.btn-qty {
+    width: 2.5em;
+}
