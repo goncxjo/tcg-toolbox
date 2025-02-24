@@ -1,19 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderService {
-  count = 0;
+  private _isLoading: WritableSignal<boolean> = signal(false);
 
-  private httpLoading$ = new ReplaySubject<boolean>(1);
-
-  httpProgress(): Observable<boolean> {
-    return this.httpLoading$.asObservable();
+  get isLoading(): Signal<boolean> {
+    return this._isLoading;
   }
 
-  setHttpProgressStatus(inprogess: boolean) {
-    this.httpLoading$.next(inprogess);
+  show(): void {
+    this._isLoading.set(true);
+  }
+
+  hide(): void {
+    this._isLoading.set(false);
   }
 }

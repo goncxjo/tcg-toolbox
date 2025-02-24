@@ -1,26 +1,30 @@
-import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSearch, faSliders, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
-import { Card, FiltersTcgPlayerQuery, TcgPlayerService } from '../../../backend';
+import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, Subscription, catchError, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, debounceTime, iif, of, switchMap, tap } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
 import { DataService } from '../../../core/services/data.service';
+import { GameSelectorComponent } from '../../games/game-selector/game-selector.component';
+import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 
 @Component({
   selector: 'app-card-search-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, NgbHighlight, AsyncPipe, CardSearchFiltersComponent],
+  imports: [ReactiveFormsModule, FontAwesomeModule, NgbHighlight, AsyncPipe, CardSearchFiltersComponent, GameSelectorComponent],
   templateUrl: './card-search-modal.component.html',
   styleUrl: './card-search-modal.component.scss',
 })
 export class CardSearchModalComponent {
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
-  filetersIcon = faSliders;
+  filtersIcon = faSliders;
+  closeIcon = faTimes;
+  goIcon = faArrowRight
 
 	activeModal = inject(NgbActiveModal);
   
@@ -39,7 +43,10 @@ export class CardSearchModalComponent {
     return this.dataService.updateMode;
   }
   
+  resultCards: Card[] = [];
   selectedCards: Card[] = [];
+  page: number = 1;
+  pageSize: number = 20;
 
   form = this.buildForm();
   mostrarBusquedaAvanzada = false;  
@@ -49,27 +56,31 @@ export class CardSearchModalComponent {
     private formBuilder: FormBuilder,
     private dataService: DataService
   ) {
-    this.selectedCards = _.clone(this.dataService.cards())
+    if (!this.dataService.cardsLength()) {
+      const tmpCards = cardsStorage.getItems() as Card[]
+      this.dataService.set(tmpCards);
+    }
+    setTimeout(() => {
+      this.selectedCards = _.clone(this.dataService.cards())
+    }, 1000);
   }
 
-  doCardSearch() {
+  doCardSearch(continueSearch: boolean = false) {
+    this.page = continueSearch ? this.page + 1 : 1;
     this.searchCard$.next(this.cardSearchTextInput.value)
   }
 
-  cards$: Observable<Card[]> = this.searchCard$.pipe(
-    tap(() => (this.searching = true)),
+  cards$: Observable<PageResult<Card>> = this.searchCard$.pipe(
+    tap(() => this.searching = true),
     debounceTime(300),
-    distinctUntilChanged(),
-    switchMap((term) =>
-      this.tcgPlayerService.getDigimonCards(term, this.mapFilters()).pipe(
-        // tap(() => (this.searchFailed = false)),
-        catchError(() => {
-          // this.searchFailed = true;
-          return of([]);
-        }),
-      ),
+    switchMap((term) => iif(
+      () => (term == '' || term.toLocaleLowerCase() == 'mon' || term.length < 3),
+      of({ total: 0, result: []} as PageResult<Card>),
+      this.tcgPlayerService.getCards(term, this.mapFilters(), this.page, this.pageSize))
     ),
-    tap(() => (this.searching = false)),
+    catchError(() => of({ total: 0, result: []} as PageResult<Card>)),
+    tap((res) => (this.page > 1) ? this.resultCards.push(...res.result) : this.resultCards = res.result),
+    tap(() => this.searching = false),
   );
 
   private buildForm(): FormGroup {
@@ -91,7 +102,9 @@ export class CardSearchModalComponent {
       categories: values?.category ? [values?.category] : [],
       colors: values?.colors,
       rarities: values?.rarities,
-      isPreRelease: values?.esPreRelease
+      isPreRelease: values?.esPreRelease,
+      productLineName: ['digimon-card-game'],
+      productTypeName: ['Cards'],
     }
   }
 

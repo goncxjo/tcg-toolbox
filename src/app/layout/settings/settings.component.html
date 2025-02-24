@@ -3,11 +3,11 @@
         <div class="mt-2 d-flex align-items-center">
             <fa-icon [icon]="userIcon" size="2x"></fa-icon>
             <span class="ms-3">
-                Invitado
+                {{ getUserName() }}
             </span>
         </div>    
-        <button class="navbar-toggler border-0 app-nav-btn p-2 mt-2" type="button" (click)="toggleTheme()">
-            <fa-icon [icon]="theme.icon"></fa-icon>
+        <button class="navbar-toggler border-0 app-nav-btn p-2 mt-2" type="button" (click)="activeOffcanvas.dismiss('close')">
+            <fa-icon [icon]="closeIcon"></fa-icon>
         </button>
     
     </div>
@@ -19,26 +19,16 @@
                 <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/posts']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Publicaciones</a>
+                <a class="nav-link" [routerLink]="['/card-lists']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Listas</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank' (click)="activeOffcanvas.dismiss('link')">Quiero donar</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="logout()">Cerrar sesión</a>
+              </li>    
         </ul>
 
-        <hr>
-    
-        <small class="offcanvas-subtitle opacity-50 text-uppercase">Tiendas en Argentina</small>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="https://phoenixreborn.com.ar/categoria-producto/digimon/" rel='noopener'
-                    target='_blank'>Phoenix Reborn</a>
-                <a class="nav-link" href="https://spacegaminglomas.com/categoria-producto/digimon/" rel='noopener'
-                    target='_blank'>SpaceGamingLomas</a>
-                <a class="nav-link" href="https://deathvalley.com.ar/" rel='noopener' target='_blank'>Death Valley</a>
-            </li>
-        </ul>
-    
         <hr>
     
         <small class="offcanvas-subtitle opacity-50 text-uppercase">Sitios relacionados</small>
@@ -46,8 +36,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="https://digimoncard.dev/" rel='noopener' target='_blank'>DigimonCard.dev</a>
                 <a class="nav-link" href="https://digimoncard.io/" rel='noopener' target='_blank'>DigimonCard.io</a>
-                <a class="nav-link" href="https://digimonmeta.com/deck-list/" rel='noopener' target='_blank'>Digimon Card
-                    Meta</a>
+                <a class="nav-link" href="https://digimonmeta.com/deck-list/" rel='noopener' target='_blank'>Digimon Card Meta</a>
                 <a class="nav-link" href="https://digimoncardgame.fandom.com/wiki/DigimonCardGame_Wiki" rel='noopener'
                     target='_blank'>Digimon Card Game Wiki Fandom</a>
             </li>
@@ -58,10 +47,8 @@
         <small class="offcanvas-subtitle opacity-50 text-uppercase">Otras aplicaciones</small>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="https://online-judge-eight.vercel.app/" rel='noopener' target='_blank'>AI Judge by
-                    WARBEN</a>
-                <a class="nav-link" href="https://www.digi-tcg.online/" rel='noopener' target='_blank'>Project Drasil by
-                    WE-Kaito</a>
+                <a class="nav-link" href="https://online-judge-eight.vercel.app/" rel='noopener' target='_blank'>AI Judge by WARBEN</a>
+                <a class="nav-link" href="https://www.digi-tcg.online/" rel='noopener' target='_blank'>Project Drasil by WE-Kaito</a>
             </li>
         </ul>
     

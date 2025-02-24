@@ -33,7 +33,6 @@ export class DolarDataService {
   updateVenta(venta: number) {
     const dolar = this.dolar() || this._dolar || {} as Dolar;
     dolar.venta = venta;
-    console.log(dolar);
     this.dolar.set(dolar);
   }
 
@@ -52,6 +51,9 @@ export class DolarDataService {
   convertToDolars(price: CardPrice | null | undefined) {
     if (this.userCurrency() == 'ARS' && price?.currency_symbol == 'USD') {
       return Math.round(price.currency_value * this.venta * 100) / 100;
+    }
+    if (this.userCurrency() == 'USD' && price?.currency_symbol == 'ARS') {
+      return Math.round(price.currency_value / this.venta * 100) / 100;
     }
     return price?.currency_value || 0;
   }

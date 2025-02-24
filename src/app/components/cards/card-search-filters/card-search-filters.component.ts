@@ -2,16 +2,23 @@ import { Component, Input } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ControlContainer, FormControl, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { CategorySelectComponent } from '../../../shared/category-select/category-select.component';
-import { ColorMultiSelectComponent } from '../../../shared/color-multiselect/color-multiselect.component';
-import { ExpansionSelectComponent } from '../../../shared/expansion-select/expansion-select.component';
-import { RarityMultiSelectComponent } from '../../../shared/rarity-multiselect/rarity-multiselect.component';
+import { CategorySelectComponent } from '../../../shared/select/category-select/category-select.component';
+import { ColorMultiSelectComponent } from '../../../shared/select/color-multiselect/color-multiselect.component';
+import { ExpansionSelectComponent } from '../../../shared/select/expansion-select/expansion-select.component';
+import { RarityMultiSelectComponent } from '../../../shared/select/rarity-multiselect/rarity-multiselect.component';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { GameSelectComponent } from '../../games/game-select/game-select.component';
+import { Game } from '../../../backend';
 
 @Component({
   selector: 'app-card-search-filters',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, RarityMultiSelectComponent, ColorMultiSelectComponent, CategorySelectComponent, ExpansionSelectComponent],
+  imports: [
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    ExpansionSelectComponent,
+    GameSelectComponent
+  ],
   templateUrl: './card-search-filters.component.html',
   styleUrl: './card-search-filters.component.scss',
   viewProviders: [
@@ -36,7 +43,7 @@ export class CardSearchFiltersComponent {
   infoIcon = faCircleExclamation;
   childForm: any;
 
-  esPreRelease: boolean = false;
+  gameSelected!: Game;
   @Input() isDisabled: boolean = false;
   
   constructor(
@@ -45,14 +52,11 @@ export class CardSearchFiltersComponent {
 
   ngAfterContentInit(): void {
     this.childForm = this.parentForm.form;
-    this.childForm.addControl('isPreRelease', new FormControl({ value: '', disabled: this.isDisabled }));
+    this.childForm.addControl('game', new FormControl({ value: '', disabled: this.isDisabled }));
     this.childForm.addControl('expansion', new FormControl({ value: '', disabled: this.isDisabled }));
-    this.childForm.addControl('category', new FormControl({ value: '', disabled: this.isDisabled }));
-    this.childForm.addControl('colors', new FormControl({ value: '', disabled: this.isDisabled }));
-    this.childForm.addControl('rarities', new FormControl({ value: '', disabled: this.isDisabled }));
   }
 
-  onIsPreReleaseChanged($event: any) {
-    this.esPreRelease = $event.target.checked;
+  onGameChanged($event: any) {
+    // this.gameSelected = $event.target;
   }    
 }

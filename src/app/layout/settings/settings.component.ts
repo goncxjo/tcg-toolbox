@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -39,12 +40,21 @@ export class SettingsComponent {
 
   constructor(
     @Inject('APP_VERSION') appVersion: string,
+    private userService: UserService
   ) {
     this.appVersion = appVersion;
   }
 
   ngOnInit(): void {
     this.theme = this.getTheme();
+  }
+
+  getUserName() {
+    return this.userService.getUserName()
+  }
+
+  logout() {
+    return this.userService.logout()
   }
 
   toggleTheme() {

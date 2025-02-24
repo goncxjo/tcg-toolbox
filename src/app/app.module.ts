@@ -24,6 +24,7 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { ComoFuncionaComponent } from './como-funciona/como-funciona.component';
 import { HttpErrorInterceptor, LoaderInterceptor } from './backend/interceptors';
 import { ExportImgComponent } from './cards/modals/export-img/export-img.component';
+import { SortablejsModule } from '@worktile/ngx-sortablejs';
 
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en')
@@ -48,6 +49,7 @@ registerLocaleData(localeEsAr, 'es-Ar');
     SharedModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
+    SortablejsModule.forRoot({ animation: 150 }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

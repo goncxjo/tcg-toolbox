@@ -1,19 +1,11 @@
 <div class="brand" (click)="goHome()">
-  @if (loaderService.httpProgress() | async) {
-    <img id="brand-logo" src="assets/logo_loading.svg" alt="loading">
-    @if (showTitle) {
-      <span id="app-title" class="d-flex flex-column text-start loading-title">
-        <span>Cargando</span>
-      </span>
-    }
-  }
-  @else {
-    <img id="brand-logo" src="assets/logo.svg" alt="digi-calc">
-    @if (showTitle) {
-      <span id="app-title" class="d-flex flex-column text-start">
-        <span style="margin-bottom: -7px;">Digimon Card Game</span>
-        <span>Price Calculator</span>
-      </span>
-    }
-  }
+  <img id="brand-logo" src="assets/logo.svg" alt="TCG Price Calculator">
+  <span id="app-title" class="d-flex text-start">
+    <span id="app-title" class="d-flex text-start">
+      <div class="right">
+          <div>.*TCG PRICE</div>
+          <div>CALCULATOR</div>
+      </div>
+    </span>
+  </span>
 </div>

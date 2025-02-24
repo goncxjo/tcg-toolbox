@@ -9,8 +9,9 @@ import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { LoadingScreenComponent } from '../loading-screen/loading-screen.component';
-import { LoaderService } from '../../core';
+import { CardSearchService, LoaderService } from '../../core';
 import { DolarComponent } from '../dolar/dolar.component';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -33,34 +34,23 @@ export class NavbarComponent {
 
   items: any[] = [
     { icon: this.homeIcon, command: () => { this.router.navigate(['/'])} },
-    { icon: this.listIcon, command: () => { this.router.navigate(['/posts'])} },
+    { icon: this.listIcon, command: () => { this.router.navigate(['/card-lists'])} },
     { icon: this.searchIcon, command: () => { this.openCardSearchModal() } },
     { icon: this.favIcon, command: () => {} },
     { icon: this.settingsIcon, command: () => { this.openSettingsOffcanvas() } },
   ];
 
   appThemeService: AppThemeService = inject(AppThemeService);
-  loaderService: LoaderService = inject(LoaderService);
 
   constructor(
     private offcanvasService: NgbOffcanvas,
     private router: Router,
-    private modalService: NgbModal,
+    private cardSearchService: CardSearchService,
+    private userService: UserService
   ) { }
 
-
   openCardSearchModal() {
-    const modalRef = this.modalService.open(CardSearchModalComponent, {
-      size: 'lg',
-      scrollable: true,
-      modalDialogClass: 'card-search-modal-height' 
-    });
-
-    modalRef.result.then(result => {
-      if (result == "create") {
-        this.router.navigate(['/posts/create']);
-      }
-    })
+    this.cardSearchService.openCardSearchModal();
   }
 
 	openSettingsOffcanvas() {
@@ -73,4 +63,12 @@ export class NavbarComponent {
 			},
 		);
 	}
+
+  isLoggedIn() {
+    return this.userService.isLoggedIn();
+  }
+
+  logout() {
+    this.userService.logout();
+  }
 }

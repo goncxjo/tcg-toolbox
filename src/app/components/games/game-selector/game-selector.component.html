@@ -1,0 +1,11 @@
+<div class="row g-3">
+    @for (game of games; track $index) {
+        @if (game.isAvailable) {
+            <div class="col-6 col-lg-2 card-game">
+                <div class="card" [class.soon]="game.disabled">
+                    <img [src]="setUrl(game)" [class.img-sm]="size === 'sm'">
+                </div>
+            </div>
+        }
+    }
+</div>

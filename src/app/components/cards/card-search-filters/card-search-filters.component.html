@@ -11,18 +11,22 @@
             </div>
     
             <form [formGroup]="childForm" class="row g-3">
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="isPreRelease" formControlName="isPreRelease" (change)="onIsPreReleaseChanged($event)">
                         <label class="form-check-label" for="isPreRelease">Pre-Release</label>
                     </div>
+                </div> -->
+                <div class="col-12 col-lg-6">
+                    <label for="game" class="form-label">Juego</label>
+                    <app-game-select [name]="'game'" [showOnlyAvailable]="true"></app-game-select>
                 </div>
-                <div class="col-md-6">
-                    <label for="category" class="form-label">Expansión</label>
-                    <app-expansion-select [name]="'expansion'" [showOptionAll]="true" [esPreRelease]="esPreRelease"></app-expansion-select>
+                <div class="col-12 col-lg-6">
+                    <label for="expansion" class="form-label">Expansión</label>
+                    <app-expansion-select [name]="'expansion'"></app-expansion-select>
                 </div>
                
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <label for="category" class="form-label">Categoría</label>
                     <app-category-select [name]="'category'" [showOptionAll]="true"></app-category-select>
                 </div> 
@@ -33,7 +37,7 @@
                 <div class="col-6">
                     <label for="rarity" class="form-label">Rareza</label>
                     <app-rarity-multiselect [name]="'rarities'"></app-rarity-multiselect>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

@@ -1,1 +1,6 @@
-<div class="d-flex flex-column loading-screen"></div>
+@if(isLoading()) {
+    <div class="overlay">
+        <div class="spinner"></div>
+    </div>
+}
+    

@@ -1,25 +1,45 @@
-<div class="card mb-3">
-    <div class="card-body home-card" [style.text-wrap]="'pretty'">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <h5 class="card-title fw-bold">Digimon TCG Price Calculator: TCGplayer a tu moneda local</h5>
-                <p class="card-text">Ahorrá tiempo con la calculadora de precios. Convertí el "Listed medial price" de
-                    TCGplayer según la cotización del dólar de tu país.</p>
-
-                <p class="card-text fw-bold">¡Te invitamos a buscar cartas ahora mismo utilizando el buscador de la
-                    parte superior!</p>
-
-                <div class="d-grid gap-3 d-sm-flex justify-content-sm-start">
-                    <button class="btn btn-primary" type="button" routerLink="/posts">
-                        Ver publicaciones
-                    </button>
-                    <button class="btn btn-secondary" type="button" disabled>
-                        Registrarse
-                    </button>
-                </div>
+<div class="p-md-5 mb-md-4 text-white rounded-3">
+    <div class="container-fluid py-md-3">
+        <h1 class="col-12 col-lg-8 display-5 fw-bold">
+            Tu sitio de referencia para calcular precios en tu moneda local y organizar tus cartas.
+        </h1>
+        <h5 class="col-12 col-lg-8 fs-4">
+            Te invitamos a buscar cartas utilizando el buscador de la parte superior.
+        </h5>
+        @if(!isLoggedIn()) {
+            <p class="col-12 col-lg-8 fs-4">
+                ¿Necesitas guardar tus listas?
+            </p>
+            <div class="d-grid gap-3 d-sm-flex">
+                <button class="btn btn-primary" type="button" (click)="login()">
+                    Iniciar sesión
+                </button>
+                <button class="btn btn-primary" type="button" (click)="openCardSearchModal()">
+                    Buscar
+                </button>
             </div>
+        }
+        @else {
+            <div class="d-grid gap-3 d-sm-flex">
+                <button class="btn btn-primary" type="button" (click)="openCardSearchModal()">
+                    Buscar
+                </button>
+                <button class="btn btn-primary" type="button" routerLink="/card-lists">
+                    Ver listas
+                </button>
+            </div>
+        }
+            
+        <div class="mt-4">
+            <app-content-info [title]="'Recordatorio: '" [htmlText]="infoMsg"></app-content-info>
         </div>
+
+        <br>
+
+        <p class="col-12 col-lg-8 fs-4">
+            Juegos disponibles:
+        </p>
+        <app-game-selector></app-game-selector>
     </div>
 </div>
 
-<app-content-info [title]="'Recordatorio: '" [htmlText]="infoMsg"></app-content-info>

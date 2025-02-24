@@ -99,3 +99,8 @@ export interface ExpansionTcgPlayer {
 	setNameId: number; 
 	urlName: string; 
 }
+
+export enum CardPriceTcgPlayerType {
+	MARKET_PRICE = 'market_price',
+	LISTED_MEDIAN_PRICE = 'listed_median_price'
+}

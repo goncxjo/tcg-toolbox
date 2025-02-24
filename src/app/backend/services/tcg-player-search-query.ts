@@ -1,12 +1,12 @@
-export function createTcgPlayerQuery(productId: number = 0, filters: FiltersTcgPlayerQuery): any {
+export function createTcgPlayerQuery(productId: number = 0, filters: FiltersTcgPlayerQuery, page: number = 1, pageSize: number = 20): any {
 	const query: any = {
-		algorithm: "sales_exp_fields",
-		from: 0,
+		algorithm: "revenue_dismax",
+		from: (page-1)*pageSize,
 		size: 20,
 		filters: {
 		  term: {
-			productLineName: ["digimon-card-game"],
-			productTypeName: ["Cards"],
+			productLineName: [],
+			productTypeName: [],
 		  },
 		  range: {},
 		  match: {},
@@ -31,6 +31,14 @@ export function createTcgPlayerQuery(productId: number = 0, filters: FiltersTcgP
 	  if(filters.expansions) {
 		query.filters.term.setName = filters.expansions;
 	  }
+
+	  if(filters.productLineName) {
+		query.filters.term.productLineName = filters.productLineName;
+	  }
+	  	  
+	  if(filters.productTypeName) {
+		query.filters.term.productTypeName = filters.productTypeName;
+	  }
 	  	  
 	  if(filters.categories) {
 		query.filters.term.cardType = filters.categories;
@@ -53,4 +61,6 @@ export interface FiltersTcgPlayerQuery {
 	colors: string[],
 	rarities: string[],
 	isPreRelease: boolean,
+	productLineName: string[]
+	productTypeName: string[]
 }

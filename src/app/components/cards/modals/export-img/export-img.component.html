@@ -1,9 +1,6 @@
 <div class="modal-content" #content>
 	<div class="modal-header bg-dark text-light d-flex">
-		<app-logo [showTitle]="false"></app-logo>
-		<span class="app-subtitle ms-3 ps-3 flex-grow-1">
-			Foto general
-		</span>
+		<app-logo class="flex-grow-1"></app-logo>
         <button class="navbar-toggler border-0 p-2" type="button" (click)="close('Cross click')">
 			&#x2715;
         </button>
@@ -15,7 +12,7 @@
 			</div>
 
 			<div class="col-12 col-md-3 col-lg-2">
-				<app-currency-select [name]="'currency'" [innerLabel]="'Moneda: '" *ngIf="mostrarPrecios"></app-currency-select>
+				<app-currency-select [name]="'currency'" [innerLabel]="'Moneda: '" *ngIf="mostrarPrecios" (change)="onCurrencyChange($event	)"></app-currency-select>
 			</div>
 
 			<div class="btn-group col-12 col-md-3 col-lg-2" role="group">
@@ -75,9 +72,9 @@
 		</div>
 
 		<div class="container-justify">
-			<div class="row justify-content-center">
-				<div *ngFor="let item of cards(); let index = index" class="card-export-item p-0 m-2 text-center">
-
+			<div class="row g-3 justify-content-center" [sortablejs]="cards()">
+				@for(item of cards(); track item) {
+				<div class="card-export-item p-0 m-2 text-center">
 					<span class="bg-badge-unit-price-export-card bg-dark badge d-block export-font" *ngIf="mostrarPrecios">
 						<span *ngIf="item.multiplier > 1">
 							{{ getPrecio(item) | currency}}
@@ -88,7 +85,7 @@
 					</span>	
 
 					<div class="img-container d-flex justify-content-center align-items-center">
-						<img [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-back.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
+						<img class="img-card" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-not-found.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
 						<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
 							{{ item.multiplier }}
 						</span>
@@ -99,6 +96,7 @@
 					</span>
 
 				</div>
+			}
 			</div>
 		</div>
 	</div>
@@ -107,7 +105,7 @@
 		<div class="modal-footer bg-primary text-light">
 			<div class="alert p-0 text-end fw-bolder" *ngIf="mostrarPrecios">
 				<span>Total:
-					<strong>ARS {{ getPrecioTotal() | currency}}</strong>
+					<strong>{{ getPrecioTotal() | currency}}</strong>
 				</span>
 			</div>
 		</div>

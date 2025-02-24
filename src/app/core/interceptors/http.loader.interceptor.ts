@@ -6,21 +6,12 @@ import { LoaderService } from '../services';
 export const httpLoaderInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const loaderService = inject(LoaderService);
 
+  loaderService.show();
   if (req.url.includes('bluelytics')) {
-    loaderService.setHttpProgressStatus(false);
+    loaderService.hide();
   }
-  else if (req.url.includes('pricepoints')) {
-    loaderService.setHttpProgressStatus(true);
-  }
-  else if (loaderService.count === 0) {
-    loaderService.setHttpProgressStatus(true);
-  }
-  loaderService.count++;
   return next(req).pipe(
     finalize(() => {
-      loaderService.count--;
-      if (loaderService.count === 0) {
-        loaderService.setHttpProgressStatus(false);
-      }
+        loaderService.hide();
     }));
 };

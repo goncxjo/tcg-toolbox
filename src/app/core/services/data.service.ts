@@ -1,8 +1,9 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { Card, TcgPlayerService } from '../../backend';
 import _ from 'lodash';
 import { forkJoin } from 'rxjs';
 import { DolarDataService } from './dolar.data.service';
+import { cardsStorage } from '../../utils/type-safe-localstorage/card-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class DataService {
   readonly #cards = signal<Card[]>([]);
 
   readonly cards = computed(this.#cards);
+  readonly cardsLength = computed(() => this.#cards().length);
   readonly totals = computed(() => {
     return _.sumBy(this.cards(), (c) => {
       return this.getPrice(c) * c.multiplier;
@@ -21,6 +23,14 @@ export class DataService {
 
   private tcgPlayerService = inject(TcgPlayerService);
   private dolarService = inject(DolarDataService);
+
+  constructor() {
+    effect(() => {
+      if (this.cardsLength() > 0 && !this.updateMode) {
+        cardsStorage.setItems(this.getAllMiniCard());  
+      }
+    })
+  }
 
   update(cards: Card[]) {
     cards.forEach(card => this.add(card));
@@ -36,17 +46,18 @@ export class DataService {
   }
 
   add(card: Card): void {
-    const tcg_player_id = card.tcg_player_id || 0;
+    const tcg_player_id = card.tcg_player_id || card.tcgPlayerId || 0;
+    const qty = card.multiplier || card.qty;
     const alreadyExists = _.some(this.#cards(), (c) => c.tcg_player_id === card.tcg_player_id);
     if (!alreadyExists) {      
-      const info = this.tcgPlayerService.getDigimonCardById(tcg_player_id);
+      const info = this.tcgPlayerService.getCardById(tcg_player_id);
       const price = this.tcgPlayerService.getCardPrice(tcg_player_id);
 
       forkJoin([info, price]).subscribe(result => {
         const cardResult = result[0];
         const priceResult = result[1];
 
-        cardResult.multiplier = 1;
+        cardResult.multiplier = qty;
         
         cardResult.selectedPrice = 'custom'; 
         cardResult.prices.set('custom', cardResult.prices.get('custom') || null);
@@ -68,6 +79,10 @@ export class DataService {
     this.#cards.update((cards) => {
       return _.filter(cards, (c) => c.tcg_player_id !== card.tcg_player_id);
     });
+    if (this.cardsLength() === 0 && !this.updateMode) {
+      cardsStorage.clearItems();  
+    }
+
   }
 
   updateCardMultiplier(card: Card, i: number) {
@@ -100,5 +115,16 @@ export class DataService {
         return c;
       });
     });
+  }
+
+  private getMiniCard(card: Card) {
+    return {
+      tcgPlayerId: card.tcg_player_id ?? 0,
+      qty: card.multiplier,
+    }
+  }
+  
+  private getAllMiniCard() {
+    return _.map(this.#cards(), (card) => this.getMiniCard(card));
   }
 }

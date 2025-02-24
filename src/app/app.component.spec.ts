@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'tcg-price-calc' title`, () => {
+  it(`should have the 'digimon-tcg-price-calculator' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('tcg-price-calc');
+    expect(app.title).toEqual('digimon-tcg-price-calculator');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, tcg-price-calc');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, digimon-tcg-price-calculator');
   });
 });

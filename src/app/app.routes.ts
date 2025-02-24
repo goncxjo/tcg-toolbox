@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { OldHomeComponent } from './components/home_old/home_old.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
     {
@@ -11,19 +11,21 @@ export const routes: Routes = [
       component: HomeComponent,
     },
     {
-      path: 'old',
-      data: {
-        title: 'Inicio',
-      },
-      component: OldHomeComponent,
+      path: 'card-lists', 
+      loadChildren: () => import('./pages/card-lists/card-lists.routes').then((m) => m.CARD_LISTS_ROUTES),
     },
+    // {
+    //   path: 'games', 
+    //   loadChildren: () => import('./pages/games/games.routes').then((m) => m.GAMES_ROUTES),
+    // },
     {
-      path: 'posts', 
-      loadChildren: () => import('./pages/posts/posts.routes').then((m) => m.POSTS_ROUTES),
+      path: '',
+      redirectTo: 'home',
+      pathMatch: 'full'
     },
     {
       path: '**',
-      redirectTo: 'home',
+      component: NotFoundComponent,
       pathMatch: 'full'
     },
 ];

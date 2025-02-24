@@ -1,7 +1,9 @@
 .offcanvas-container {
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     scrollbar-width: none;
-    max-height: 100vh;
+    min-height: 100vh;
     .offcanvas-body {
         .nav-item .nav-link {
             opacity: 0.75;

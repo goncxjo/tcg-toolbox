@@ -23,9 +23,13 @@ export class Card {
 	releaseDate: Date | null = null;
 	infoReduced: boolean = true;
 	image_base64: Blob | null = null;
-
+	tcgPlayerId: number | null = null;
+  	qty: number = 1;
+	
 	constructor() {
 		this.prices.set("custom", new CardPrice());
+		this.tcgPlayerId = this.tcg_player_id;
+		this.qty = this.qty;
 	}
 
 	setFromTcgPlayer(res: any, imageEndpoint: string, productUrl: string) {

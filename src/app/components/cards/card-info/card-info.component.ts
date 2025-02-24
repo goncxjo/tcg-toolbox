@@ -7,6 +7,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
 import { DataService } from '../../../core/services/data.service';
+import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-card-info',
@@ -24,9 +25,9 @@ import { DataService } from '../../../core/services/data.service';
   ]
 })
 export class CardInfoComponent implements AfterViewInit, OnDestroy {
+  openUrlIcon = faShareFromSquare;
   @Input() data!: Card;
   
-  priceSelected: string = '';
   customPriceInput = new FormControl();
   customPrice$!: Subscription;
 
@@ -65,16 +66,8 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
     return this.getPrecioCarta() * this.data.multiplier;
   }
   
-  getPrecioCartaUSD() {
-    return Math.round(this.getPrecioCarta() / this.dolarService.venta * 100) / 100;
-  }
-  
-  getPrecioCartaTotalUSD() {
-    return this.getPrecioCartaUSD() * this.data.multiplier;
-  }
-
   onPriceSelected(priceSelected: string) {
-    this.priceSelected = priceSelected;
+    this.data.selectedPrice = priceSelected;
     this.setPrecioCarta();
   }
 

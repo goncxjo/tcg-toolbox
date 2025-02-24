@@ -8,14 +8,15 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { faWhatsapp, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { ReversePipe } from './reverse.pipe';
-import { YesNoSelectComponent } from './yes-no-select/yes-no-select.component';
-import { CurrencySelectComponent } from './currency-select/currency-select.component';
+import { YesNoSelectComponent } from './select/yes-no-select/yes-no-select.component';
+import { CurrencySelectComponent } from './select/currency-select/currency-select.component';
 import { QrCodeComponent } from './qr-code/qr-code.component';
 import { QRCodeModule } from 'angularx-qrcode';
-import { ExpansionSelectComponent } from './expansion-select/expansion-select.component';
-import { ColorMultiSelectComponent } from './color-multiselect/color-multiselect.component';
-import { RarityMultiSelectComponent } from './rarity-multiselect/rarity-multiselect.component';
-import { CategorySelectComponent } from './category-select/category-select.component';
+import { ExpansionSelectComponent } from './select/expansion-select/expansion-select.component';
+import { ColorMultiSelectComponent } from './select/color-multiselect/color-multiselect.component';
+import { RarityMultiSelectComponent } from './select/rarity-multiselect/rarity-multiselect.component';
+import { CategorySelectComponent } from './select/category-select/category-select.component';
+import { ActionButtonComponent } from './ag-grid/action-button/action-button.component';
 
 const MODULES = [
   CommonModule,
@@ -37,7 +38,8 @@ const PUBLIC_COMPONENTS: any = [
   ExpansionSelectComponent,
   ColorMultiSelectComponent,
   RarityMultiSelectComponent,
-  CategorySelectComponent
+  CategorySelectComponent,
+  ActionButtonComponent
 ];
 
 @NgModule({

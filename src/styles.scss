@@ -15,7 +15,6 @@ body {
 }
 
 $phi: 1.6180339887498948482;
-$app-navbar-height-default: 3.64rem;
 $btn-home-height: 125px;
 
 app-root {
@@ -25,22 +24,12 @@ app-root {
 }
 
 @font-face {
-	font-family: pixel-digivolve;
-	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
-}
-
-@font-face {
-	font-family: pixel-digivolve-italic;
-	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
-}
-
-@font-face {
-	font-family: pixel-digivolve;
-	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
+	font-family: pixel-gosub;
+	src: url('assets/fonts/PixelGosub-ZaRz.ttf') format("truetype");
 }
 
 $font-family-base: "Montserrat", -apple-system, sans-serif !important;
-$app-navbar-height-default: 3.5rem;
+$app-navbar-height-default: 4rem;
 
 /* Importing Bootstrap SCSS file. */
 @import './assets/bootswatch/zephyr/variables';
@@ -50,11 +39,6 @@ $app-navbar-height-default: 3.5rem;
 // regular style toast
 @import 'ngx-toastr/toastr';
 @import 'ngx-toastr/toastr-bs5-alert';
-
-/* Core Grid CSS */
-@import 'ag-grid-community/styles/ag-grid.css';
-/* Quartz Theme Specific CSS */
-@import 'ag-grid-community/styles/ag-theme-quartz.css';
   
 .btn-circle.btn-xl {
     width: 70px;
@@ -120,9 +104,13 @@ $app-navbar-height-default: 3.5rem;
     scrollbar-width: none;
 }
 
-// body {
-// 	background-color: $gray-200;
-// }
+.home-background-color {
+	background-color: $primary-text-emphasis;
+}
+
+.home-background-color-light {
+	background-color: $gray-300;
+}
 
 hr {
 	border-width: 1px;
@@ -159,7 +147,39 @@ hr {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 1000;
+	z-index: 2000;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-left-color: $warning;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* card-info */
@@ -180,9 +200,9 @@ hr {
 	border-radius: 0;
 }
 
-.nav-default-height {
-	height: $app-navbar-height-default;
-}
+// .nav-default-height {
+// 	height: $app-navbar-height-default;
+// }
 
 nav {
 	.input-group-sm > .form-control, .input-group-sm > .form-select, .input-group-sm > .input-group-text, .input-group-sm > .btn {
@@ -262,6 +282,18 @@ $bg-fb: #1877f2;
 	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
 }
 
+.card-export-item {
+	.img-container {
+		background: linear-gradient($dark, $primary);
+	
+		& > img {
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+		}
+	}
+}
+
 .card-grid {
 	@extend .row;
 	@extend .g-0;
@@ -281,8 +313,9 @@ $bg-fb: #1877f2;
 		.img-container > img {
 			@extend .mh-100;
 			@extend .rounded;
-			outline: solid 1px var(--bs-border-color);
+			// outline: solid 1px var(--bs-border-color);
 		}
+
 		.card-item-details {
 			@extend .d-flex;
 			@extend .flex-column;
@@ -301,13 +334,4 @@ $bg-fb: #1877f2;
     align-content: center;
 	@extend .text-muted;
 	@extend .text-center;
-}
-
-@include media-breakpoint-up(md) {
-    .home-card {
-        background-image: linear-gradient(to left, transparent, var(--bs-card-bg) 90%), url('https://world.digimoncard.com/images/products/goods/official_sleeve_silver/img_pkg.png');
-        background-repeat: no-repeat;
-        background-size: 55%;
-        background-position: 111% 50%;
-    }
 }

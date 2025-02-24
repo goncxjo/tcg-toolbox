@@ -1,0 +1,44 @@
+import { Routes } from '@angular/router';
+import { CardListsListComponent } from './card-lists-list/card-lists-list.component';
+import { CardListsEditComponent } from './card-lists-edit/card-lists-edit.component';
+import { getByIdResolver }  from './get-by-id.resolver';
+import { createResolver } from './create.resolver';
+import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/card-lists/create']);
+
+export const CARD_LISTS_ROUTES: Routes = [
+  {
+    path: '',
+    component: CardListsListComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Listas',
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+  },
+  {
+    path: ':id/edit',
+    resolve: {
+      entity: getByIdResolver
+    },
+    component: CardListsEditComponent,
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Editar',
+      authGuardPipe: redirectUnauthorizedToLogin,
+      editMode: true,
+    },
+  },
+  {
+    path: 'create',
+    data: {
+      title: 'Crear',
+      editMode: true,
+    },
+    resolve: {
+      entity: createResolver
+    },
+    component: CardListsEditComponent,
+  },
+];

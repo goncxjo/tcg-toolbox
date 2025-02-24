@@ -6,17 +6,30 @@ import html2canvas from 'html2canvas';
 import { Card, Dolar } from '../../../../backend';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CurrencySelectComponent } from '../../../../shared/currency-select/currency-select.component';
-import { YesNoSelectComponent } from '../../../../shared/yes-no-select/yes-no-select.component';
+import { CurrencySelectComponent } from '../../../../shared/select/currency-select/currency-select.component';
+import { YesNoSelectComponent } from '../../../../shared/select/yes-no-select/yes-no-select.component';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
 import { DataService } from '../../../../core/services/data.service';
 import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { LogoComponent } from '../../../../layout/logo/logo.component';
+import { SortablejsDirective } from '@worktile/ngx-sortablejs';
 
 @Component({
   selector: 'app-export-img',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, ReactiveFormsModule, CurrencyPipe, DatePipe, FontAwesomeModule, CurrencySelectComponent, YesNoSelectComponent, LogoComponent],
+  imports: [
+    CommonModule, 
+    ReactiveFormsModule, 
+    FontAwesomeModule, 
+    ReactiveFormsModule, 
+    CurrencyPipe, 
+    DatePipe, 
+    FontAwesomeModule, 
+    CurrencySelectComponent, 
+    YesNoSelectComponent, 
+    LogoComponent,
+    SortablejsDirective
+  ],
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']
 })
@@ -97,10 +110,6 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
     return this.dataService.getPrice(c);
   }
 
-  getPrecioUSD(price: number) {
-    return Math.round(price / this.dolarService.venta * 100) / 100;
-  }
-
   zoom(i: number){
     this.colExport += i;
     this.cardHeight = `calc(88px * ${this.colExport})`;
@@ -176,19 +185,31 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
 
   async getBase64ImageFromUrl(imageUrl: string) {
     var url = imageUrl.replace('https://product-images.tcgplayer.com', 'tcgplayer-images');
-    var res = await fetch(url);
-    var blob = await res.blob();
+    try {
+      var res = await fetch(url);
+      if (!res.ok) throw new Error(res.statusText);
   
-    return new Promise((resolve, reject) => {
-      var reader  = new FileReader();
-      reader.addEventListener("load", function () {
-          resolve(reader.result);
-      }, false);
-  
-      reader.onerror = () => {
-        return reject(this);
-      };
-      reader.readAsDataURL(blob);
-    })
+      var blob = await res.blob();
+    
+      return new Promise((resolve, reject) => {
+        var reader  = new FileReader();
+        reader.addEventListener("load", function () {
+            resolve(reader.result);
+        }, false);
+    
+        reader.onerror = () => {
+          return reject(this);
+        };
+        reader.readAsDataURL(blob);
+      })
+    } catch (error) {
+        console.log(`error on fetching image ${url}`)
+    }
+    const notFound = 'assets/card-not-found.png';
+    return notFound;
+  }
+
+  onCurrencyChange($event: Event) {
+    this.dolarService.setUserCurrency(this.form.get('currency')?.value);  
   }
 }

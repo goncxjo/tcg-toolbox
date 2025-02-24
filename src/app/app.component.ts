@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+
+// Ag-Grid-Angular: Register all community features
+ModuleRegistry.registerModules([AllCommunityModule]);
+
 
 @Component({
   selector: 'app-root',
@@ -11,4 +16,21 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 })
 export class AppComponent {
   title = 'tcg-price-calc';
+
+  constructor(
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.router.events.subscribe(value => {
+      switch (this.router.url) {
+        case '/home':
+          document.body.className = 'home-background-color';          
+          break;
+        default:
+          document.body.className = 'home-background-color-light';
+          break;
+      }
+    });
+  }
 }
