@@ -51,8 +51,9 @@ export class CardListService {
     const docRef = doc(this._firestore, PATH, entity.id);
     return updateDoc(docRef, { ...entity });
   }
-
+  
   async create(doc: CardList) {
+    doc.user = this.userService.getUserId();
     return await addDoc(this._collection, doc);
   }
 
