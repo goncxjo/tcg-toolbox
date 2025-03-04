@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRight, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
@@ -103,7 +103,7 @@ export class CardSearchModalComponent {
       colors: values?.colors,
       rarities: values?.rarities,
       isPreRelease: values?.esPreRelease,
-      productLineName: ['digimon-card-game'],
+      productLineName: values?.game ? [values?.game] : [],
       productTypeName: ['Cards'],
     }
   }

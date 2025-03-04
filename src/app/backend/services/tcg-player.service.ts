@@ -17,7 +17,6 @@ export class TcgPlayerService {
     private imageEndpoint: string;
     private imageExpansionEndpoint: string;
     private productUrl: string;
-    private nameMappings: Dictionary<string> = {};
     private categoryMappings: Dictionary<string> = {};
 
     constructor(
@@ -30,9 +29,6 @@ export class TcgPlayerService {
         this.imageEndpoint = this.appConfigService.config.TCG_PLAYER_API_IMAGE_ENDPOINT;
         this.imageExpansionEndpoint = this.appConfigService.config.TCG_PLAYER_API_IMAGE_EXPANSION_ENDPOINT;
         this.productUrl = this.appConfigService.config.TCG_PLAYER_PRODUCT_URL;
-        
-        this.nameMappings["digimon"] = "digimon-card-game";
-        this.nameMappings["one-piece"] = "one-piece-card-game";
         
         this.categoryMappings['digimon']='63'
         this.categoryMappings['one-piece']='68'
@@ -52,6 +48,7 @@ export class TcgPlayerService {
           'Content-Type': 'application/json',
         });
         var query = createTcgPlayerQuery(0, filters, page, pageSize);
+        console.log(query)
 
         const response$ = this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(query), { params: params, headers: headers });
         return this.cardService.getListTcgPlayerCards(response$, this.imageEndpoint, this.productUrl);
