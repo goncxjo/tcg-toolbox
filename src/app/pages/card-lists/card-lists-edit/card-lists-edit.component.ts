@@ -12,7 +12,7 @@ import { Observable, Subscription, debounceTime, distinctUntilChanged, map } fro
 import _ from 'lodash';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../components/cards/modals/export-img/export-img.component';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardInfoComponent } from '../../../components/cards/card-info/card-info.component';
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 import { UserService } from '../../../core/services/user.service';
@@ -45,7 +45,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
 
   readonly: boolean = false;
   editMode: boolean = false;
-  enableCreateMode: boolean = false;
+  showDetails: boolean = false;
 
   customDolarInput = new FormControl();
   customDolar$!: Subscription;
@@ -81,6 +81,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
           const cardList = data['entity'];
           this.readonly = data['readonly'];
           this.editMode = data['editMode'];
+          this.showDetails = this.editMode;
           this.title = data['title'];
           if (cardList.id) {
             this.dataService.set(cardList.cards);
@@ -171,7 +172,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   buildForm() {
     return this.formBuilder.group({
       id: '',
-      name: '',
+      name: ['', Validators.required],
       description: '',
       createdAt: '',
       updatedAt: '',
@@ -262,6 +263,10 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
     modalInstance.componentInstance.title = `Eliminar`;
     modalInstance.componentInstance.message = `¿Estás seguro que querés limpiar la lista?`;
     modalInstance.result.then(onModalSuccess, onError);
+  }
+
+  toggleDetails() {
+    this.showDetails = !this.showDetails
   }
 
   ngOnDestroy(): void {
