@@ -39,7 +39,6 @@ export function createTcgPlayerQuery(productId: number = 0, filters: FiltersTcgP
 		query.filters.term.setName = filters.expansions;
 	}
 
-	console.log(filters.productLineName)
 	if (filters.productLineName.length) {
 		query.filters.term.productLineName = _.map(filters.productLineName, (g: string) => nameMappings[g]);
 	}

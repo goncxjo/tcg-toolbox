@@ -34,7 +34,6 @@ export const CARD_LISTS_ROUTES: Routes = [
     path: 'create',
     data: {
       title: 'Crear',
-      editMode: true,
     },
     resolve: {
       entity: createResolver

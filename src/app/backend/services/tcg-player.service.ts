@@ -48,7 +48,6 @@ export class TcgPlayerService {
           'Content-Type': 'application/json',
         });
         var query = createTcgPlayerQuery(0, filters, page, pageSize);
-        console.log(query)
 
         const response$ = this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(query), { params: params, headers: headers });
         return this.cardService.getListTcgPlayerCards(response$, this.imageEndpoint, this.productUrl);
