@@ -19,6 +19,16 @@ export const CARD_LISTS_ROUTES: Routes = [
     },
   },
   {
+    path: 'create',
+    data: {
+      title: 'Crear',
+    },
+    resolve: {
+      entity: createResolver
+    },
+    component: CardListsEditComponent,
+  },
+  {
     path: ':id',
     resolve: {
       entity: getByIdResolver
@@ -41,15 +51,5 @@ export const CARD_LISTS_ROUTES: Routes = [
       authGuardPipe: redirectUnauthorizedToLogin,
       editMode: true,
     },
-  },
-  {
-    path: 'create',
-    data: {
-      title: 'Crear',
-    },
-    resolve: {
-      entity: createResolver
-    },
-    component: CardListsEditComponent,
   },
 ];
