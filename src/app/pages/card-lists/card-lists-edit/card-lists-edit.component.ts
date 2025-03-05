@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown91, faArrowUp19, faCommentDollar, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown91, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../core/services/dolar.data.service';
@@ -10,18 +10,19 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import _ from 'lodash';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../components/cards/modals/export-img/export-img.component';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardInfoComponent } from '../../../components/cards/card-info/card-info.component';
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 import { UserService } from '../../../core/services/user.service';
 import { ConfirmComponent } from '../../../shared/modals/confirm/confirm.component';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-card-lists-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule],
   templateUrl: './card-lists-edit.component.html',
   styleUrl: './card-lists-edit.component.scss'
 })
@@ -37,6 +38,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   saveIcon = faFloppyDisk;
   dolarIcon = faCommentDollar;
   maximizeIcon = faUpRightAndDownLeftFromCenter;
+  copyIcon = faCopy;
 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
@@ -66,7 +68,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
     private formBuilder: FormBuilder,
     private router: Router,
     private service: CardListService,
-    private userService: UserService
+    private userService: UserService,
+    private clipboard: Clipboard,
   ) {
   }
 
@@ -177,7 +180,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
     return this.formBuilder.group({
       id: '',
       name: { value: '', required: Validators.required, disabled: this.readonly },
-      description: { value: '', required: Validators.required, disabled: this.readonly },
+      description: { value: '', required: false, disabled: this.readonly },
       createdAt: '',
       updatedAt: '',
     })
@@ -271,6 +274,10 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
 
   toggleDetails() {
     this.showDetails = !this.showDetails
+  }
+
+  copyUrl() {
+    this.clipboard.copy(window.document.URL.replaceAll('/edit', ''));
   }
 
   ngOnDestroy(): void {

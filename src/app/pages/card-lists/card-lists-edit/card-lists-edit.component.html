@@ -35,10 +35,6 @@
 					</div>
 				</div>
 			</div>
-			<button type="button" class="btn btn-sm btn-success ms-2" (click)="openExportImg()">
-				<fa-icon [icon]="imageIcon" /> Exportar
-			</button>
-
 		</div>
 	</div>
 </div>
@@ -129,6 +125,16 @@
 			}
 		</div>
 	}
+	@else {
+		<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
+			<button type="button" class="btn btn-sm btn-success ms-2" (click)="openExportImg()">
+				<fa-icon [icon]="imageIcon" /> Exportar
+			</button>
+			<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+				<fa-icon [icon]="copyIcon"/> Copiar URL
+			</button>	
+		</div>
+	}
 	@if(showDetails) {
 	<div class="card my-3">
 		<div class="card-header text-bg-primary">
@@ -138,7 +144,7 @@
 			<form class="row g-3 mb-3" [formGroup]="form">
 				<div class="col-12 col-md-6">
 					<label for="name" class="form-label">Nombre  <span class="text-danger">*</span></label>
-					<input type="text" class="form-control" id="name" formControlName="name" placeholder="Escriba el nombre de la lista">
+					<input type="text" class="form-control" id="name" formControlName="name">
 				</div>
 				<!-- <div class="col-md-6">
 					<label for="customDolar" class="form-label">Fijar dolar</label>
@@ -146,7 +152,7 @@
 				</div> -->
 				<div class="col-12 col-md-6">
 					<label for="description" class="form-label">Descripción <span class="text-black-50">(Opcional)</span></label>
-					<input type="textarea" class="form-control" id="description" formControlName="description" placeholder="Describa brevemente su lista">
+					<input type="textarea" class="form-control" id="description" formControlName="description">
 				</div>
 			</form>
 			@if(!readonly) {
