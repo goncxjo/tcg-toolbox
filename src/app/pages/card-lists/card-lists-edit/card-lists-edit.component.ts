@@ -80,9 +80,13 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
         map(data => {
           const cardList = data['entity'];
           this.readonly = data['readonly'];
-          this.editMode = data['editMode'];
+          this.editMode = data['editMode'] || data['readonly'];
           this.showDetails = this.editMode;
           this.title = data['title'];
+          if (this.readonly) {
+            this.form.get('name')?.disable()
+            this.form.get('description')?.disable()
+          }
           if (cardList.id) {
             this.dataService.set(cardList.cards);
             this.dataService.updateMode = true;

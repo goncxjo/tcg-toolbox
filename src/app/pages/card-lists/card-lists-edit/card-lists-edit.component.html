@@ -136,7 +136,7 @@
 		</div>
 		<div class="card-body">
 			<form class="row g-3 mb-3" [formGroup]="form">
-				<div class="col-md-6">
+				<div class="col-12 col-md-6">
 					<label for="name" class="form-label">Nombre  <span class="text-danger">*</span></label>
 					<input type="text" class="form-control" id="name" formControlName="name" placeholder="Escriba el nombre de la lista">
 				</div>
@@ -144,16 +144,18 @@
 					<label for="customDolar" class="form-label">Fijar dolar</label>
 					<input type="number" class="form-control" id="customDolar" min="0">
 				</div> -->
-				<div class="col-12">
+				<div class="col-12 col-md-6">
 					<label for="description" class="form-label">Descripción <span class="text-black-50">(Opcional)</span></label>
 					<input type="textarea" class="form-control" id="description" formControlName="description" placeholder="Describa brevemente su lista">
 				</div>
 			</form>
-			<div class="d-grid gap-3 d-sm-flex justify-content-sm-end">
-				<button class="btn btn-primary" type="button" (click)="save()">
-					<fa-icon [icon]="saveIcon"></fa-icon> Guardar
-				</button>
-			</div>	
+			@if(!readonly) {
+				<div class="d-grid gap-3 d-sm-flex justify-content-sm-end">
+					<button class="btn btn-primary" type="button" (click)="save()">
+						<fa-icon [icon]="saveIcon"></fa-icon> Guardar
+					</button>
+				</div>	
+			}
 		</div>
 	</div>
 	}
