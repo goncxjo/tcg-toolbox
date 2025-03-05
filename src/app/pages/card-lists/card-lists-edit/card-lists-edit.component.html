@@ -5,8 +5,8 @@
 		<span class="input-group-text">.00</span>
 	</div>
 }
-<div class="card text-bg-primary">
-	<div class="card-header fw-bold d-flex align-items-center border-0">
+<div class="card text-bg-primary mb-2">
+	<div class="card-header fw-bold d-flex align-items-center border-0 py-2">
 		<span>Cartas</span>
 		<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
 			<div class="btn-group card-item-actions me-2" role="group">
@@ -41,45 +41,43 @@
 
 <div class="card-body p-0">
 	@if (cardList$ | async; as cardList) {
-	<div class="row">
+	<div class="row g-2">
 		@for(card of cards(); track card) {
 			<div
 				[class.col-12]="!card.infoReduced"
 				[class.col-md-6]="card.infoReduced"
 				[class.col-lg-4]="card.infoReduced"
 			>
-				<div class="card my-3">
+				<div class="card flex-row-reverse">
 					@if(card.infoReduced) {
-						<span>
+						<div class="card-actions d-flex flex-column justify-content-between bg-dark">
 							@if(!readonly) {
-								<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(card)">
+								<button class="btn btn-sm btn-outline-danger btn-top border-0" (click)="removeCard(card)">
 									<fa-icon [icon]="closeIcon"/>
-									<span class="visually-hidden">cantidad cartas</span>
 								</button>
-								<div class="btn-group-vertical position-absolute top-50 start-100 translate-middle-sm-multiplier-buttons" role="group">
-									<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, 1)">
+								<div class="btn-group-vertical" role="group">
+									<button type="button" class="btn btn-sm" (click)="changeMultiplier(card, 1)">
 										<fa-icon [icon]="plusIcon"/>
 									</button>
-									<button type="button" class="btn btn-sm btn-dark px-0 active">
+									<button type="button" class="btn btn-sm btn-dark px-0 border-0 active">
 										{{ card.multiplier }}
 									</button>
-									<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, -1)">
+									<button type="button" class="btn btn-sm" (click)="changeMultiplier(card, -1)">
 										<fa-icon [icon]="minusIcon"/>
 									</button>
 								</div>
 							}
 							@else {
-								<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge bg-dark">
+								<button class="btn btn-sm btn-dark">
 									x{{ card.multiplier }}
 									<span class="visually-hidden">cantidad cartas</span>
 								</button>
 							}
-							<button class="border-0 position-absolute top-100 start-100 translate-middle-sm-multiplier badge bg-warning" (click)="toggleInfoReduced(card)">
+							<button class="btn btn-sm btn-outline-warning btn-bottom border-0" (click)="toggleInfoReduced(card)">
 								<fa-icon [icon]="maximizeIcon"/>
-								<span class="visually-hidden">maximizar</span>
 							</button>
 
-						</span>
+						</div>
 					}
 					<div class="card-body p-3">
 						<app-card-info [data]="card"></app-card-info>
@@ -97,7 +95,7 @@
 	}
 </div>
 
-<div class="card text-bg-dark mb-3">
+<div class="card text-bg-dark mb-3 mt-2">
 	<div class="card-footer">
 		<p class="card-text fw-bold text-end">
 			TOTAL =<span class="ms-1">{{ total() | currency }}</span>
@@ -119,7 +117,7 @@
 				</button>
 			}
 			@if(!noData) {
-				<button type="button" class="btn btn-success " (click)="openExportImg()">
+				<button type="button" class="btn btn-primary " (click)="openExportImg()">
 					<fa-icon [icon]="imageIcon" /> Exportar
 				</button>	
 				<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
@@ -130,10 +128,10 @@
 	}
 	@else {
 		<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
-			<button type="button" class="btn btn-success" (click)="openExportImg()">
+			<button type="button" class="btn btn-primary" (click)="openExportImg()">
 				<fa-icon [icon]="imageIcon" /> Exportar
 			</button>
-			<button type="button" class="btn btn btn-primary" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+			<button type="button" class="btn btn btn-success" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 				<fa-icon [icon]="copyIcon"/> Copiar URL
 			</button>	
 		</div>

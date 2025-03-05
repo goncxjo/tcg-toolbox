@@ -2,3 +2,18 @@
 	border-radius: 50%;
     padding: 0.4em 0.56em;
 }
+
+.card-actions {
+    margin: .2rem;
+    border-radius: var(--bs-card-border-radius);
+
+    & .btn-top {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;    
+    }
+
+    & .btn-bottom {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;    
+    }
+}
