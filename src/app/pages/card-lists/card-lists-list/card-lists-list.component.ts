@@ -37,6 +37,7 @@ export class CardListsListComponent implements AfterViewInit {
       headerName: "Acciones",
       cellRenderer: ActionButtonComponent,
       cellRendererParams: {
+        onView: this.onViewBtnClick.bind(this),
         onEdit: this.onEditBtnClick.bind(this),
         onDelete: this.onDeleteBtnClick.bind(this),
       }
@@ -56,6 +57,11 @@ export class CardListsListComponent implements AfterViewInit {
   onEditBtnClick(e: any) {
     const id = e.rowData.id;
     this.router.navigate(['card-lists', id, 'edit']);
+  }
+  
+  onViewBtnClick(e: any) {
+    const id = e.rowData.id;
+    this.router.navigate(['card-lists', id]);
   }
   
   onDeleteBtnClick(e: any) {
