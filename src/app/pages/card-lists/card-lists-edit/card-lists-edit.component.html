@@ -55,21 +55,29 @@
 				<div class="card my-3">
 					@if(card.infoReduced) {
 						<span>
-							<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(card)">
-								<fa-icon [icon]="closeIcon"/>
-								<span class="visually-hidden">cantidad cartas</span>
-							</button>
-							<div class="btn-group-vertical position-absolute top-50 start-100 translate-middle-sm-multiplier-buttons" role="group">
-								<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, 1)">
-									<fa-icon [icon]="plusIcon"/>
+							@if(!readonly) {
+								<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge rounded-close-btn bg-danger" (click)="removeCard(card)">
+									<fa-icon [icon]="closeIcon"/>
+									<span class="visually-hidden">cantidad cartas</span>
 								</button>
-								<button type="button" class="btn btn-sm btn-dark px-0 active">
-									{{ card.multiplier }}
+								<div class="btn-group-vertical position-absolute top-50 start-100 translate-middle-sm-multiplier-buttons" role="group">
+									<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, 1)">
+										<fa-icon [icon]="plusIcon"/>
+									</button>
+									<button type="button" class="btn btn-sm btn-dark px-0 active">
+										{{ card.multiplier }}
+									</button>
+									<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, -1)">
+										<fa-icon [icon]="minusIcon"/>
+									</button>
+								</div>
+							}
+							@else {
+								<button class="border-0 position-absolute top-0 start-100 translate-middle-sm-multiplier badge bg-dark">
+									x{{ card.multiplier }}
+									<span class="visually-hidden">cantidad cartas</span>
 								</button>
-								<button type="button" class="btn btn-sm btn-dark" (click)="changeMultiplier(card, -1)">
-									<fa-icon [icon]="minusIcon"/>
-								</button>
-							</div>
+							}
 							<button class="border-0 position-absolute top-100 start-100 translate-middle-sm-multiplier badge bg-warning" (click)="toggleInfoReduced(card)">
 								<fa-icon [icon]="maximizeIcon"/>
 								<span class="visually-hidden">maximizar</span>
@@ -102,23 +110,25 @@
 </div>
 
 @defer {
-	<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
-		@if (isLoggedIn() && !showDetails && !id && !noData) {
-			<button class="btn btn-success" type="button" (click)="toggleDetails()">
-				<fa-icon [icon]="plusIcon"></fa-icon> Crear lista
-			</button>
-		}
-		@else if (isLoggedIn() && showDetails && !id && !noData) {
-			<button class="btn btn-secondary" type="button" (click)="toggleDetails()">
-				<fa-icon [icon]="closeIcon"></fa-icon> Cancelar
-			</button>
-		}
-		@if(!noData) {
-			<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
-				<fa-icon [icon]="trashIcon"></fa-icon> Limpiar lista
-			</button>
-		}
-	</div>
+	@if(!readonly) {
+		<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
+			@if (isLoggedIn() && !showDetails && !id && !noData) {
+				<button class="btn btn-success" type="button" (click)="toggleDetails()">
+					<fa-icon [icon]="plusIcon"></fa-icon> Crear lista
+				</button>
+			}
+			@else if (isLoggedIn() && showDetails && !id && !noData) {
+				<button class="btn btn-secondary" type="button" (click)="toggleDetails()">
+					<fa-icon [icon]="closeIcon"></fa-icon> Cancelar
+				</button>
+			}
+			@if(!noData) {
+				<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
+					<fa-icon [icon]="trashIcon"></fa-icon> Limpiar lista
+				</button>
+			}
+		</div>
+	}
 	@if(showDetails) {
 	<div class="card my-3">
 		<div class="card-header text-bg-primary">

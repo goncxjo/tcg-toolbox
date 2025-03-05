@@ -17,6 +17,7 @@ import { CardInfoComponent } from '../../../components/cards/card-info/card-info
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 import { UserService } from '../../../core/services/user.service';
 import { ConfirmComponent } from '../../../shared/modals/confirm/confirm.component';
+import { disable } from 'colors';
 
 @Component({
   selector: 'app-card-lists-edit',
@@ -172,8 +173,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   buildForm() {
     return this.formBuilder.group({
       id: '',
-      name: ['', Validators.required],
-      description: '',
+      name: { value: '', required: Validators.required, disabled: this.readonly },
+      description: { value: '', required: Validators.required, disabled: this.readonly },
       createdAt: '',
       updatedAt: '',
     })
