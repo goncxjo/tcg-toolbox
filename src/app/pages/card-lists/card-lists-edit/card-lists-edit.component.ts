@@ -17,7 +17,6 @@ import { CardInfoComponent } from '../../../components/cards/card-info/card-info
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 import { UserService } from '../../../core/services/user.service';
 import { ConfirmComponent } from '../../../shared/modals/confirm/confirm.component';
-import { disable } from 'colors';
 
 @Component({
   selector: 'app-card-lists-edit',
