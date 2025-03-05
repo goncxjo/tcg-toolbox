@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LogoComponent {
   @Input() showTitle: boolean = true;
-  @Input() preventRedirect: boolean = true;
+  @Input() preventRedirect: boolean = false;
 
   loaderService: LoaderService = inject(LoaderService);
 
