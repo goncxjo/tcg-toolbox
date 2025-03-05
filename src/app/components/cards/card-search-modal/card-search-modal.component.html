@@ -47,7 +47,7 @@
                     </div>
                 </button>
             }
-            @if(!searching && term) {
+            @if(term && resultCards.length == 0) {
                 <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
                     <fa-icon [icon]="warningIcon" class="me-3"/>
                     <span>
