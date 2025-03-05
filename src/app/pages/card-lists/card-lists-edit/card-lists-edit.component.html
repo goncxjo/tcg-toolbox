@@ -119,7 +119,7 @@
 				</button>
 			}
 			@if(!noData) {
-				<button type="button" class="btn btn-sm btn-success ms-2" (click)="openExportImg()">
+				<button type="button" class="btn btn-success " (click)="openExportImg()">
 					<fa-icon [icon]="imageIcon" /> Exportar
 				</button>	
 				<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
@@ -130,10 +130,10 @@
 	}
 	@else {
 		<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
-			<button type="button" class="btn btn-sm btn-success ms-2" (click)="openExportImg()">
+			<button type="button" class="btn btn-success" (click)="openExportImg()">
 				<fa-icon [icon]="imageIcon" /> Exportar
 			</button>
-			<button type="button" class="btn btn btn-primary btn-sm ms-2" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+			<button type="button" class="btn btn btn-primary" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 				<fa-icon [icon]="copyIcon"/> Copiar URL
 			</button>	
 		</div>
