@@ -119,6 +119,9 @@
 				</button>
 			}
 			@if(!noData) {
+				<button type="button" class="btn btn-sm btn-success ms-2" (click)="openExportImg()">
+					<fa-icon [icon]="imageIcon" /> Exportar
+				</button>	
 				<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
 					<fa-icon [icon]="trashIcon"></fa-icon> Limpiar lista
 				</button>
