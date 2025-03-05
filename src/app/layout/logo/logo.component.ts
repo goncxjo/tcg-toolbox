@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LogoComponent {
   @Input() showTitle: boolean = true;
+  @Input() preventRedirect: boolean = true;
 
   loaderService: LoaderService = inject(LoaderService);
 
@@ -20,6 +21,8 @@ export class LogoComponent {
   ) { }
 
   goHome() {
-    this.router.navigate(['home'])
+    if (!this.preventRedirect) {
+      this.router.navigate(['home'])
+    }
   }
 }
