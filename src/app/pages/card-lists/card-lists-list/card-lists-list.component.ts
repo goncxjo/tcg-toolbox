@@ -75,7 +75,7 @@ export class CardListsListComponent implements AfterViewInit {
     }
 
     const onModalSuccess = (result: string) => {
-      if (result == 'cancel') {
+      if (result === 'cancel') {
         return;
       }
       try {
