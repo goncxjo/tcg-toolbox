@@ -74,12 +74,4 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.customPrice$?.unsubscribe();
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   for (const propName in changes) {
-  //     if (propName == 'dolarChanged') {
-  //       this.setPrecioCarta();
-  //     }
-  //   }
-  // }
 }
