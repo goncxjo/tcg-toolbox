@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, of, tap } from 'rxjs';
+import { finalize, map, Observable, of, take, tap } from 'rxjs';
 import { CardList, CardListFilters, CardListList } from '../models';
 import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, query, QueryConstraint, updateDoc, where } from '@angular/fire/firestore';
 import _ from 'lodash';
@@ -23,6 +23,7 @@ export class CardListService {
   }
 
   getAll(filters: CardListFilters): Observable<CardListList[]> {
+    this.loaderService.show();
     const queries: QueryConstraint[] = [
       where('user', '==', this.userService.getUserId()),
     ]
@@ -32,34 +33,44 @@ export class CardListService {
     ), { idField: "id" }) as Observable<CardListList[]>;
 
     return res.pipe(
-      tap(() => this.loaderService.show()),
+      take(1),
       map((cards: CardListList[]) => {
         var regex = new RegExp(`${filters.name}`, 'gi');  
         return _.filter(cards, (c: CardListList) => regex.test(c.name));
       }),
-      tap(() => this.loaderService.hide()),
+      finalize(() => this.loaderService.hide())
     );
   }
   
   getById(id: string): Observable<CardList> {
     const docRef = doc(this._firestore, PATH, id);
-    return docData(docRef, { idField: "id" }) as Observable<CardList>;
+    const res = docData(docRef, { idField: "id" }) as Observable<CardList>;
+    return res;
   }
   
   async update(entity: CardList) {
+    this.loaderService.show();
     entity.user = this.userService.getUserId();
     const docRef = doc(this._firestore, PATH, entity.id);
-    return updateDoc(docRef, { ...entity });
+    const res = updateDoc(docRef, { ...entity });
+    this.loaderService.hide();
+    return res;
   }
   
   async create(doc: CardList) {
+    this.loaderService.show();
     doc.user = this.userService.getUserId();
-    return await addDoc(this._collection, doc);
+    const res = await addDoc(this._collection, doc);
+    this.loaderService.hide();
+    return res;
   }
 
   async delete(id: string) {
+    this.loaderService.show();
     const docRef = doc(this._firestore, PATH, id);
-    return await deleteDoc(docRef);
+    const res = await deleteDoc(docRef);
+    this.loaderService.hide();
+    return res;
   }
 
   new(): Observable<CardList> {
