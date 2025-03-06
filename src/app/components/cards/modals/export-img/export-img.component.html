@@ -1,7 +1,7 @@
 <div class="modal-content" #content>
 	<div class="modal-header navbar text-bg-dark align-content-center">
 		<app-logo class="flex-grow-1" [preventRedirect]="true"></app-logo>
-        <button class="close-btn navbar-toggler border-0 p-2 text-white" type="button" (click)="close('Cross click')">
+        <button class="close-btn navbar-toggler border-0 p-2 text-white screenshot-hide" type="button" (click)="close('close')">
 			&#x2715;
         </button>
 	</div>
@@ -56,7 +56,7 @@
 		<div class="row row-cols-1 mb-3 d-none screenshot-show" *ngIf="mostrarPrecios">
 			<div class="col">
 				<small class="text-secondary-emphasis">
-					<strong>Dólar: </strong>${{ dolarService.venta | currency }}
+					<strong>Dólar: </strong>{{ dolarService.venta | currency }}
 				</small>
 			</div>
 			<div class="col">
@@ -66,7 +66,7 @@
 			</div>
 			<div class="col">
 				<small class="text-secondary-emphasis">
-					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy hh:mm:ss' }}
+					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy HH:mm:ss' }}
 				</small>
 			</div>
 		</div>
@@ -84,7 +84,7 @@
 						</span>
 					</span>	
 
-					<div class="img-container d-flex justify-content-center align-items-center">
+					<div class="img-container d-flex justify-content-center align-items-center" [class.no-price]="!mostrarPrecios">
 						<img class="img-card" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-not-found.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
 						<span class="position-absolute bg-badge-multiplier-export-card badge rounded-pill">
 							{{ item.multiplier }}
