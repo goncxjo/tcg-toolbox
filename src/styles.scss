@@ -285,11 +285,14 @@ $bg-fb: #1877f2;
 .card-export-item {
 	.img-container {
 		background: linear-gradient($dark, $primary);
+		&.no-price {
+			background: none
+		}
 	
 		& > img {
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
+			-webkit-border-radius: .4rem;
+			-moz-border-radius: .4rem;
+			border-radius: .4rem;
 		}
 	}
 }
