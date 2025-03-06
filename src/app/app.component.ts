@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { LoaderService } from './core';
+import { filter, map } from 'rxjs';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -18,11 +20,22 @@ export class AppComponent {
   title = 'tcg-price-calc';
 
   constructor(
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
-    this.router.events.subscribe(value => {
+    this.router.events.pipe(
+      filter(
+        (e) =>
+          e instanceof NavigationStart ||
+          e instanceof NavigationEnd ||
+          e instanceof NavigationCancel ||
+          e instanceof NavigationError
+      ),
+      map((e) => e instanceof NavigationStart)
+    ).subscribe(loading => {
+      loading ? this.loaderService.show() : this.loaderService.hide();      
       switch (this.router.url) {
         case '/home':
           document.body.className = 'home-background-color';          
