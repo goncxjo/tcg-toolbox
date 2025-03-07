@@ -6,3 +6,4 @@ export * from './game'
 export * from './card-list';
 export * from './dictionary';
 export * from './page-result'
+export * from './tool';

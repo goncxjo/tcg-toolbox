@@ -214,7 +214,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
 
     const onSuccess = () => {
       this.toastr.success('El registro fue guardado.', 'Guardar');
-      this.router.navigate(['price-calculator','card-lists']);
+      this.router.navigate(['price-calc','card-lists']);
     }
   
     const onError = (err: Error) => {

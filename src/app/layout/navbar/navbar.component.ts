@@ -2,21 +2,19 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faCalculator, faGear, faHeart, faHome, faList, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal, NgbModalModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { CardSearchModalComponent } from '../../components/cards/card-search-modal/card-search-modal.component';
+import { NgbModalModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { SettingsComponent } from '../settings/settings.component';
 import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
 import { AppThemeService } from '../../core/services/app-theme.service';
-import { LoadingScreenComponent } from '../loading-screen/loading-screen.component';
-import { CardSearchService, LoaderService } from '../../core';
+import { CardSearchService } from '../../core';
 import { DolarComponent } from '../dolar/dolar.component';
 import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [LogoComponent, LoadingScreenComponent, DolarComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
+  imports: [LogoComponent, DolarComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
@@ -34,7 +32,7 @@ export class NavbarComponent {
 
   items: any[] = [
     { icon: this.homeIcon, command: () => { this.router.navigate(['/'])} },
-    { icon: this.listIcon, command: () => { this.router.navigate(['/card-lists'])} },
+    { icon: this.listIcon, command: () => { this.router.navigate(['/price-calc/card-lists'])} },
     { icon: this.searchIcon, command: () => { this.openCardSearchModal() } },
     { icon: this.favIcon, command: () => {} },
     { icon: this.settingsIcon, command: () => { this.openSettingsOffcanvas() } },
