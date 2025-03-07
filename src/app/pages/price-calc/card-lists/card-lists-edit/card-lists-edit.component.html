@@ -1,11 +1,4 @@
-@if (showCustomDolar) {
-	<div class="input-group mb-3">
-		<span class="input-group-text">$</span>
-		<input type="number" [min]="0" class="form-control" id="custom" [formControl]="customDolarInput">
-		<span class="input-group-text">.00</span>
-	</div>
-}
-<div class="card text-bg-primary mb-2">
+<div class="card text-bg-primary my-3">
 	<div class="card-header fw-bold d-flex align-items-center border-0 py-2">
 		<span>Cartas</span>
 		<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
@@ -20,8 +13,10 @@
 			<div class="btn-group">
 				<button type="button" class="btn btn-sm btn-success" (click)="toggleDolar()">
 					{{ dolarService.userCurrency() }}
+					&nbsp;
+					<fa-icon [icon]="refreshIcon" />
 				</button>
-				<div class="btn-group" ngbDropdown role="group">
+				<!-- <div class="btn-group" ngbDropdown role="group">
 					<button type="button" class="btn btn-sm btn-success" ngbDropdownToggle></button>
 					<div class="dropdown-menu" ngbDropdownMenu>
 						<button ngbDropdownItem (click)="toggleCustomDolar()">
@@ -33,11 +28,18 @@
 							}
 						</button>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
 </div>
+<!-- @if (showCustomDolar) {
+	<div class="input-group mb-3">
+		<span class="input-group-text">$</span>
+		<input type="number" [min]="0" class="form-control" id="custom" [formControl]="customDolarInput">
+		<span class="input-group-text">.00</span>
+	</div>
+} -->
 
 <div class="card-body p-0">
 	@if (cardList$ | async; as cardList) {

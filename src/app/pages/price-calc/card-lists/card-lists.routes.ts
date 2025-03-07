@@ -19,9 +19,10 @@ export const CARD_LISTS_ROUTES: Routes = [
     },
   },
   {
-    path: 'create',
+    path: 'new',
     data: {
       title: 'Crear',
+      breadcrumb: 'Crear'
     },
     resolve: {
       entity: createResolver
@@ -36,6 +37,7 @@ export const CARD_LISTS_ROUTES: Routes = [
     component: CardListsEditComponent,
     data: {
       title: 'Ver',
+      breadcrumb: 'Ver',
       readonly: true,
     },
   },
@@ -48,6 +50,7 @@ export const CARD_LISTS_ROUTES: Routes = [
     canActivate: [AuthGuard, isOwnerGuard],
     data: {
       title: 'Editar',
+      breadcrumb: 'Editar',
       authGuardPipe: redirectUnauthorizedToLogin,
       editMode: true,
     },

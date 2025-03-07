@@ -1,13 +1,8 @@
 <app-navbar #navbar></app-navbar>
-<div class="py-1 my-5"></div>
-<div class="app-container">
-  <div class="container mb-4">
-    <div class="row">
-      <div class="col-12">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
+<div class="b-divider no-bg divider-nav-height mt-3"></div>
+<div #appContainer [class.container]="applyContainer">
+      <xng-breadcrumb></xng-breadcrumb>
+      <router-outlet></router-outlet>
 </div>
 
 <app-loading-screen></app-loading-screen>

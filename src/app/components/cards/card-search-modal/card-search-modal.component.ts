@@ -9,13 +9,12 @@ import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
 import { DataService } from '../../../core/services/data.service';
-import { GameSelectorComponent } from '../../games/game-selector/game-selector.component';
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 
 @Component({
   selector: 'app-card-search-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, NgbHighlight, AsyncPipe, CardSearchFiltersComponent, GameSelectorComponent],
+  imports: [ReactiveFormsModule, FontAwesomeModule, NgbHighlight, AsyncPipe, CardSearchFiltersComponent],
   templateUrl: './card-search-modal.component.html',
   styleUrl: './card-search-modal.component.scss',
 })
@@ -74,7 +73,7 @@ export class CardSearchModalComponent {
     tap(() => this.searching = true),
     debounceTime(300),
     switchMap((term) => iif(
-      () => (term == '' || term.toLocaleLowerCase() == 'mon' || term.length < 3),
+      () => (term == '' || term.length < 3),
       of({ total: 0, result: []} as PageResult<Card>),
       this.tcgPlayerService.getCards(term, this.mapFilters(), this.page, this.pageSize))
     ),
@@ -126,7 +125,7 @@ export class CardSearchModalComponent {
 
   create() {
     this.sendData();
-    this.activeModal.close('create');  }
+    this.activeModal.close('new');  }
 
   add() {
     this.sendData();

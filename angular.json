@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "tcg-price-calc": {
+    "tcg-toolbox": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/tcg-price-calc",
+            "outputPath": "dist/tcg-toolbox",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "tcg-price-calc:build:production"
+              "buildTarget": "tcg-toolbox:build:production"
             },
             "development": {
-              "buildTarget": "tcg-price-calc:build:development",
+              "buildTarget": "tcg-toolbox:build:development",
               "proxyConfig": "src/proxy.conf.js"
             }
           },
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "tcg-price-calc:build"
+            "buildTarget": "tcg-toolbox:build"
           }
         },
         "test": {

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, ResolveEnd, ResolveStart, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { LoaderService } from './core';
 import { filter, map } from 'rxjs';
 import { LoadingScreenComponent } from './layout/loading-screen/loading-screen.component';
+import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -13,16 +14,18 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, LoadingScreenComponent],
+  imports: [RouterOutlet, NavbarComponent, LoadingScreenComponent, BreadcrumbComponent, BreadcrumbItemDirective],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'tcg-price-calc';
+  title = 'tcg-toolbox';
+  applyContainer: boolean = false;
 
   constructor(
     private router: Router,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private elRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -40,11 +43,14 @@ export class AppComponent {
     ).subscribe(loading => {
       loading ? this.loaderService.show() : this.loaderService.hide();      
       switch (this.router.url) {
+        case '/':
         case '/home':
-          document.body.className = 'home-background-color';          
+          document.body.className = 'home-background-color';
+          this.applyContainer = false
           break;
-        default:
-          document.body.className = 'home-background-color-light';
+          default:
+            document.body.className = 'home-background-color-light';
+            this.applyContainer = true
           break;
       }
     });

@@ -1,45 +1,64 @@
-<div class="p-md-5 mb-md-4 text-white rounded-3">
-    <div class="container-fluid py-md-3">
+<div class="p-5 text-white rounded-3 bg-dark">
+    <div class="container py-md-3">
+        <h1 class="col-12 col-lg-8 display-6 fw-bold">
+            TCG Toolbox
+        </h1>
         <h1 class="col-12 col-lg-8 display-5 fw-bold">
-            Tu sitio de referencia para calcular precios en tu moneda local y organizar tus cartas.
+            Hacé que las cosas sean más fáciles
         </h1>
         <h5 class="col-12 col-lg-8 fs-4">
-            Te invitamos a buscar cartas utilizando el buscador de la parte superior.
+            ¡Organiza las cartas de tus juegos preferidos en un solo lugar!
         </h5>
-        @if(!isLoggedIn()) {
+        <div class="pt-3">
+            @if(!isLoggedIn()) {
             <p class="col-12 col-lg-8 fs-4">
                 ¿Necesitas guardar tus listas?
             </p>
             <div class="d-grid gap-3 d-sm-flex">
                 <button class="btn btn-primary" type="button" (click)="login()">
-                    Iniciar sesión
-                </button>
-                <button class="btn btn-primary" type="button" (click)="openCardSearchModal()">
-                    Buscar
+                    Iniciar sesión con Google
                 </button>
             </div>
-        }
-        @else {
+            }
+            @else {
+            <p class="col-12 col-lg-8 fs-4">
+                ¿Querés cerrar sesión?
+            </p>
             <div class="d-grid gap-3 d-sm-flex">
-                <button class="btn btn-primary" type="button" (click)="openCardSearchModal()">
-                    Buscar
-                </button>
-                <button class="btn btn-primary" type="button" routerLink="/price-calc/card-lists">
-                    Ver listas
+                <button class="btn btn-primary" type="button" (click)="logout()">
+                    Cerrar sesión
                 </button>
             </div>
-        }
-            
-        <div class="mt-4">
-            <app-content-info [title]="'Recordatorio: '" [htmlText]="infoMsg"></app-content-info>
+            }
         </div>
-
-        <br>
-
-        <p class="col-12 col-lg-8 fs-4">
-            Juegos disponibles:
-        </p>
-        <app-game-selector></app-game-selector>
     </div>
 </div>
 
+<div class="b-divider"></div>
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h3 class="title-square pb-2 text-white border-bottom ">Apps disponibles</h3>
+    <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+        @for(tool of getTools(); track tool.path) {
+        <div class="col d-flex align-items-start">
+            <!-- <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"></use></svg>
+                </div> -->
+            <div class="text-white">
+                <h3 class="fs-2">{{tool.title}}</h3>
+                <p>{{tool.description}}</p>
+                <a class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists', 'new']">
+                    Calcular
+                </a>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+<div class="b-divider"></div>
+
+<div class="container px-4 py-5" id="hanging-icons">
+    <h3 class="title-square pb-2 text-white border-bottom ">Juegos disponibles</h3>
+    <app-game-selector></app-game-selector>
+</div>

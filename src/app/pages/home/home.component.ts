@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ContentInfoComponent } from '../../shared/content-info/content-info.component';
 import { GameSelectorComponent } from "../../components/games/game-selector/game-selector.component";
 import { UserService } from '../../core/services/user.service';
-import { CardSearchService } from '../../core';
+import { CardSearchService, ToolService } from '../../core';
 
 @Component({
   selector: 'app-home',
@@ -19,10 +19,19 @@ export class HomeComponent {
   constructor(
     private userService: UserService,
     private cardSearchService: CardSearchService,
+    private toolService: ToolService
   ) { }
+
+  getTools() {
+    return this.toolService.getTools();
+  }
 
   login() {
     this.userService.loginWithGoogle();
+  }
+
+  logout() {
+    this.userService.logout();
   }
 
   isLoggedIn() {

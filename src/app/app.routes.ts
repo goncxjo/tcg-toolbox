@@ -7,15 +7,19 @@ export const routes: Routes = [
       path: 'home',
       data: {
         title: 'Inicio',
+        breadcrumb: { skip: true }
       },
       component: HomeComponent,
     },
     {
-      path: 'price-calc', 
+      path: 'price-calc',
+      data: {
+        breadcrumb: 'Price Calculator'
+      },
       loadChildren: () => import('./pages/price-calc/price-calc.routes').then((m) => m.PRICE_CALCULATOR_ROUTES),
     },
     // {
-    //   path: 'games', 
+    //   path: 'games',
     //   loadChildren: () => import('./pages/games/games.routes').then((m) => m.GAMES_ROUTES),
     // },
     {
@@ -29,4 +33,4 @@ export const routes: Routes = [
       pathMatch: 'full'
     },
 ];
-  
+
