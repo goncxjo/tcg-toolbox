@@ -1,8 +1,8 @@
 import { inject } from "@angular/core";
 import { ResolveFn, Router } from "@angular/router";
-import { CardListService } from "../../backend";
+import { CardListService } from "../../../backend";
 import { tap } from "rxjs";
-import { LoaderService } from "../../core";
+import { LoaderService } from "../../../core";
 import { ToastrService } from "ngx-toastr";
 
 export const getByIdResolver: ResolveFn<Object> = (route, state) => {

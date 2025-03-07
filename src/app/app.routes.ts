@@ -11,8 +11,8 @@ export const routes: Routes = [
       component: HomeComponent,
     },
     {
-      path: 'card-lists', 
-      loadChildren: () => import('./pages/card-lists/card-lists.routes').then((m) => m.CARD_LISTS_ROUTES),
+      path: 'price-calculator', 
+      loadChildren: () => import('./pages/price-calculator/price-calculator.routes').then((m) => m.PRICE_CALCULATOR_ROUTES),
     },
     // {
     //   path: 'games', 

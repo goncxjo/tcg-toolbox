@@ -19,7 +19,7 @@
                 <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/card-lists']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Listas</a>
+                <a class="nav-link" [routerLink]="['price-calculator','card-lists']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Listas</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank' (click)="activeOffcanvas.dismiss('link')">Quiero donar</a>

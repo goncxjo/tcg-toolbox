@@ -1,22 +1,22 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowDown91, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
-import { LoaderService } from '../../../core';
+import { LoaderService } from '../../../../core';
 import { ToastrService } from 'ngx-toastr';
-import { DolarDataService } from '../../../core/services/dolar.data.service';
-import { DataService } from '../../../core/services/data.service';
-import { Card, CardList, CardListService } from '../../../backend';
+import { DolarDataService } from '../../../../core/services/dolar.data.service';
+import { DataService } from '../../../../core/services/data.service';
+import { Card, CardList, CardListService } from '../../../../backend';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import _ from 'lodash';
 import { NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ExportImgComponent } from '../../../components/cards/modals/export-img/export-img.component';
+import { ExportImgComponent } from '../../../../components/cards/modals/export-img/export-img.component';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CardInfoComponent } from '../../../components/cards/card-info/card-info.component';
-import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
-import { UserService } from '../../../core/services/user.service';
-import { ConfirmComponent } from '../../../shared/modals/confirm/confirm.component';
+import { CardInfoComponent } from '../../../../components/cards/card-info/card-info.component';
+import { cardsStorage } from '../../../../utils/type-safe-localstorage/card-storage';
+import { UserService } from '../../../../core/services/user.service';
+import { ConfirmComponent } from '../../../../shared/modals/confirm/confirm.component';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
@@ -214,7 +214,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
 
     const onSuccess = () => {
       this.toastr.success('El registro fue guardado.', 'Guardar');
-      this.router.navigate(['card-lists']);
+      this.router.navigate(['price-calculator','card-lists']);
     }
   
     const onError = (err: Error) => {

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ControlContainer, FormControl, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CardListFilters } from '../../../backend';
+import { CardListFilters } from '../../../../backend';
 
 @Component({
   selector: 'app-card-list-filters',

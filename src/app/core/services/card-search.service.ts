@@ -22,7 +22,7 @@ export class CardSearchService {
 
         modalRef.result.then((result: string) => {
             if (result == "create") {
-                this.router.navigate(['/card-lists/create']);
+                this.router.navigate(['/price-calculator/card-lists/create']);
             }
         })
     }

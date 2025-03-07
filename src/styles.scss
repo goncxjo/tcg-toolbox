@@ -213,7 +213,7 @@ nav {
 }
 
 .app-offcanvas {
-	height: calc($app-navbar-height-default - $hr-margin-y);
+	height: $app-navbar-height-default;
 	padding-top: $navbar-padding-y;
 	padding-bottom: 0;
 

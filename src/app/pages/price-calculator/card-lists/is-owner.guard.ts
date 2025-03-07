@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
-import { UserService } from "../../core";
+import { UserService } from "../../../core";
 import { ToastrService } from "ngx-toastr";
 
 export const isOwnerGuard: CanActivateFn =  (route, state) => {

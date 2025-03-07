@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import { ColDef } from 'ag-grid-community'; // Column Definition Type Interface
-import { CardListList, CardListService } from '../../../backend';
+import { CardListList, CardListService } from '../../../../backend';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { faPlus, faSearch, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import _ from 'lodash';
-import { ActionButtonComponent } from '../../../shared/ag-grid/action-button/action-button.component';
+import { ActionButtonComponent } from '../../../../shared/ag-grid/action-button/action-button.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmComponent } from '../../../shared/modals/confirm/confirm.component';
+import { ConfirmComponent } from '../../../../shared/modals/confirm/confirm.component';
 import { ToastrService } from 'ngx-toastr';
-import { AgGridService } from '../../../core/services/ag-grid.service';
+import { AgGridService } from '../../../../core/services/ag-grid.service';
 import { CardListFiltersComponent } from '../card-list-filters/card-list-filters.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -56,12 +56,12 @@ export class CardListsListComponent implements AfterViewInit {
  
   onEditBtnClick(e: any) {
     const id = e.rowData.id;
-    this.router.navigate(['card-lists', id, 'edit']);
+    this.router.navigate(['price-calculator','card-lists', id, 'edit']);
   }
   
   onViewBtnClick(e: any) {
     const id = e.rowData.id;
-    this.router.navigate(['card-lists', id]);
+    this.router.navigate(['price-calculator','card-lists', id]);
   }
   
   onDeleteBtnClick(e: any) {
