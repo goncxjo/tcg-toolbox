@@ -1,24 +1,15 @@
 <div class="fixed-top">
   <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
     <div class="container">
+      <ul class="navbar-nav mb-lg-0" (click)="openSettingsOffcanvas()">
+        <li class="nav-item">
+          <a class="nav-link nav-search-button">
+            <fa-icon [icon]="menuIcon" />
+          </a>   
+        </li>
+      </ul>
       <div class="collapse navbar-collapse">
-        <app-logo></app-logo>
-        <ul class="navbar-nav me-auto ms-3 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/card-lists']" [routerLinkActive]="['active']">Mis listas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero donar</a>
-          </li>
-          @if(isLoggedIn()) {
-            <li class="nav-item">
-              <a class="nav-link" (click)="logout()">Cerrar sesión</a>
-            </li>
-          }
-        </ul>
+        <app-logo class="flex-grow-1"></app-logo>
         <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
           <div class="input-group input-group-sm">
             <span class="input-group-text bg-light border-light">
@@ -39,14 +30,6 @@
           </li>
         </ul>
       </div>
-
-      <ul class="navbar-nav me-auto ms-3 mb-lg-0" (click)="openSettingsOffcanvas()">
-        <li class="nav-item">
-          <a class="nav-link nav-search-button">
-            <fa-icon [icon]="menuIcon" />
-          </a>   
-        </li>
-      </ul>
     </div>
   </nav>
   <app-dolar></app-dolar>

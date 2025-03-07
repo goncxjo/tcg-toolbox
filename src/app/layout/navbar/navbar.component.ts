@@ -55,7 +55,7 @@ export class NavbarComponent {
 
 	openSettingsOffcanvas() {
     this.isMenuCollapsed = !this.isMenuCollapsed;
-		this.offcanvasService.open(SettingsComponent, { position: 'end', panelClass: 'bg-primary text-bg-dark' }).result.then(
+		this.offcanvasService.open(SettingsComponent, { panelClass: 'bg-primary text-bg-dark' }).result.then(
 			(result) => {
         this.isMenuCollapsed = !this.isMenuCollapsed;
 			},
