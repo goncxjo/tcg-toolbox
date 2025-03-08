@@ -56,12 +56,12 @@ export class CardListsListComponent implements AfterViewInit {
  
   onEditBtnClick(e: any) {
     const id = e.rowData.id;
-    this.router.navigate(['price-calc','card-lists', id, 'edit']);
+    this.router.navigate(['/price-calc','card-lists', id, 'edit']);
   }
   
   onViewBtnClick(e: any) {
     const id = e.rowData.id;
-    this.router.navigate(['price-calc','card-lists', id]);
+    this.router.navigate(['/price-calc','card-lists', id]);
   }
   
   onDeleteBtnClick(e: any) {

@@ -6,7 +6,7 @@ import { createResolver } from './create.resolver';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { isOwnerGuard } from './is-owner.guard';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['price-calc','card-lists','create']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/price-calc','card-lists','new']);
 
 export const CARD_LISTS_ROUTES: Routes = [
   {
