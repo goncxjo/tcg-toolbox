@@ -15,18 +15,24 @@
         <hr>
     
         <ul class="navbar-nav">
+            @if(isLoggedIn()){
+                <li class="nav-item">
+                    <a class="nav-link" (click)="logout()">Cerrar sesión</a>
+                </li>    
+            } @else {
+                <li class="nav-item">
+                    <a class="nav-link" (click)="login()">Iniciar sesión</a>
+                </li>    
+            }
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['price-calc','card-lists']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Listas</a>
+                <a class="nav-link" [routerLink]="['price-calc','card-lists']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Calculadora / Mis listas</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank' (click)="activeOffcanvas.dismiss('link')">Quiero donar</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" (click)="logout()">Cerrar sesión</a>
-              </li>    
         </ul>
 
         <hr>

@@ -53,8 +53,16 @@ export class SettingsComponent {
     return this.userService.getUserName()
   }
 
+  login() {
+    this.userService.loginWithGoogle();
+  }
+
   logout() {
-    return this.userService.logout()
+    this.userService.logout();
+  }
+
+  isLoggedIn() {
+    return this.userService.isLoggedIn();
   }
 
   toggleTheme() {
