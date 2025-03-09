@@ -47,7 +47,7 @@ export const CARD_LISTS_ROUTES: Routes = [
       entity: getByIdResolver
     },
     component: CardListsEditComponent,
-    canActivate: [AuthGuard, isOwnerGuard],
+    canActivate: [AuthGuard],
     data: {
       title: 'Editar',
       breadcrumb: 'Editar',

@@ -3,8 +3,10 @@ import { ResolveFn, Router } from "@angular/router";
 import { CardListService } from "../../../backend";
 import { tap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { UserService } from "../../../core";
 
 export const getByIdResolver: ResolveFn<Object> = (route, state) => {
+    const userId = inject(UserService).getUserId();
     const toastrService = inject(ToastrService);
     const router = inject(Router);
 
@@ -14,6 +16,11 @@ export const getByIdResolver: ResolveFn<Object> = (route, state) => {
             if (!c) {
                 toastrService.error('La lista no existe', 'Error')
                 router.navigate(['/404-not-found'], { skipLocationChange: true });
+            }
+            console.log(userId,c.user);
+            if (route.data['editMode'] && userId !== c.user) {
+                toastrService.info('No puede editar listas de otros usuarios')
+                router.navigate(['/home']);
             }
         })
     )
