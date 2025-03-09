@@ -184,8 +184,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   buildForm() {
     return this.formBuilder.group({
       id: '',
-      name: { value: '', required: Validators.required, disabled: this.readonly },
-      description: { value: '', required: false, disabled: this.readonly },
+      name: [{ value: '', disabled: this.readonly }, Validators.required],
+      description: [{ value: '', disabled: this.readonly }],
       createdAt: '',
       updatedAt: '',
     })
