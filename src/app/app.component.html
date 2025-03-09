@@ -1,7 +1,16 @@
 <app-navbar #navbar></app-navbar>
 <div class="b-divider no-bg divider-nav-height mt-3"></div>
 <div #appContainer [class.container]="applyContainer" class="flex-grow-1">
-      <xng-breadcrumb></xng-breadcrumb>
+      <xng-breadcrumb>
+            <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                        <ng-container *xngBreadcrumbItem="let breadcrumb">
+                              <ng-container>{{ breadcrumb }}</ng-container>
+                        </ng-container>
+            
+                  </ol>
+                </nav>
+      </xng-breadcrumb>
       <router-outlet></router-outlet>
 </div>
 

@@ -231,6 +231,10 @@ hr {
 	border-radius: 0;
 }
 
+.xng-breadcrumb-link {
+	@extend .link-primary;
+}
+
 // .nav-default-height {
 // 	height: $app-navbar-height-default;
 // }
