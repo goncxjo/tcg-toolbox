@@ -1,15 +1,16 @@
-import { AfterViewChecked, AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRight, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, catchError, debounceTime, iif, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, catchError, debounceTime, iif, of, switchMap, take, takeLast, tap } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
 import { DataService } from '../../../core/services/data.service';
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
+import { CardListFiltersComponent } from '../../../pages/price-calc/card-lists/card-list-filters/card-list-filters.component';
 
 @Component({
   selector: 'app-card-search-modal',
@@ -18,18 +19,20 @@ import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage
   templateUrl: './card-search-modal.component.html',
   styleUrl: './card-search-modal.component.scss',
 })
-export class CardSearchModalComponent {
+export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
   filtersIcon = faSliders;
   closeIcon = faTimes;
   goIcon = faArrowRight
 
+  @ViewChild('cardSearchFilters') filters!: CardListFiltersComponent;
 	activeModal = inject(NgbActiveModal);
   
   searchCard$ = new BehaviorSubject<string>('');
   cardSearchTextInput = new FormControl();
   searching = false;
+  filterSub!: Subscription;
 
   get term() {
     return this.cardSearchTextInput.value;
@@ -64,7 +67,7 @@ export class CardSearchModalComponent {
     }, 1000);
   }
 
-  doCardSearch(continueSearch: boolean = false) {
+  applyFilter(continueSearch: boolean = false) {
     this.page = continueSearch ? this.page + 1 : 1;
     this.searchCard$.next(this.cardSearchTextInput.value)
   }
@@ -130,6 +133,22 @@ export class CardSearchModalComponent {
   add() {
     this.sendData();
     this.activeModal.close('add');
+  }
+
+  clearTerm() {
+    this.cardSearchTextInput.setValue('');
+  }
+
+  ngAfterViewInit() {
+    this.filterSub = this.filters.childForm.valueChanges.pipe(
+      take(1)
+    ).subscribe(res => {
+      this.applyFilter();
+    })
+  }
+
+  ngOnDestroy() {
+    this.filterSub.unsubscribe();
   }
 }
 

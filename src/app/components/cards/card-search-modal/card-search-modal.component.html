@@ -1,24 +1,22 @@
 <div class="modal-header pb-0">
     <div class="row flex-grow-1">
-        <!-- <div class="col-12 px-5">
-            <app-game-selector [size]="'sm'"></app-game-selector>
-        </div> -->
         <div class="col-12">
             <div class="card">
                 <div class="card-body p-2">
                     <form class="d-flex flex-grow-1 align-items-center"
-                    (keydown.enter)="$event.preventDefault()" (keydown.shift.enter)="$event.preventDefault()"
+                        (keydown.enter)="$event.preventDefault()"
+                        (keydown.shift.enter)="$event.preventDefault()"
                     >
                         <div class="d-flex flex-grow-1 align-items-center">
                             <input
                                 type="text" class="form-control form-control pe-0 border-0 shadow-none" placeholder="Buscar carta..." 
                                 [formControl]="cardSearchTextInput"
-                                (input)="doCardSearch()"
+                                (input)="applyFilter()"
                             >
-                            <button type="button" class="btn btn-link border-0" (click)="toggleBusquedaAvanzada()">
+                            <button type="button" class="btn border-0 shadow-none" (click)="toggleBusquedaAvanzada()">
                                 <fa-icon [icon]="filtersIcon" style="fill-opacity: .5;"></fa-icon>
                             </button>
-                            <button type="button" class="btn btn-outline-danger  border-0" (click)="activeModal.close('cancel')">
+                            <button type="button" class="btn border-0 shadow-none" (click)="clearTerm()">
                                 <fa-icon [icon]="closeIcon"></fa-icon>
                             </button>
                         </div>
@@ -29,11 +27,9 @@
     </div>
 </div>
 <div class="modal-body">
-    @if (mostrarBusquedaAvanzada) {
-        <form [formGroup]="form">
-            <app-card-search-filters></app-card-search-filters>
-        </form>
-}
+    <form [formGroup]="form" [hidden]="!mostrarBusquedaAvanzada">
+        <app-card-search-filters #cardSearchFilters></app-card-search-filters>
+    </form>
     @if (cards$ | async; as cards) {
         <div class="list-group">
             @for (card of resultCards; track $index) {
@@ -47,7 +43,7 @@
                     </div>
                 </button>
             }
-            @if(term && resultCards.length == 0) {
+            @if(term != '' && term?.length > 3 && resultCards.length == 0) {
                 <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
                     <fa-icon [icon]="warningIcon" class="me-3"/>
                     <span>
@@ -56,7 +52,7 @@
                 </div>
             }
             @if((page * pageSize) < cards.total) {  
-                <button type="button" class="text-bg-primary text-center list-group-item list-group-item-action" (click)="doCardSearch(true)">
+                <button type="button" class="text-bg-primary text-center list-group-item list-group-item-action" (click)="applyFilter(true)">
                     <div class="d-flex flex-row align-items-center">
                         <div class="col d-flex flex-column text-truncate">
                             Mostrar más resultados
@@ -69,8 +65,11 @@
 </div>
 <div class="modal-footer">
     <div class="flex-grow-1">
-        Cartas seleccionadas: <span class="fw-bold">{{ this.selectedCards.length }}</span>
+        Seleccionadas: <span class="fw-bold">{{ this.selectedCards.length }}</span>
     </div>
+    <button type="button" class="btn btn-secondary"  (click)="activeModal.close('cancel')">
+        Cancelar
+    </button>
     @if (isUpdateMode) {
         <button type="button" class="btn btn-primary" (click)="add()" [disabled]="noCards">
             Agregar

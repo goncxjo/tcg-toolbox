@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ControlContainer, FormControl, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CardListFilters } from '../../../../backend';
 
@@ -20,7 +20,7 @@ import { CardListFilters } from '../../../../backend';
   ],
 })
 export class CardListFiltersComponent {
-  childForm: any;
+  childForm!: FormGroup<any>;
 
   @Input() isDisabled: boolean = false;
   
