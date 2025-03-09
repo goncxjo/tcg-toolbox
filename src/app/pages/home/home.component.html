@@ -20,16 +20,6 @@
                 </button>
             </div>
             }
-            @else {
-            <p class="col-12 col-lg-8 fs-4">
-                ¿Querés cerrar sesión?
-            </p>
-            <div class="d-grid gap-3 d-sm-flex">
-                <button class="btn btn-primary" type="button" (click)="logout()">
-                    Cerrar sesión
-                </button>
-            </div>
-            }
         </div>
     </div>
 </div>
@@ -47,9 +37,16 @@
             <div class="text-white">
                 <h3 class="fs-2">{{tool.title}}</h3>
                 <p>{{tool.description}}</p>
-                <a class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists', 'new']">
-                    Calcular
-                </a>
+                <div class="d-flex d-grid gap-3 mb-3">
+                    @if(isLoggedIn()) {
+                        <button type="button" class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists']">
+                            Mis listas
+                        </button>
+                    }
+                    <button type="button" class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists', 'new']">
+                        Calcular
+                    </button>
+                </div>
             </div>
         </div>
         }
