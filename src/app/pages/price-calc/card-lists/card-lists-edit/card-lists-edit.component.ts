@@ -176,6 +176,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
     const onError = () => { };
 
 		const modalInstance = this.modalService.open(ExportImgComponent, { fullscreen: true });
+    history.pushState(null, window.document.URL);
     modalInstance.componentInstance.cards = this.cards;
     modalInstance.result.then(onModalSuccess, onError);
   }

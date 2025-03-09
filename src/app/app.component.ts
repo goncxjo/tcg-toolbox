@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, ResolveEnd, ResolveStart, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
@@ -6,10 +6,10 @@ import { LoaderService } from './core';
 import { filter, map } from 'rxjs';
 import { LoadingScreenComponent } from './layout/loading-screen/loading-screen.component';
 import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
-
 
 @Component({
   selector: 'app-root',
@@ -25,8 +25,18 @@ export class AppComponent {
   constructor(
     private router: Router,
     private loaderService: LoaderService,
-    private elRef: ElementRef
-  ) { }
+    private modalService: NgbModal
+  ) {}
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: Event) {
+    if (this.modalService.hasOpenModals()) {
+      history.pushState(null, window.document.URL);
+      this.modalService.dismissAll();
+    } else {
+      history.back();
+    }
+  }
 
   ngOnInit() {
     this.router.events.pipe(

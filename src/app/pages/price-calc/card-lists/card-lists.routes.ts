@@ -4,7 +4,6 @@ import { CardListsEditComponent } from './card-lists-edit/card-lists-edit.compon
 import { getByIdResolver }  from './get-by-id.resolver';
 import { createResolver } from './create.resolver';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
-import { isOwnerGuard } from './is-owner.guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/price-calc','card-lists','new']);
 
