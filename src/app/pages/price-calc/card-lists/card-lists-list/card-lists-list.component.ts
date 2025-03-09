@@ -72,6 +72,7 @@ export class CardListsListComponent implements AfterViewInit {
   openConfirm(entity: CardListList) {
     const onSuccess = () => {
       this.toastr.success('El registro ha sido eliminado.', 'Eliminado');
+      this.applyFilter();
     }
 
     const onModalSuccess = (result: string) => {
