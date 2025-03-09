@@ -28,6 +28,8 @@
                     [autoSizeStrategy]="agGridService.autoSizeStrategy" [getRowHeight]="agGridService.getRowHeight" 
                     (firstDataRendered)="agGridService.onFirstDataRendered($event)"
                     (gridSizeChanged)="agGridService.onGridSizeChanged($event)" (gridReady)="agGridService.onGridReady($event)"
+                    [suppressDragLeaveHidesColumns]="true"
+                    [suppressMoveWhenColumnDragging]="true"
                     [gridOptions]="agGridService.gridOptions">
                 </ag-grid-angular>
             }
