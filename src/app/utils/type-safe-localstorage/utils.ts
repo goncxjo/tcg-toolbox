@@ -1,6 +1,6 @@
-import { Card } from './types';
+import { CardExport } from './types';
 
-export function isValidCards(items: unknown): items is Card[] {
+export function isValidCards(items: unknown): items is CardExport[] {
   if (!items || !Array.isArray(items)) {
     return false;
   }
@@ -14,7 +14,7 @@ export function isValidCards(items: unknown): items is Card[] {
   return true;
 }
 
-export function isValidCardFields(item: unknown): item is Card {
+export function isValidCardFields(item: unknown): item is CardExport {
   if (!item || typeof item !== 'object') {
     return false;
   }

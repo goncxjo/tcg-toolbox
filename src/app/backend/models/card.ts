@@ -17,15 +17,18 @@ export class Card {
 	expansion_name: string = '';
 	tcg_player_url: string = '';
 	price: CardPrice = new CardPrice();
-	selectedPrice: string = 'custom';
+	selectedPrice: string = '';
 	prices: Map<string, CardPrice | null> = new Map<string, CardPrice | null>();
 	multiplier: number = 1;
 	releaseDate: Date | null = null;
 	infoReduced: boolean = true;
 	image_base64: Blob | null = null;
+
 	tcgPlayerId: number | null = null;
   	qty: number = 1;
-	
+	customCurrency: string = 'ARS';
+	customPrice: number = 0;
+
 	constructor() {
 		this.prices.set("custom", new CardPrice());
 		this.tcgPlayerId = this.tcg_player_id;
@@ -63,37 +66,37 @@ export class Card {
 		}
 	}
 
-	exportEntity() {
-		const model = {
-			tcg_player_id: this.tcg_player_id,
-			code: this.code.default,
-			multiplier: this.multiplier,
-			customPrice: this.prices.get('custom')
-		} as CardExport;
-		return model;
-	}
+	// exportEntity() {
+	// 	const model = {
+	// 		tcg_player_id: this.tcg_player_id,
+	// 		code: this.code.default,
+	// 		multiplier: this.multiplier,
+	// 		customPrice: this.prices.get('custom')
+	// 	} as CardExport;
+	// 	return model;
+	// }
 
-	exportString() {
-		const model = this.exportEntity();
-		const customPrice: string = `${model.customPrice?.currency_symbol} ${model.customPrice?.currency_value}`
-		return `${model.tcg_player_id}_${model.code}_${model.multiplier}_${customPrice}`;
-	}
+	// exportString() {
+	// 	const model = this.exportEntity();
+	// 	const customPrice: string = `${model.customPrice?.currency_symbol} ${model.customPrice?.currency_value}`
+	// 	return `${model.tcg_player_id}_${model.code}_${model.multiplier}_${customPrice}`;
+	// }
 
-	mapExportToEntity(value: string) {
-		try {
-			const [tcg_player_id, code, multiplier, customPriceString] = value.split('_');
-			const customPrice = new CardPrice();
-			customPrice.setPrice(customPriceString);
+	// mapExportToEntity(value: string) {
+	// 	try {
+	// 		const [tcg_player_id, code, multiplier, customPriceString] = value.split('_');
+	// 		const customPrice = new CardPrice();
+	// 		customPrice.setPrice(customPriceString);
 	
-			this.tcg_player_id = parseInt(tcg_player_id);
-			this.code = new CardCode(code);
-			this.multiplier = parseInt(multiplier);
-			this.prices.set('custom', customPrice);
+	// 		this.tcg_player_id = parseInt(tcg_player_id);
+	// 		this.code = new CardCode(code);
+	// 		this.multiplier = parseInt(multiplier);
+	// 		this.prices.set('custom', customPrice);
 				
-		} catch (error) {
-			console.log(`error al mapear #${value}`)
-		}
-	}
+	// 	} catch (error) {
+	// 		console.log(`error al mapear #${value}`)
+	// 	}
+	// }
 
 	getPrecioOrDefault() {
 		if (this.selectedPrice) {
@@ -151,10 +154,3 @@ export class CardCode {
 	}
 }
 
-export interface CardExport {
-	tcg_player_id: number;
-	code: string;
-	selectedPrice: string;
-	customPrice: CardPrice;
-	multiplier: number;
-}

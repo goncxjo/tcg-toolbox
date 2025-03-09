@@ -101,8 +101,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
             this.form.patchValue(cardList);
           } else {
             if (!this.dataService.cardsLength()) {
-              const tmpCards = cardsStorage.getItems() as Card[]
-              this.dataService.set(tmpCards);
+              const tmpCards = cardsStorage.getItems();
+              this.dataService.setFromTmp(tmpCards);
             }
             setTimeout(() => {
               cardList.cards = _.clone(this.cards());
@@ -235,7 +235,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
         description: formRawValue.description ?? '',
         createdAt: formRawValue?.createdAt ?? '',
         updatedAt: formRawValue?.updatedAt ?? '',
-        cards: _.map(this.cards(), card => { return { tcgPlayerId: card.tcg_player_id ?? 0, qty: card.multiplier } })
+        cards: this.dataService.getAllMiniCard()
       };
 
       if (this.id) {

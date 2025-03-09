@@ -59,8 +59,8 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
     private dataService: DataService
   ) {
     if (!this.dataService.cardsLength()) {
-      const tmpCards = cardsStorage.getItems() as Card[]
-      this.dataService.set(tmpCards);
+      const tmpCards = cardsStorage.getItems()
+      this.dataService.setFromTmp(tmpCards);
     }
     setTimeout(() => {
       this.selectedCards = _.clone(this.dataService.cards())

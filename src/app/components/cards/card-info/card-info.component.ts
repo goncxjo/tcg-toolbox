@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, computed, effect } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription, debounceTime, distinctUntilChanged, firstValueFrom, map, of, switchMap, tap } from 'rxjs';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { style, transition, trigger, animate } from '@angular/animations';
-import { Card, CardPrice, Dolar, TcgPlayerService } from '../../../backend';
+import { Card, CardPrice } from '../../../backend';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DolarDataService } from '../../../core/services/dolar.data.service';
 import { DataService } from '../../../core/services/data.service';
 import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons';
 
@@ -33,12 +32,11 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private dataService: DataService,
-    private dolarService: DolarDataService
   ) {}
 
   ngAfterViewInit() {
     this.setPrecioCarta();
-
+    this.customPriceInput.setValue(this.data.customPrice);
     this.customPrice$ = this.customPriceInput.valueChanges
     .pipe(
       debounceTime(300),

@@ -1,4 +1,4 @@
-import { Card } from './types';
+import { CardExport } from './types';
 import { CustomStorage } from './custom-storage';
 import { isValidCardFields, isValidCards } from './utils';
 
@@ -6,17 +6,17 @@ const STORAGE_ITEMS_KEY = 'cards';
 
 class CardsStorage {
   private static instance: CardsStorage;
-  private storage: CustomStorage<Card>;
+  private storage: CustomStorage<CardExport>;
 
   private constructor() {
-    this.storage = new CustomStorage<Card>(STORAGE_ITEMS_KEY);
+    this.storage = new CustomStorage<CardExport>(STORAGE_ITEMS_KEY);
   }
 
   public static getInstance(): CardsStorage {
     return this.instance ?? (this.instance = new CardsStorage());
   }
 
-  public getItems(): Card[] {
+  public getItems(): CardExport[] {
     try {
       const items = this.storage.getItems() ?? [];
       if (!isValidCards(items)) {
@@ -30,7 +30,7 @@ class CardsStorage {
     }
   }
 
-  public addItem(item: Card): void {
+  public addItem(item: CardExport): void {
     try {
       if (!isValidCardFields(item)) {
         throw new Error('Invalid item fields');
@@ -41,14 +41,14 @@ class CardsStorage {
         throw new Error('Invalid items');
       }
 
-      const items: Card[] = [...currentItems, item];
+      const items: CardExport[] = [...currentItems, item];
       this.storage.setItems(items);
     } catch (error: unknown) {
       this.logError(error);
     }
   }
   
-  public setItems(items: Card[]): void {
+  public setItems(items: CardExport[]): void {
     try {
       const currentItems = this.storage.getItems() ?? [];
       if (!isValidCards(currentItems)) {
