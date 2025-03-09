@@ -8,13 +8,12 @@ import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { CardSearchService } from '../../core';
-import { DolarComponent } from '../dolar/dolar.component';
 import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [LogoComponent, DolarComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
+  imports: [LogoComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

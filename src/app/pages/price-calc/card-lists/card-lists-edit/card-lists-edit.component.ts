@@ -19,11 +19,12 @@ import { UserService } from '../../../../core/services/user.service';
 import { ConfirmComponent } from '../../../../shared/modals/confirm/confirm.component';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ContentInfoComponent } from '../../../../shared/content-info/content-info.component';
+import { DolarComponent } from '../../../../layout/dolar/dolar.component';
 
 @Component({
   selector: 'app-card-lists-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule, ContentInfoComponent],
+  imports: [DolarComponent, ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule, ContentInfoComponent],
   templateUrl: './card-lists-edit.component.html',
   styleUrl: './card-lists-edit.component.scss'
 })
