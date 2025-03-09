@@ -1,11 +1,13 @@
 <div class="brand" (click)="goHome()">
   <img id="brand-logo" src="assets/logo.svg" alt="TCG Price Calculator">
   <span id="app-title" class="d-flex text-start">
-    <span id="app-title" class="d-flex text-start">
-      <div class="right">
-          <div>&nbsp;.*TCG</div>
-          <div>TOOLBOX</div>
-      </div>
-    </span>
+    <div class="right">
+      <div>&nbsp;.*TCG</div>
+      <div>TOOLBOX</div>
+    </div>
   </span>
+  @if(!isProdEnvironment()) {
+    <span class="badge rounded-pill text-bg-danger ms-2">beta</span>
+  }
+
 </div>

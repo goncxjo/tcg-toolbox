@@ -11,7 +11,10 @@ function AppVersionFactory(config: AppConfigService) {
   return config.get().appVersion;
 }
 function CryptoSecretKeyFactory(config: AppConfigService) {
-  return config.get().CRYPTO_SECRET_KEY;;
+  return config.get().CRYPTO_SECRET_KEY;
+}
+function AppIsProductionFactory(config: AppConfigService) {
+  return config.get().production;
 }
 
 export function initializeApplicationConfig(): EnvironmentProviders {
@@ -34,6 +37,10 @@ export function initializeApplicationConfig(): EnvironmentProviders {
     { provide: "CRYPTO_SECRET_KEY",
       useFactory: CryptoSecretKeyFactory,
       deps: [AppConfigService],
-    }
+    },
+    { provide: "production",
+      useFactory: AppIsProductionFactory,
+      deps: [AppConfigService],
+    },
   ]);
 }
