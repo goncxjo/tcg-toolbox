@@ -24,11 +24,17 @@ export const routes: Routes = [
     // },
     {
       path: '',
+      data: {
+        breadcrumb: { skip: true }
+      },
       redirectTo: 'home',
       pathMatch: 'full'
     },
     {
       path: '**',
+      data: {
+        breadcrumb: { skip: true }
+      },
       component: NotFoundComponent,
       pathMatch: 'full'
     },
