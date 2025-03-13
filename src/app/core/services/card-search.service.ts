@@ -25,7 +25,7 @@ export class CardSearchService {
         });
 
         modalRef.result.then((result: string) => {
-            this.sidebarService.expand();
+            this.sidebarService.collapse();
             if (result == "new") {
                 this.router.navigate([this.toolService.getSelectedToolPath(),'card-lists', 'new']);
             }

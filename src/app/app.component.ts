@@ -3,12 +3,13 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Reso
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { LoaderService } from './core';
-import { filter, map } from 'rxjs';
+import { distinctUntilChanged, filter, map, Subscription, tap } from 'rxjs';
 import { LoadingScreenComponent } from './layout/loading-screen/loading-screen.component';
 import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
-import { NgbCollapse, NgbCollapseModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SidebarService } from './core/services/sidebar.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -24,12 +25,18 @@ export class AppComponent {
   title = 'tcg-toolbox';
   applyContainer: boolean = false;
   isSidebarCollapsed: boolean = false;
+  bs!: Subscription;
+
+  readonly breakpoint$ = this.breakpointObserver
+  .observe([Breakpoints.Small, Breakpoints.XSmall])
+  .pipe(distinctUntilChanged());
 
   constructor(
     private router: Router,
     private loaderService: LoaderService,
     private modalService: NgbModal,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private breakpointObserver: BreakpointObserver
   ) {
     effect(() => {
       this.isSidebarCollapsed = this.sidebarService.isCollapsed();
@@ -48,6 +55,14 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    this.bs = this.breakpoint$.subscribe(() => {
+      if(this.breakpointObserver.isMatched(Breakpoints.Small) || this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+        this.sidebarService.collapse();
+      } else {
+        this.sidebarService.expand();
+      }
+    });
+
     this.router.events.pipe(
       filter(
         (e) =>
@@ -61,7 +76,7 @@ export class AppComponent {
       map((e) => e instanceof NavigationStart || e instanceof ResolveStart)
     ).subscribe(loading => {
       loading ? this.loaderService.show() : this.loaderService.hide();    
-      this.sidebarService.expand();  
+      this.sidebarService.collapse();  
       switch (this.router.url) {
         case '/':
         case '/home':
@@ -74,5 +89,9 @@ export class AppComponent {
           break;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.bs.unsubscribe()
   }
 }

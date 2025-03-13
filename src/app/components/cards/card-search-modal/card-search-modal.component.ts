@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowRight, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faFilter, faSearch, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +22,7 @@ import { CardListFiltersComponent } from '../../../pages/price-calc/card-lists/c
 export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
-  filtersIcon = faSliders;
+  filtersIcon = faFilter;
   closeIcon = faTimes;
   goIcon = faArrowRight
 

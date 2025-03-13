@@ -6,13 +6,7 @@
             </aside>
             <main class="d-flex">
                   <div class="container">
-                        <xng-breadcrumb #breadcrumb>
-                              <div class="card">
-                                    <ng-container *xngBreadcrumbItem="let breadcrumb">
-                                          <ng-container>{{ breadcrumb }}</ng-container>
-                                    </ng-container>
-                              </div>
-                        </xng-breadcrumb>
+                        <xng-breadcrumb #breadcrumb></xng-breadcrumb>
                         <router-outlet></router-outlet>
                   </div>
             </main>
