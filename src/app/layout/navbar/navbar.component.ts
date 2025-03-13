@@ -3,12 +3,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faCalculator, faGear, faHeart, faHome, faList, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { SettingsComponent } from '../settings/settings.component';
 import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { CardSearchService } from '../../core';
 import { UserService } from '../../core/services/user.service';
+import { SidebarService } from '../../core/services/sidebar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -34,10 +34,10 @@ export class NavbarComponent {
     { icon: this.listIcon, command: () => { this.router.navigate(['/price-calc/card-lists'])} },
     { icon: this.searchIcon, command: () => { this.openCardSearchModal() } },
     { icon: this.favIcon, command: () => {} },
-    { icon: this.settingsIcon, command: () => { this.openSettingsOffcanvas() } },
   ];
 
   appThemeService: AppThemeService = inject(AppThemeService);
+  sidebarService: SidebarService = inject(SidebarService);
 
   constructor(
     private offcanvasService: NgbOffcanvas,
@@ -51,15 +51,8 @@ export class NavbarComponent {
     this.cardSearchService.openCardSearchModal();
   }
 
-	openSettingsOffcanvas() {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
-		this.offcanvasService.open(SettingsComponent, { panelClass: 'bg-primary text-bg-dark' }).result.then(
-			(result) => {
-        this.isMenuCollapsed = !this.isMenuCollapsed;
-			},
-			(reason) => {
-			},
-		);
+	toggleSidebar() {
+    this.sidebarService.toggle();
 	}
 
   isLoggedIn() {

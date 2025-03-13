@@ -1,0 +1,60 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+$width-sidebar: 300px;
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    
+    & aside { 
+        overflow-y: auto;
+        text-wrap: nowrap;
+		background-color: $primary-text-emphasis;
+        scrollbar-color: #fff $primary-text-emphasis;
+        min-width: $width-sidebar;
+    }
+
+    & main {
+        flex: 1;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    aside {
+        position: absolute;
+        height: -webkit-fill-available;
+        z-index: 30;
+
+        &:not(.show) {
+            display: block !important;
+        }
+        &.show {
+            display: none !important;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    aside {
+        position: absolute;
+        height: -webkit-fill-available;
+        z-index: 30;
+        min-width: 100% !important;
+
+        &:not(.show) {
+            display: block !important;
+        }
+        &.show {
+            display: none !important;
+        }
+    }
+}

@@ -31,15 +31,16 @@ app-root {
 $font-family-base: "Montserrat", -apple-system, sans-serif !important;
 $app-navbar-height-default: 4rem;
 
+$web-font-path: false;
 /* Importing Bootstrap SCSS file. */
-@import './assets/bootswatch/zephyr/variables';
+@import 'bootswatch/dist/zephyr/variables';
 @import 'bootstrap/scss/bootstrap';
-@import './assets/bootswatch/zephyr/bootswatch';
+@import 'bootswatch/dist/zephyr/bootswatch';
 
 // regular style toast
 @import 'ngx-toastr/toastr';
 @import 'ngx-toastr/toastr-bs5-alert';
-  
+
 .btn-circle.btn-xl {
     width: 70px;
     height: 70px;

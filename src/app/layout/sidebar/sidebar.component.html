@@ -1,19 +1,5 @@
 <div class="offcanvas-container">
-    <div class="app-offcanvas offcanvas-header py-0">
-        <div class="mt-2 d-flex align-items-center">
-            <!-- <fa-icon [icon]="userIcon" size="2x"></fa-icon> -->
-            <span class="ms-3 user-name ">
-                {{ getUserName() }}
-            </span>
-        </div>    
-        <button class="navbar-toggler border-0 app-nav-btn p-2" type="button" (click)="activeOffcanvas.dismiss('close')">
-            <fa-icon [icon]="closeIcon"></fa-icon>
-        </button>
-    
-    </div>
-    <div class="offcanvas-body pt-0">
-
-        <br>
+    <div class="offcanvas-body pt-3 px-3">
         <ul class="navbar-nav">
             @if(isLoggedIn()){
                 <li class="nav-item">
@@ -25,13 +11,13 @@
                 </li>    
             }
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Inicio</a>
+                <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="expand()">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['price-calc','card-lists']" [routerLinkActive]="['active']" (click)="activeOffcanvas.dismiss('link')">Calculadora / Mis listas</a>
+                <a class="nav-link" [routerLink]="['price-calc','card-lists']" [routerLinkActive]="['active']" (click)="expand()">Calculadora / Mis listas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank' (click)="activeOffcanvas.dismiss('link')">Quiero donar</a>
+                <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank' (click)="expand()">Quiero donar</a>
             </li>
         </ul>
 

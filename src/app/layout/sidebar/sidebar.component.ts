@@ -1,6 +1,5 @@
 import { Component, Inject, inject } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
-import { NgbActiveOffcanvas, NgbOffcanvas, NgbOffcanvasModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { faBars, faCircleUser, faMoon, faSun, faTimes } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
@@ -8,15 +7,16 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserService } from '../../core/services/user.service';
+import { SidebarService } from '../../core/services/sidebar.service';
 
 @Component({
-  selector: 'app-settings',
+  selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, NgbOffcanvasModule, LogoComponent],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, LogoComponent],
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.scss'
 })
-export class SettingsComponent {
+export class SidebarComponent {
   closeIcon = faTimes;
   menuIcon = faBars;
   userIcon = faCircleUser;
@@ -36,7 +36,7 @@ export class SettingsComponent {
   }
 
   appThemeService: AppThemeService = inject(AppThemeService);
-  activeOffcanvas: NgbActiveOffcanvas = inject(NgbActiveOffcanvas);
+  sidebarService: SidebarService = inject(SidebarService);
 
   constructor(
     @Inject('APP_VERSION') appVersion: string,
@@ -47,6 +47,10 @@ export class SettingsComponent {
 
   ngOnInit(): void {
     this.theme = this.getTheme();
+  }
+
+  expand() {
+    this.sidebarService.expand();
   }
 
   getUserName() {
@@ -86,5 +90,9 @@ export class SettingsComponent {
 
   getVersionText() {
     return `v${this.appVersion}`
+  }
+
+  dismiss(reason: string) {
+    
   }
 }
