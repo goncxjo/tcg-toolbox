@@ -19,7 +19,7 @@ $width-sidebar: 300px;
         text-wrap: nowrap;
 		background-color: $primary-text-emphasis;
         scrollbar-color: #fff $primary-text-emphasis;
-        min-width: $width-sidebar;
+        max-width: $width-sidebar;
     }
 
     & main {
@@ -33,28 +33,11 @@ $width-sidebar: 300px;
         position: absolute;
         height: -webkit-fill-available;
         z-index: 30;
-
-        &:not(.show) {
-            display: block !important;
-        }
-        &.show {
-            display: none !important;
-        }
     }
 }
 
 @media (max-width: 576px) {
     aside {
-        position: absolute;
-        height: -webkit-fill-available;
-        z-index: 30;
-        min-width: 100% !important;
-
-        &:not(.show) {
-            display: block !important;
-        }
-        &.show {
-            display: none !important;
-        }
+        max-width: 100% !important;
     }
 }

@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserService } from '../../core/services/user.service';
-import { SidebarService } from '../../core/services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -36,7 +35,6 @@ export class SidebarComponent {
   }
 
   appThemeService: AppThemeService = inject(AppThemeService);
-  sidebarService: SidebarService = inject(SidebarService);
 
   constructor(
     @Inject('APP_VERSION') appVersion: string,
@@ -47,10 +45,6 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.theme = this.getTheme();
-  }
-
-  expand() {
-    this.sidebarService.expand();
   }
 
   getUserName() {

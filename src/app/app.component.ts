@@ -60,7 +60,8 @@ export class AppComponent {
       ),
       map((e) => e instanceof NavigationStart || e instanceof ResolveStart)
     ).subscribe(loading => {
-      loading ? this.loaderService.show() : this.loaderService.hide();      
+      loading ? this.loaderService.show() : this.loaderService.hide();    
+      this.sidebarService.expand();  
       switch (this.router.url) {
         case '/':
         case '/home':
@@ -73,9 +74,5 @@ export class AppComponent {
           break;
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this.sidebarService.isCollapsed
   }
 }
