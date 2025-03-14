@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faShareNodes, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
@@ -32,6 +32,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   sortUpIcon = faArrowUp19;
   sortDownIcon = faArrowDown91;
   imageIcon = faImage;
+  shareIcon = faShareNodes;
   closeIcon = faTimes;
   trashIcon = faTrash;
   plusIcon = faPlus;

@@ -13,6 +13,7 @@ import { DataService } from '../../../../core/services/data.service';
 import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { LogoComponent } from '../../../../layout/logo/logo.component';
 import { SortablejsDirective } from '@worktile/ngx-sortablejs';
+import { ContentInfoComponent } from '../../../../shared/content-info/content-info.component';
 
 @Component({
   selector: 'app-export-img',
@@ -28,7 +29,8 @@ import { SortablejsDirective } from '@worktile/ngx-sortablejs';
     CurrencySelectComponent, 
     YesNoSelectComponent, 
     LogoComponent,
-    SortablejsDirective
+    SortablejsDirective,
+    ContentInfoComponent
   ],
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']

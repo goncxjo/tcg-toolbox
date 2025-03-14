@@ -113,7 +113,7 @@
 	@if(noData) {
 		<div class="d-flex flex-column no-cards text-center text-muted justify-content-center px-4">
 			<p class="card-text">No agregaste ninguna carta.</p>
-			<p class="card-text">¡Agregá cartas usando el buscador!</p>
+			<p class="card-text">Agregá cartas utilizando el buscador de barra superior</p>
 		</div>
 	}
 </div>
@@ -141,7 +141,7 @@
 			}
 			@if(!noData) {
 				<button type="button" class="btn btn-primary " (click)="openExportImg()">
-					<fa-icon [icon]="imageIcon" /> Exportar
+					<fa-icon [icon]="shareIcon" /> Compartir
 				</button>	
 				<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
 					<fa-icon [icon]="trashIcon"></fa-icon> Limpiar lista
@@ -152,7 +152,7 @@
 	@else {
 		<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
 			<button type="button" class="btn btn-primary" (click)="openExportImg()">
-				<fa-icon [icon]="imageIcon" /> Exportar
+				<fa-icon [icon]="shareIcon" /> Compartir
 			</button>
 			<button type="button" class="btn btn btn-success" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 				<fa-icon [icon]="copyIcon"/> Copiar URL
