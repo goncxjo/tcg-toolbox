@@ -1,8 +1,8 @@
-import * as uuid from 'uuid';
+import { uniqueId } from 'lodash';
 import { CardPriceTcgPlayer } from './tcg-player';
 
 export class Card {
-	id: string = uuid.v4();		
+	id: string = uniqueId();		
 	name: string = '';
 	fullName: string = '';
 	expansion_id: number = 0;		

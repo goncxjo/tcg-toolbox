@@ -12,7 +12,7 @@ import { Observable, Subscription, debounceTime, distinctUntilChanged, map } fro
 import _ from 'lodash';
 import { NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../../components/cards/modals/export-img/export-img.component';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardInfoComponent } from '../../../../components/cards/card-info/card-info.component';
 import { cardsStorage } from '../../../../utils/type-safe-localstorage/card-storage';
 import { UserService } from '../../../../core/services/user.service';
@@ -48,7 +48,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
 
-  form = this.buildForm();
+  form!: FormGroup;
 
   readonly: boolean = false;
   editMode: boolean = false;
@@ -83,6 +83,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit(): void {
+    this.form = this.buildForm();
+
     this.cardList$ = this.activatedRoute.data
       .pipe(
         map(data => {

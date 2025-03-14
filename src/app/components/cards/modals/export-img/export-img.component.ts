@@ -43,7 +43,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
 
   @ViewChild('content') content!: ElementRef;
 
-  form = this.buildForm();
+  form!: FormGroup;
 
   cards = computed(() => this.dataService.cards());
   actualDate: Date = new Date();
@@ -69,6 +69,8 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   ) { }
   
   ngOnInit(): void {
+    this.form = this.buildForm();
+    
     this.cards().forEach(card => {
       if (!card.image_base64) {
         this.getBase64ImageFromUrl(card.image_url)

@@ -1,5 +1,4 @@
 import { Component, Inject, inject } from '@angular/core';
-import { LogoComponent } from '../logo/logo.component';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { faBars, faCircleUser, faMoon, faSun, faTimes } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
@@ -11,7 +10,7 @@ import { UserService } from '../../core/services/user.service';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, LogoComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })

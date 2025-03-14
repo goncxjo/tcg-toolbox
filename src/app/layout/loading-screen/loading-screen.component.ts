@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { LoaderService } from '../../core';
 
 @Component({
   selector: 'app-loading-screen',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [],
   templateUrl: './loading-screen.component.html',
   styleUrl: './loading-screen.component.scss'
 })

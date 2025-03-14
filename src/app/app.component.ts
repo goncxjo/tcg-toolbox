@@ -5,7 +5,7 @@ import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { LoaderService } from './core';
 import { distinctUntilChanged, filter, map, Subscription, tap } from 'rxjs';
 import { LoadingScreenComponent } from './layout/loading-screen/loading-screen.component';
-import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { NgbCollapseModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SidebarService } from './core/services/sidebar.service';
@@ -17,7 +17,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, BreadcrumbComponent, BreadcrumbItemDirective, NgbCollapseModule],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, BreadcrumbComponent, NgbCollapseModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -26,10 +26,6 @@ export class AppComponent {
   applyContainer: boolean = false;
   isSidebarCollapsed: boolean = false;
   bs!: Subscription;
-
-  readonly breakpoint$ = this.breakpointObserver
-  .observe([Breakpoints.Small, Breakpoints.XSmall])
-  .pipe(distinctUntilChanged());
 
   constructor(
     private router: Router,
@@ -43,6 +39,7 @@ export class AppComponent {
     })
   }
 
+  readonly breakpoint$: any;
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event) {
@@ -55,7 +52,9 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.bs = this.breakpoint$.subscribe(() => {
+    this.bs = this.breakpointObserver
+    .observe([Breakpoints.Small, Breakpoints.XSmall])
+    .pipe(distinctUntilChanged()).subscribe(() => {
       if(this.breakpointObserver.isMatched(Breakpoints.Small) || this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
         this.sidebarService.collapse();
       } else {

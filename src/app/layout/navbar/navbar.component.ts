@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +11,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [LogoComponent, CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive, NgbModalModule],
+  imports: [LogoComponent, CommonModule, FontAwesomeModule, NgbModalModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
