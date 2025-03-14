@@ -36,6 +36,7 @@
     "bootstrap": "^5.3.3",
     "bootswatch": "^5.3.3",
     "colors": "^1.4.0",
+    "dotenv": "^16.4.7",
     "downloadjs": "^1.4.7",
     "html2canvas": "^1.4.1",
     "http": "^0.0.1-security",
