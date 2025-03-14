@@ -1,33 +1,56 @@
-  <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-lg">
-    <div class="container-fluid">
-      <ul class="navbar-nav mb-lg-0" (click)="toggleSidebar()">
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-lg">
+  <div class="container-fluid">
+    <ul class="navbar-nav mb-lg-0" (click)="toggleSidebar()">
+      <li class="nav-item">
+        <a class="nav-link nav-search-button">
+          <fa-icon [icon]="menuIcon" />
+        </a>
+      </li>
+    </ul>
+    <div class="collapse navbar-collapse">
+      <app-logo class="flex-grow-1"></app-logo>
+      <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-light border-light">
+            <fa-icon [icon]="searchIcon" />
+          </span>
+          <input type="text" class="search-bar form-control bg-light border-light" placeholder="Buscar carta...">
+        </div>
+      </form>
+    </div>
+
+    <div class="d-flex flex-grow-1 d-lg-none">
+      <app-logo [showTitle]="false" class="flex-grow-1 align-content-center me-3"></app-logo>
+      <ul class="navbar-nav me-auto ms-3 mb-lg-0" (click)="openCardSearchModal()">
         <li class="nav-item">
           <a class="nav-link nav-search-button">
-            <fa-icon [icon]="menuIcon" />
-          </a>   
+            <fa-icon [icon]="searchIcon" />
+          </a>
         </li>
       </ul>
-      <div class="collapse navbar-collapse">
-        <app-logo class="flex-grow-1"></app-logo>
-        <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
-          <div class="input-group input-group-sm">
-            <span class="input-group-text bg-light border-light">
-              <fa-icon [icon]="searchIcon" />
-            </span>
-            <input type="text" class="search-bar form-control bg-light border-light" placeholder="Buscar carta...">
-          </div>
-        </form>
-      </div>
-
-      <div class="d-flex flex-grow-1 d-lg-none">
-        <app-logo [showTitle]="false" class="flex-grow-1 align-content-center me-3"></app-logo>
-        <ul class="navbar-nav me-auto ms-3 mb-lg-0" (click)="openCardSearchModal()">
-          <li class="nav-item">
-            <a class="nav-link nav-search-button">
-              <fa-icon [icon]="searchIcon" />
-            </a>   
-          </li>
-        </ul>
-      </div>
     </div>
-  </nav>
+    @defer (on timer(1500ms)) {
+      <ul class="navbar-nav ms-2" placement="bottom" [ngbPopover]="popContent" [autoClose]="'outside'">
+      <li class="nav-item user-profile">
+        <img class="nav-user-profile" src="{{ getUser().photoURL }}" id="img">
+      </li>
+    </ul>
+    }
+  </div>
+</nav>
+
+
+<ng-template #popContent>
+  <span>
+    Hola, <b>{{ getUser().displayName }}!</b>
+  </span>
+  <div class="d-grid gap-2 mt-3">
+    @if(!isLoggedIn()) {
+    <button class="btn btn-primary" type="button" (click)="login()">Iniciar sesión</button>
+    }
+    @else {
+    <!-- <button class="btn btn-primary" type="button">Editar perfil</button> -->
+    <button class="btn btn-primary" type="button" (click)="logout()">Cerrar sesión</button>
+    }
+  </div>
+</ng-template>

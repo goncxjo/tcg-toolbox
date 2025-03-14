@@ -4,7 +4,7 @@ import { faArrowRight, faFilter, faSearch, faTimes, faTriangleExclamation } from
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, Subscription, catchError, debounceTime, iif, of, switchMap, take, takeLast, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, catchError, debounceTime, distinctUntilChanged, iif, of, switchMap, take, takeLast, tap } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
@@ -20,14 +20,16 @@ import { CardListFiltersComponent } from '../../../pages/price-calc/card-lists/c
   styleUrl: './card-search-modal.component.scss',
 })
 export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('cardSearchFilters') filters!: CardListFiltersComponent;
+
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
   filtersIcon = faFilter;
   closeIcon = faTimes;
   goIcon = faArrowRight
 
-  @ViewChild('cardSearchFilters') filters!: CardListFiltersComponent;
 	activeModal = inject(NgbActiveModal);
+  form!: FormGroup;
   
   searchCard$ = new BehaviorSubject<string>('');
   cardSearchTextInput = new FormControl();
@@ -50,7 +52,6 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   page: number = 1;
   pageSize: number = 20;
 
-  form = this.buildForm();
   mostrarBusquedaAvanzada = false;  
 
   constructor(
@@ -89,11 +90,14 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
     return this.formBuilder.group({});
   }
 
+  ngOnInit() {
+    this.form = this.buildForm();
+  }
+
   toggleBusquedaAvanzada() {
     this.mostrarBusquedaAvanzada = !this.mostrarBusquedaAvanzada;
     if(!this.mostrarBusquedaAvanzada) {
       this.form.reset();
-      this.form.controls['isPreRelease'].setValue(false)
     }
   }
 
@@ -141,8 +145,9 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.filterSub = this.filters.childForm.valueChanges.pipe(
-      take(1)
+      distinctUntilChanged()
     ).subscribe(res => {
+      console.log('change', res)
       this.applyFilter();
     })
   }

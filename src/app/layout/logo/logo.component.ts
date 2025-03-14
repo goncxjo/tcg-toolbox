@@ -1,12 +1,11 @@
 import { Component, Inject, Input, inject } from '@angular/core';
 import { LoaderService } from '../../core';
-import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logo',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [],
   templateUrl: './logo.component.html',
   styleUrl: './logo.component.scss'
 })

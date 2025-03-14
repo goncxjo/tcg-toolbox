@@ -1,17 +1,15 @@
 import { Component, Inject, inject } from '@angular/core';
-import { LogoComponent } from '../logo/logo.component';
 import { AppThemeService } from '../../core/services/app-theme.service';
 import { faBars, faCircleUser, faMoon, faSun, faTimes } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule, LogoComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
@@ -38,29 +36,12 @@ export class SidebarComponent {
 
   constructor(
     @Inject('APP_VERSION') appVersion: string,
-    private userService: UserService
   ) {
     this.appVersion = appVersion;
   }
 
   ngOnInit(): void {
     this.theme = this.getTheme();
-  }
-
-  getUserName() {
-    return this.userService.getUserName()
-  }
-
-  login() {
-    this.userService.loginWithGoogle();
-  }
-
-  logout() {
-    this.userService.logout();
-  }
-
-  isLoggedIn() {
-    return this.userService.isLoggedIn();
   }
 
   toggleTheme() {

@@ -1,3 +1,6 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
 .img-container {
     text-align: center;
 }
@@ -16,4 +19,17 @@
 
 .btn-qty {
     width: 2.5em;
+}
+
+.list-group-item.list-group-item-action .bg-list-item {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10px;
+	height: 100%;
+	background-color: $gray-200;
+}
+
+.list-group-item.list-group-item-action.card-price-active .bg-list-item {
+	background-color: $primary;
 }

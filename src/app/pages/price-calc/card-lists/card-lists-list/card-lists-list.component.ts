@@ -30,6 +30,8 @@ export class CardListsListComponent implements AfterViewInit {
   searchIcon = faSearch;
   warningIcon = faWarning;
 
+  form!: FormGroup;
+
   rowData$!: Observable<CardListList[]>;
   colDefs: ColDef[] = [
     {
@@ -95,8 +97,6 @@ export class CardListsListComponent implements AfterViewInit {
     modalInstance.componentInstance.message = `¿Estás seguro que querés eliminar la lista de cartas '${entity.name}'?`;
     modalInstance.result.then(onModalSuccess, onError);
   }
-
-  form = this.buildForm();
   
   private buildForm(): FormGroup {
     return this.formBuilder.group({});
@@ -110,6 +110,10 @@ export class CardListsListComponent implements AfterViewInit {
     public agGridService: AgGridService,
     private formBuilder: FormBuilder,
   ) { }
+
+  ngOnInit() {
+    this.form = this.buildForm();
+  }
 
   applyFilter() {
     this.rowData$ = this.service.getAll(this.filters.value());

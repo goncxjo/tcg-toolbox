@@ -30,8 +30,7 @@ $width-sidebar: 300px;
 
 @media (max-width: 768px) {
     aside {
-        position: absolute;
-        height: -webkit-fill-available;
+        position: fixed;
         z-index: 30;
     }
 }
