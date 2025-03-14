@@ -19,8 +19,8 @@ $width-sidebar: 300px;
     & aside { 
         overflow-y: auto;
         text-wrap: nowrap;
-		background-color: $dark;
-        scrollbar-color: #fff $dark;
+		background-color: $primary-text-emphasis;
+        scrollbar-color: #fff $primary-text-emphasis;
         max-width: $width-sidebar;
     }
 

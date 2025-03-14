@@ -81,7 +81,7 @@ $web-font-path: false;
 }
 
 .home-background-color {
-	background-color: $primary-text-emphasis;
+	background: linear-gradient($dark, $primary-text-emphasis);
 }
 
 .home-background-color-light {
