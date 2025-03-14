@@ -1,5 +1,6 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 
 $width-sidebar: 300px;
 
@@ -29,14 +30,15 @@ $width-sidebar: 300px;
 }
 
 @media (max-width: 768px) {
-    aside {
-        position: fixed;
-        z-index: 30;
-    }
-}
-
-@media (max-width: 576px) {
-    aside {
-        max-width: 100% !important;
+    div.body {
+        
+        &:not(.sidebar-collapsed) {
+            width: calc(100% + $width-sidebar);
+        }
+        &.sidebar-collapsed {
+            width: 100%;
+        }
+        
+        @include transition($transition-collapse-width);
     }
 }

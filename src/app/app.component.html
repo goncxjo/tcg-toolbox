@@ -1,6 +1,6 @@
 <div #appContainer class="app-container">
       <app-navbar #navbar></app-navbar>
-      <div class="body">
+      <div class="body" [class.sidebar-collapsed]="isSidebarCollapsed">
             <aside class="text-white" #collapse="ngbCollapse" [ngbCollapse]="isSidebarCollapsed" [horizontal]="true">
                   <app-sidebar class="d-flex h-100"></app-sidebar>
             </aside>
