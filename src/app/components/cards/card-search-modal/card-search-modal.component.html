@@ -13,11 +13,13 @@
                                 [formControl]="cardSearchTextInput"
                                 (input)="applyFilter()"
                             >
+                            @if(term) {
+                                <button type="button" class="btn border-0 shadow-none" (click)="clearTerm()">
+                                    <fa-icon [icon]="closeIcon" style="fill-opacity: .5;"></fa-icon>
+                                </button>
+                            }
                             <button type="button" class="btn border-0 shadow-none" (click)="toggleBusquedaAvanzada()">
-                                <fa-icon [icon]="filtersIcon" style="fill-opacity: .5;"></fa-icon>
-                            </button>
-                            <button type="button" class="btn border-0 shadow-none" (click)="clearTerm()">
-                                <fa-icon [icon]="closeIcon"></fa-icon>
+                                <fa-icon [icon]="filtersIcon"></fa-icon>
                             </button>
                         </div>
                     </form>
