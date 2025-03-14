@@ -19,7 +19,7 @@ $width-sidebar: 300px;
     & aside { 
         overflow-y: auto;
         text-wrap: nowrap;
-		background-color: $primary-text-emphasis;
+		background-color: $dark;
         scrollbar-color: #fff $primary-text-emphasis;
         max-width: $width-sidebar;
     }
@@ -27,6 +27,11 @@ $width-sidebar: 300px;
     & main {
         flex: 1;
         overflow-y: auto;
+
+        & > app-ad-banner {
+            position: sticky;
+            bottom: 0;
+        }
     }
 }
 

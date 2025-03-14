@@ -1,4 +1,4 @@
-<div class="home-content p-5 text-white" [style]="randomImg">
+<div class="home-content p-5 text-white rounded-3">
     <div class="container py-md-3">
         <h1 class="col-12 col-lg-8 display-6 fw-bold">
             TCG Toolbox
@@ -37,11 +37,12 @@
                 <p>{{tool.description}}</p>
                 <div class="d-flex d-grid gap-3 mb-3">
                     @if(isLoggedIn()) {
-                        <button type="button" class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists']">
-                            Mis listas
-                        </button>
+                    <button type="button" class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists']">
+                        Mis listas
+                    </button>
                     }
-                    <button type="button" class="btn btn-primary" [routerLink]="['/', 'price-calc','card-lists', 'new']">
+                    <button type="button" class="btn btn-primary"
+                        [routerLink]="['/', 'price-calc','card-lists', 'new']">
                         Calcular
                     </button>
                 </div>
@@ -54,4 +55,16 @@
 <div class="container px-4 pt-5 pb-0" id="hanging-icons">
     <h3 class="title-square pb-2 text-white border-bottom ">Juegos disponibles</h3>
     <app-game-selector></app-game-selector>
+</div>
+
+<div class="container px-4 py-5 pb-0" id="hanging-icons">
+    <h3 class="title-square pb-2 text-white border-bottom ">Donaciones</h3>
+    <p class="mb-3 text-white ">
+        Gran parte de este proyecto es totalmente gratuito para la comunidad. ¡Podes apoyar a TCG Toolbox con solo $100!
+    </p>
+    <a href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'><img
+            srcset='https://cdn.cafecito.app/imgs/buttons/button_3.png 1x, https://cdn.cafecito.app/imgs/buttons/button_3_2x.png 2x, https://cdn.cafecito.app/imgs/buttons/button_3_3.75x.png 3.75x'
+            src='https://cdn.cafecito.app/imgs/buttons/button_3.png' alt='Invitame un café en cafecito.app' />
+    </a>
+
 </div>
