@@ -29,7 +29,7 @@ export class UserService {
   getCurrentUser() {
     return this.auth.currentUser ?? {
       displayName: 'Invitado',
-      photoURL: `https://ui-avatars.com/api/?name=Unknown`
+      photoURL: `assets/default-user.jpg`
     };
   }
 
