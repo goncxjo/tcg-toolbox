@@ -9,9 +9,10 @@
                     >
                         <div class="d-flex flex-grow-1 align-items-center">
                             <input
-                                type="text" class="form-control form-control pe-0 border-0 shadow-none" placeholder="Buscar carta..." 
+                                type="text"
+                                class="form-control form-control pe-0 border-0 shadow-none"
+                                placeholder="Buscar carta (escribe al menos 3 letras)"
                                 [formControl]="cardSearchTextInput"
-                                (input)="applyFilter()"
                             >
                             @if(term) {
                                 <button type="button" class="btn border-0 shadow-none" (click)="clearTerm()">
@@ -39,13 +40,13 @@
                     <div class="d-flex flex-row align-items-center">
                         <div class="col d-flex flex-column text-truncate">
                             <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight>
-                            <small class="text-truncate">{{card['expansion_name']}}</small>
-                            <small class="text-truncate">{{card.code.default}}</small>
+                            <ngb-highlight [result]="card['expansion_name']" [term]="term" class="fs-6 text-truncate"></ngb-highlight>
+                            <ngb-highlight [result]="card.code.default" [term]="term" class="fs-6 text-truncate"></ngb-highlight>
                         </div>
                     </div>
                 </button>
             }
-            @if(term != '' && term?.length > 3 && resultCards.length == 0) {
+            @if(isValidTerm && resultCards.length == 0) {
                 <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
                     <fa-icon [icon]="warningIcon" class="me-3"/>
                     <span>

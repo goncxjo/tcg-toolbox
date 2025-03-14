@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRight, faFilter, faSearch, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, Subscription, catchError, debounceTime, distinctUntilChanged, iif, of, switchMap, take, takeLast, tap } from 'rxjs';
+import { Observable, Subscription, catchError, debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
@@ -28,25 +28,16 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   closeIcon = faTimes;
   goIcon = faArrowRight
 
-	activeModal = inject(NgbActiveModal);
   form!: FormGroup;
-  
-  searchCard$ = new BehaviorSubject<string>('');
+  emptyResult = of({ total: 0, result: []} as PageResult<Card>);
+
   cardSearchTextInput = new FormControl();
   searching = false;
+  termSub!: Subscription;
   filterSub!: Subscription;
-
-  get term() {
-    return this.cardSearchTextInput.value;
-  }
-  get noCards() {
-    return this.selectedCards.length === 0;
-  }
-
-  get isUpdateMode() {
-    return this.dataService.updateMode;
-  }
   
+  cards$!: Observable<PageResult<Card>>;
+
   resultCards: Card[] = [];
   selectedCards: Card[] = [];
   page: number = 1;
@@ -54,10 +45,31 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
 
   mostrarBusquedaAvanzada = false;  
 
+  get term() {
+    return this.cardSearchTextInput.value;
+  }
+
+  get isValidTerm() {
+    return this.term != '' && this.term.length >= 3;
+  }
+
+  clearTerm() {
+    this.cardSearchTextInput.setValue('');
+  }
+
+  get noCards() {
+    return this.selectedCards.length === 0;
+  }
+
+  get isUpdateMode() {
+    return this.dataService.updateMode;
+  }
+
   constructor(
     private tcgPlayerService: TcgPlayerService,
     private formBuilder: FormBuilder,
-    private dataService: DataService
+    private dataService: DataService,
+    public activeModal: NgbActiveModal
   ) {
     if (!this.dataService.cardsLength()) {
       const tmpCards = cardsStorage.getItems()
@@ -68,30 +80,38 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
     }, 1000);
   }
 
-  applyFilter(continueSearch: boolean = false) {
-    this.page = continueSearch ? this.page + 1 : 1;
-    this.searchCard$.next(this.cardSearchTextInput.value)
-  }
-
-  cards$: Observable<PageResult<Card>> = this.searchCard$.pipe(
-    tap(() => this.searching = true),
-    debounceTime(300),
-    switchMap((term) => iif(
-      () => (term == '' || term.length < 3),
-      of({ total: 0, result: []} as PageResult<Card>),
-      this.tcgPlayerService.getCards(term, this.mapFilters(), this.page, this.pageSize))
-    ),
-    catchError(() => of({ total: 0, result: []} as PageResult<Card>)),
-    tap((res) => (this.page > 1) ? this.resultCards.push(...res.result) : this.resultCards = res.result),
-    tap(() => this.searching = false),
-  );
-
   private buildForm(): FormGroup {
     return this.formBuilder.group({});
   }
 
   ngOnInit() {
     this.form = this.buildForm();
+  }
+
+  ngAfterViewInit() {
+    this.filterSub = this.filters.childForm.valueChanges.pipe(
+      distinctUntilChanged()
+    ).subscribe(() => this.applyFilter());
+
+    this.termSub = this.cardSearchTextInput.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+    ).subscribe(() => this.applyFilter());
+  }
+
+  applyFilter(continueSearch: boolean = false) {
+    this.page = continueSearch ? this.page + 1 : 1;
+
+    if (this.isValidTerm) {
+      this.cards$ = this.tcgPlayerService.getCards(this.term, this.mapFilters(), this.page, this.pageSize).pipe(
+        tap(() => this.searching = true),
+        tap((res) => (this.page > 1) ? this.resultCards.push(...res.result) : this.resultCards = res.result),
+        tap(() => this.searching = false),
+        catchError(() => this.emptyResult),
+      );  
+    } else {
+      this.cards$ = this.emptyResult;
+    }
   }
 
   toggleBusquedaAvanzada() {
@@ -139,21 +159,9 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
     this.activeModal.close('add');
   }
 
-  clearTerm() {
-    this.cardSearchTextInput.setValue('');
-  }
-
-  ngAfterViewInit() {
-    this.filterSub = this.filters.childForm.valueChanges.pipe(
-      distinctUntilChanged()
-    ).subscribe(res => {
-      console.log('change', res)
-      this.applyFilter();
-    })
-  }
-
   ngOnDestroy() {
     this.filterSub.unsubscribe();
+    this.termSub.unsubscribe();
   }
 }
 
