@@ -1,17 +1,18 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
 import { CardSearchService } from '../../core';
 import { UserService } from '../../core/services/user.service';
 import { SidebarService } from '../../core/services/sidebar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [LogoComponent, CommonModule, FontAwesomeModule, NgbModalModule],
+  imports: [LogoComponent, CommonModule, FontAwesomeModule, NgbModalModule, NgbPopoverModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
@@ -19,14 +20,12 @@ export class NavbarComponent {
   searchIcon = faSearch;
   menuIcon = faBars;
 
-  public isMenuCollapsed = true;
-  public appVersion: string = '';
-
-  sidebarService: SidebarService = inject(SidebarService);
-
   constructor(
     private cardSearchService: CardSearchService,
-    private userService: UserService
+    private userService: UserService,
+    private sidebarService: SidebarService,
+    private router: Router,
+
   ) { }
 
   openCardSearchModal() {
@@ -38,11 +37,20 @@ export class NavbarComponent {
     this.sidebarService.toggle();
 	}
 
+  getUser() {
+    return this.userService.getCurrentUser();
+  }
+
   isLoggedIn() {
     return this.userService.isLoggedIn();
   }
 
+  login() {
+    this.userService.loginWithGoogle();
+  }
+
   logout() {
     this.userService.logout();
+    this.router.navigate(['/home']);
   }
 }

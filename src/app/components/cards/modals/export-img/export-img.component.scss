@@ -1,3 +1,6 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
 .app-subtitle {
     border-left: 1px white solid;
 }
@@ -32,9 +35,22 @@
 }
 
 .card-export-item {
-    border: #6c757d 1px solid; // $gray-600
+    border: $gray-600 1px solid;
     border-radius: 7px;
     width: auto;
+
+	.img-container {
+		background: linear-gradient($dark, $primary);
+		&.no-price {
+			background: none
+		}
+	
+		& > img {
+			-webkit-border-radius: .4rem;
+			-moz-border-radius: .4rem;
+			border-radius: .4rem;
+		}
+	}
 }
 
 .close-btn:focus {

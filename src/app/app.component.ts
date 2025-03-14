@@ -54,13 +54,7 @@ export class AppComponent {
   ngOnInit() {
     this.bs = this.breakpointObserver
     .observe([Breakpoints.Small, Breakpoints.XSmall])
-    .pipe(distinctUntilChanged()).subscribe(() => {
-      if(this.breakpointObserver.isMatched(Breakpoints.Small) || this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
-        this.sidebarService.collapse();
-      } else {
-        this.sidebarService.expand();
-      }
-    });
+    .pipe(distinctUntilChanged()).subscribe(() => this.collapseIfSmallScreen());
 
     this.router.events.pipe(
       filter(
@@ -75,7 +69,7 @@ export class AppComponent {
       map((e) => e instanceof NavigationStart || e instanceof ResolveStart)
     ).subscribe(loading => {
       loading ? this.loaderService.show() : this.loaderService.hide();    
-      this.sidebarService.collapse();  
+      this.collapseIfSmallScreen();  
       switch (this.router.url) {
         case '/':
         case '/home':
@@ -89,8 +83,17 @@ export class AppComponent {
       }
     });
   }
+  
+  collapseIfSmallScreen(): void {
+    if(this.breakpointObserver.isMatched(Breakpoints.Small) || this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+      this.sidebarService.collapse();
+    } else {
+      this.sidebarService.expand();
+    }
+  }
 
   ngOnDestroy() {
     this.bs.unsubscribe()
   }
 }
+

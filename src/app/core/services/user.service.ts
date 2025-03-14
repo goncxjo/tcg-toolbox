@@ -22,6 +22,17 @@ export class UserService {
     return this.auth.currentUser?.displayName ?? 'Invitado'
   }
 
+  getUserPicture() {
+    return this.auth.currentUser?.photoURL
+  }
+
+  getCurrentUser() {
+    return this.auth.currentUser ?? {
+      displayName: 'Invitado',
+      photoURL: `https://ui-avatars.com/api/?name=Unknown`
+    };
+  }
+
   getUserId() {
     return this.auth.currentUser?.uid;
   }

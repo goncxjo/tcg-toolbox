@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,29 +36,12 @@ export class SidebarComponent {
 
   constructor(
     @Inject('APP_VERSION') appVersion: string,
-    private userService: UserService
   ) {
     this.appVersion = appVersion;
   }
 
   ngOnInit(): void {
     this.theme = this.getTheme();
-  }
-
-  getUserName() {
-    return this.userService.getUserName()
-  }
-
-  login() {
-    this.userService.loginWithGoogle();
-  }
-
-  logout() {
-    this.userService.logout();
-  }
-
-  isLoggedIn() {
-    return this.userService.isLoggedIn();
   }
 
   toggleTheme() {
