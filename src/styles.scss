@@ -84,6 +84,10 @@ $web-font-path: false;
 	background: linear-gradient($dark, $primary-text-emphasis);
 }
 
+.home-background-color-dark {
+	background-color: $primary-text-emphasis;
+}
+
 .home-background-color-light {
 	background-color: $gray-300;
 }

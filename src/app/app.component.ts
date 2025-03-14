@@ -24,7 +24,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 })
 export class AppComponent {
   title = 'tcg-toolbox';
-  applyContainer: boolean = false;
+  isHome: boolean = false;
   isSidebarCollapsed: boolean = false;
   bs!: Subscription;
 
@@ -75,11 +75,11 @@ export class AppComponent {
         case '/':
         case '/home':
           document.body.className = 'home-background-color';
-          // this.applyContainer = false
+          this.isHome = true
           break;
           default:
             document.body.className = 'home-background-color-light';
-            // this.applyContainer = true
+            this.isHome = false
           break;
       }
     });
