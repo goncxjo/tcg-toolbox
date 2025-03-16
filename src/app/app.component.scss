@@ -19,8 +19,6 @@ $width-sidebar: 300px;
     & aside { 
         overflow-y: auto;
         text-wrap: nowrap;
-		background-color: $primary-text-emphasis;
-        scrollbar-color: #fff $primary-text-emphasis;
         max-width: $width-sidebar;
     }
 
@@ -29,10 +27,21 @@ $width-sidebar: 300px;
         overflow-y: auto;
 
         & > app-ad-banner {
+            z-index: 10;
             position: sticky;
             bottom: 0;
         }
     }
+}
+
+.aside-background-color-dark {
+	background-color: $primary-text-emphasis;
+	scrollbar-color: white $primary-text-emphasis;
+	color: white;
+}
+	
+	.aside-background-color-light {
+	background-color: $gray-400;
 }
 
 @media (max-width: 768px) {

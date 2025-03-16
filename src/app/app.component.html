@@ -1,7 +1,7 @@
 <div #appContainer class="app-container">
       <app-navbar #navbar></app-navbar>
       <div class="body" [class.sidebar-collapsed]="isSidebarCollapsed">
-            <aside class="text-white" #collapse="ngbCollapse" [ngbCollapse]="isSidebarCollapsed" [horizontal]="true">
+            <aside #collapse="ngbCollapse" [ngbCollapse]="isSidebarCollapsed" [horizontal]="true" [class.aside-background-color-dark]="isHome" [class.aside-background-color-light]="!isHome">
                   <app-sidebar class="d-flex h-100"></app-sidebar>
             </aside>
             <main class="d-flex flex-column">

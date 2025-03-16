@@ -54,21 +54,26 @@
 		</div>
 
 		<div class="alert alert-info my-4 screenshot-hide" role="alert">
-			¡Acomodá las cartas como vos queiras!
+			¡Acomodá las cartas como vos quieras!
 		</div>
 
 		<div class="row row-cols-1 mb-3 d-none screenshot-show" *ngIf="mostrarPrecios">
-			<div class="col">
+			<div class="col-12 col-md-6">
 				<small class="text-secondary-emphasis">
-					<strong>Dólar: </strong>{{ dolarService.venta | currency }}
+					<strong>Dólar referencia: </strong>{{ dolarService.venta | currency }}
 				</small>
 			</div>
-			<div class="col">
+			<div class="col-12 col-md-6">
 				<small class="text-secondary-emphasis">
 					<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }}
 				</small>
 			</div>
-			<div class="col">
+			<div class="col-12 col-md-6">
+				<small class="text-secondary-emphasis">
+					<strong>Precio total: </strong>{{ getPrecioTotal() | currency}}
+				</small>
+			</div>
+			<div class="col-12 col-md-6">
 				<small class="text-secondary-emphasis">
 					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy HH:mm:ss' }}
 				</small>
@@ -107,7 +112,7 @@
 	
 	@defer {
 		<div class="modal-footer bg-primary text-light">
-			<div class="alert p-0 text-end fw-bolder" *ngIf="mostrarPrecios">
+			<div class="alert p-0 text-end fw-bolder screenshot-hide" *ngIf="mostrarPrecios">
 				<span>Total:
 					<strong>{{ getPrecioTotal() | currency}}</strong>
 				</span>

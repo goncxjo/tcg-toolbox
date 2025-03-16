@@ -14,6 +14,7 @@ import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortaw
 import { LogoComponent } from '../../../../layout/logo/logo.component';
 import { SortablejsDirective } from '@worktile/ngx-sortablejs';
 import { ContentInfoComponent } from '../../../../shared/content-info/content-info.component';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-export-img',
@@ -49,7 +50,8 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
 
   cards = computed(() => this.dataService.cards());
   actualDate: Date = new Date();
-
+  url: string = window.document.URL.replaceAll('/edit', '');
+  
   getPrecioTotal() {
     return this.dataService.totals()
   }
@@ -68,6 +70,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
     private modalService: NgbActiveModal,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
+    private clipboard: Clipboard,
   ) { }
   
   ngOnInit(): void {
@@ -216,4 +219,9 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   onCurrencyChange($event: Event) {
     this.dolarService.setUserCurrency(this.form.get('currency')?.value);  
   }
+
+  getUrl() {
+    return this.url;
+  }
+
 }
