@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AdBannerComponent {
   ads: any[] = [
-    { id: 'rancho-store', url: 'https://ranchopokemon.com/tienda/', img: 'assets/rancho-store.jpg'}
+    { id: 'rancho-store', url: 'https://ranchopokemon.com/tienda/', img: 'assets/rancho-store.gif'}
   ]
 }

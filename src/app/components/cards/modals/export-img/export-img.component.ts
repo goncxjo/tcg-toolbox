@@ -30,8 +30,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
     CurrencySelectComponent, 
     YesNoSelectComponent, 
     LogoComponent,
-    SortablejsDirective,
-    ContentInfoComponent
+    SortablejsDirective
   ],
   templateUrl: './export-img.component.html',
   styleUrls: ['./export-img.component.scss']
@@ -51,7 +50,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   cards = computed(() => this.dataService.cards());
   actualDate: Date = new Date();
   url: string = window.document.URL.replaceAll('/edit', '');
-  
+
   getPrecioTotal() {
     return this.dataService.totals()
   }
