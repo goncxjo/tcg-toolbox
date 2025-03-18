@@ -45,9 +45,7 @@ export class ExpansionSelectComponent implements AfterContentInit, OnDestroy {
     this.chlidForm = this.parentForm.form;
     this.chlidForm.addControl(this.name, new FormControl(''));
     this.ctrl.disable();
-  }
 
-  ngAfterViewChecked() {
     this.susc = this.chlidForm.controls['game'].valueChanges
     .pipe(
       tap(() => this.disableInput(true)),
