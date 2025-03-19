@@ -11,6 +11,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SidebarService } from './core/services/sidebar.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
+import { TopBannerComponent } from './layout/top-banner/top-banner.component';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -18,7 +19,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, BreadcrumbComponent, NgbCollapseModule, AdBannerComponent],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, BreadcrumbComponent, NgbCollapseModule, AdBannerComponent, TopBannerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

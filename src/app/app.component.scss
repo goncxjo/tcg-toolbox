@@ -20,7 +20,12 @@ $width-sidebar: 300px;
         overflow-y: auto;
         text-wrap: nowrap;
         max-width: $width-sidebar;
-        border-right: 1px solid $gray-500;
+        &.aside-background-color-light {
+            border-right: 1px solid $gray-500;
+        }
+        &.aside-background-color-dark {
+            border-right: 1px solid $primary-text-emphasis;
+        }
     }
 
     & main {

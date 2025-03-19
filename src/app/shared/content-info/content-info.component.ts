@@ -1,16 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-content-info',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, NgbCollapseModule],
   templateUrl: './content-info.component.html',
   styleUrl: './content-info.component.scss'
 })
 export class ContentInfoComponent {
-  @Input() title: string = '';
-  @Input() htmlText: string = '';
+  title = input<string>('');
+  htmlText = input<string>('');
   infoIcon = faInfoCircle;
+  closeIcon = faTimes;
+
+  isCollapsed: boolean = false;
 }

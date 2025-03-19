@@ -1,4 +1,6 @@
+import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
+import { ToolService } from '../../core';
 
 export const PRICE_CALCULATOR_ROUTES: Routes = [
   {

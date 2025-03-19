@@ -81,7 +81,13 @@ $web-font-path: false;
 }
 
 .home-background-color {
-	background: linear-gradient($dark, $primary-text-emphasis);
+	--color-1: var(--bs-code-color);
+	--color-2: var(--bs-primary-text-emphasis);
+	--color-3: var(--bs-primary);
+	background:
+		linear-gradient(217deg, var(--color-1), rgba(255, 0, 0, 0) 70.71%),
+		linear-gradient(127deg, var(--color-2), rgba(0, 255, 0, 0) 70.71%),
+		linear-gradient(336deg, var(--color-3), rgba(0, 0, 255, 0) 70.71%);
 }
 
 .home-background-color-dark {

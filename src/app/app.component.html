@@ -5,11 +5,14 @@
                   <app-sidebar class="d-flex h-100"></app-sidebar>
             </aside>
             <main class="d-flex flex-column">
-                  <div class="container mb-5 flex-grow-1">
+                  <app-top-banner></app-top-banner>
+                  <div class="container mb-3">
                         <xng-breadcrumb #breadcrumb></xng-breadcrumb>
+                  </div>
+                  <div class="mb-5 flex-grow-1">
                         <router-outlet></router-outlet>
                   </div>
-                  <app-ad-banner class="d-flex justify-content-center" [class.home-background-color-dark]="isHome" [class.home-background-color-light]="!isHome"></app-ad-banner>
+                  <app-ad-banner class="d-flex justify-content-center" [class.home-background-color-light]="!isHome"></app-ad-banner>
             </main>
       </div>
 </div>

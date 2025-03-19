@@ -18,13 +18,11 @@ import { cardsStorage } from '../../../../utils/type-safe-localstorage/card-stor
 import { UserService } from '../../../../core/services/user.service';
 import { ConfirmComponent } from '../../../../shared/modals/confirm/confirm.component';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { ContentInfoComponent } from '../../../../shared/content-info/content-info.component';
-import { DolarComponent } from '../../../../layout/dolar/dolar.component';
 
 @Component({
   selector: 'app-card-lists-edit',
   standalone: true,
-  imports: [DolarComponent, ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule, ContentInfoComponent],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule],
   templateUrl: './card-lists-edit.component.html',
   styleUrl: './card-lists-edit.component.scss'
 })
@@ -43,8 +41,6 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   maximizeIcon = faUpRightAndDownLeftFromCenter;
   copyIcon = faCopy;
   refreshIcon = faArrowsRotate;
-
-  infoMsg: string = `Los precios son obtenidos de TCGplayer y otras tiendas, los cuales no reflejan los precios reales de tu región. El uso de esta herramienta es única y exclusivamente para tener un punto de referencia a la hora de comerciar entre pares.`;
 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
