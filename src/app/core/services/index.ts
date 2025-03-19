@@ -7,3 +7,4 @@ export * from './dolar.data.service';
 export * from './app-theme.service';
 export * from './ag-grid.service';
 export * from './tool.service';
+export * from './fire-http.service';

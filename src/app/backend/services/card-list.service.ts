@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { finalize, map, Observable, of, take, tap } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { CardList, CardListFilters, CardListList } from '../models';
-import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, docData, Firestore, query, QueryConstraint, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, query, QuerySnapshot, updateDoc, where } from '@angular/fire/firestore';
 import _ from 'lodash';
-import { LoaderService, UserService } from '../../core';
+import { FireHttpService, LoaderService, UserService } from '../../core';
 
 const PATH = 'cardLists';
 
@@ -13,6 +13,7 @@ const PATH = 'cardLists';
 export class CardListService {
   private _firestore: Firestore;
   private _collection: CollectionReference;
+  private httpService = inject(FireHttpService);
 
   constructor(
       private userService: UserService,
@@ -23,64 +24,71 @@ export class CardListService {
   }
 
   getAll(filters: CardListFilters): Observable<CardListList[]> {
-    this.loaderService.show();
-    const queries: QueryConstraint[] = [
+    const _query = query(this._collection,
       where('user', '==', this.userService.getUserId()),
-    ]
-
-    const res = collectionData(
-      query(this._collection, ...queries
-    ), { idField: "id" }) as Observable<CardListList[]>;
-
-    return res.pipe(
-      take(1),
-      map((cards: CardListList[]) => {
-        var regex = new RegExp(`${filters.name}`, 'gi');  
-        return _.filter(cards, (c: CardListList) => regex.test(c.name));
-      }),
-      finalize(() => this.loaderService.hide())
     );
+
+    return this.httpService.run<CardListList[]>(
+      from(getDocs(_query)).pipe(
+        map((res: QuerySnapshot) => {
+          const cards = res.docs.map((n) => this.createEntity(n));
+          var regex = new RegExp(`${filters.name}`, 'gi');  
+          return _.filter(cards, (c: CardListList) => regex.test(c.name));
+        })
+      )
+    )
   }
   
   getById(id: string): Observable<CardList> {
     const docRef = doc(this._firestore, PATH, id);
-    const res = docData(docRef, { idField: "id" }) as Observable<CardList>;
-    return res;
+    return this.httpService.run<CardList>( 
+      from(getDoc(docRef)).pipe(
+        map((res: DocumentSnapshot) => this.createEntity(res))
+      )
+    );
   }
   
   async update(entity: CardList) {
-    this.loaderService.show();
     entity.user = this.userService.getUserId();
     const docRef = doc(this._firestore, PATH, entity.id);
-    const res = updateDoc(docRef, { ...entity });
-    this.loaderService.hide();
-    return res;
+    return this.httpService.run<CardList>( 
+      from(updateDoc(docRef, {...entity})).pipe(
+        map((_) => this.createEntity(entity))
+      )
+    );
   }
   
-  async create(doc: CardList) {
-    this.loaderService.show();
-    doc.user = this.userService.getUserId();
-    const res = await addDoc(this._collection, doc);
-    this.loaderService.hide();
-    return res;
+  async create(entity: CardList) {
+    return this.httpService.run<CardList>( 
+      from(addDoc(this._collection, {...entity})).pipe(
+        map((res: DocumentReference) => this.createEntity(res, res.id))
+      )
+    );
   }
 
   async delete(id: string) {
-    this.loaderService.show();
     const docRef = doc(this._firestore, PATH, id);
-    const res = await deleteDoc(docRef);
-    this.loaderService.hide();
-    return res;
+    return this.httpService.run<void>( 
+      from(deleteDoc(docRef)).pipe(
+        map((_) => true)
+      )
+    );
   }
 
-  new(): Observable<CardList> {
-    return of<CardList>({
+  private createEntity(res: DocumentSnapshot | Partial<CardList>, id?: string): CardList {
+    const d = res instanceof DocumentSnapshot ? res.data() ?? this.new() : res;
+    d['id'] = res.id || id;
+    return d as CardList;
+  }
+
+  new(): CardList {
+    return {
       id: '',
       name: '',
       description: '',
       createdAt: '',
       updatedAt: '',
       cards: []
-    });
+    };
   }
 }
