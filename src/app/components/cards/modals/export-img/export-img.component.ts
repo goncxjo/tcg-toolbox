@@ -43,6 +43,12 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   copyIcon = faCopy;
   syncIcon = faSync;
 
+  options: any = {
+    animation: 150,
+    ghostClass: 'ghost',
+    chosenClass: 'chosen'
+  }
+
   @ViewChild('content') content!: ElementRef;
 
   form!: FormGroup;

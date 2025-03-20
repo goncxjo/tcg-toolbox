@@ -20,13 +20,6 @@
     overflow: auto;
 }
 
-.bg-badge-multiplier-export-card {
-    background: rgba(25, 25, 25, .5);
-    color: white;
-    font-size: x-large;
-    border: 1px white solid;
-}
-
 .bg-badge-total-export-card {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
@@ -56,4 +49,20 @@
 .close-btn:focus {
     box-shadow: none;
 }
-  
+
+
+.qty-container {
+    filter: opacity(0.8) brightness(0.0);
+    height: 50px;
+    width: 50px;
+}
+
+.qty-number {
+    color: white;
+    position: absolute;
+    position-area: center;
+    font-family: pixel-gosub;
+    font-size: x-large;
+    padding-bottom: 7px;
+    padding-left: 4px;
+}
