@@ -6,9 +6,11 @@
             </aside>
             <main class="d-flex flex-column">
                   <app-top-banner></app-top-banner>
-                  <div class="container mb-3">
-                        <xng-breadcrumb #breadcrumb></xng-breadcrumb>
-                  </div>
+                  @defer (on timer(1000ms)) {
+                        <div class="container mb-1">
+                              <xng-breadcrumb #breadcrumb></xng-breadcrumb>
+                        </div>
+                  }
                   <div class="mb-5 flex-grow-1">
                         <router-outlet></router-outlet>
                   </div>

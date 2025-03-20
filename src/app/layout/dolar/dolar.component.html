@@ -1,5 +1,5 @@
 @if(!editDolarMode) {
-    <div class="bg-success text-center py-0 border-0 rounded-0 mb-3">
+    <div class="bg-success text-center py-0 border-0 rounded-0">
         @if(dataService.dolar()) {
             <small class="text-white fw-bold">
                 Dólar hoy: {{ dataService.dolar()?.venta | currency }}
