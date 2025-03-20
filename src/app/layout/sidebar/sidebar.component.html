@@ -5,10 +5,19 @@
                 <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['price-calc','card-lists']" [routerLinkActive]="['active']">Calculadora / Mis listas</a>
+                <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero donar</a>
+            </li>
+        </ul>
+        
+        <hr>
+        
+        <small class="offcanvas-subtitle opacity-50 text-uppercase">Price calculator</small>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['price-calc','card-lists']" [routerLinkActive]="['active']">Mis listas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href='https://cafecito.app/goncxjo' rel='noopener' target='_blank'>Quiero donar</a>
+                <a class="nav-link" [routerLink]="['price-calc','card-lists', 'new']" [routerLinkActive]="['active']">Crear listas</a>
             </li>
         </ul>
 

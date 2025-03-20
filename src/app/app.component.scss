@@ -23,9 +23,6 @@ $width-sidebar: 300px;
         &.aside-background-color-light {
             border-right: 1px solid $gray-500;
         }
-        &.aside-background-color-dark {
-            border-right: 1px solid $primary-text-emphasis;
-        }
     }
 
     & main {
@@ -41,8 +38,8 @@ $width-sidebar: 300px;
 }
 
 .aside-background-color-dark {
-	background-color: $primary-text-emphasis;
-	scrollbar-color: white $primary-text-emphasis;
+	background-color: rgba(0,0,0,0.5);
+	scrollbar-color: white transparent;
 	color: white;
 }
 	
