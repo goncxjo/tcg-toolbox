@@ -29,7 +29,6 @@ export class NavbarComponent {
   ) { }
 
   openCardSearchModal() {
-    history.pushState(null, window.document.URL);
     this.cardSearchService.openCardSearchModal();
   }
 

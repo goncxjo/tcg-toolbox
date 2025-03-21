@@ -46,10 +46,7 @@ export class AppComponent {
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event) {
     if (this.modalService.hasOpenModals()) {
-      history.pushState(null, window.document.URL);
       this.modalService.dismissAll();
-    } else {
-      history.back();
     }
   }
 
