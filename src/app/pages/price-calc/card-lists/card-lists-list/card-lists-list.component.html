@@ -25,7 +25,7 @@
         <div class="col">
             @if (rowData$ | async; as rowData) {
                 @if (rowData.length > 0) {
-                    <ag-grid-angular style="width: 100%; height: 200px" [rowData]="rowData" [columnDefs]="colDefs"
+                    <ag-grid-angular style="width: 100%; height: 320px" [rowData]="rowData" [columnDefs]="colDefs"
                         [autoSizeStrategy]="agGridService.autoSizeStrategy" [getRowHeight]="agGridService.getRowHeight" 
                         (firstDataRendered)="agGridService.onFirstDataRendered($event)"
                         (gridSizeChanged)="agGridService.onGridSizeChanged($event)" (gridReady)="agGridService.onGridReady($event)"
