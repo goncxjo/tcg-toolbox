@@ -84,24 +84,24 @@
 			<div class="row g-3 justify-content-center" [sortablejs]="cards()" [sortablejsOptions]="options">
 				@for(item of cards(); track item) {
 				<div class="card-export-item p-0 m-2 text-center">
-					<span class="bg-badge-unit-price-export-card bg-dark badge d-block export-font" *ngIf="mostrarPrecios">
+					<div class="img-container d-flex justify-content-center align-items-center" [class.no-price]="!mostrarPrecios">
+						<img class="img-card" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-not-found.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
+						<span class="qty-container d-flex">
+							<img class="qty-bg" src="assets/empty-logo.svg" alt="TCG Price Calculator">
+							<span class="qty-number">{{ item.multiplier }}</span>
+						</span>
+					</div>
+
+					<span class="bg-badge-unit-price-export-card bg-primary badge d-block export-font mt-1" *ngIf="mostrarPrecios">
 						<span *ngIf="item.multiplier > 1">
-							{{ getPrecio(item) | currency}}
+							{{ getPrecio(item) | currency }}
 						</span>
 						<span *ngIf="item.multiplier == 1">
 							&nbsp;
 						</span>
 					</span>	
 
-					<div class="img-container d-flex justify-content-center align-items-center" [class.no-price]="!mostrarPrecios">
-						<img class="img-card" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-not-found.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
-						<span class="position-absolute d-flex">
-							<img class="qty-container" src="assets/empty-logo.svg" alt="TCG Price Calculator">
-							<span class="qty-number">{{ item.multiplier }}</span>
-						</span>
-					</div>
-
-					<span class="bg-badge-total-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
+					<span class="bg-badge-total-export-card bg-dark badge d-block export-font" *ngIf="mostrarPrecios">
 						{{ getPrecio(item) * item.multiplier | currency }}
 					</span>
 

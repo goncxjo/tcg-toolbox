@@ -28,20 +28,21 @@
 }
 
 .card-export-item {
-    border: $gray-600 1px solid;
-    border-radius: 7px;
     width: auto;
 
 	.img-container {
-		background: linear-gradient($dark, $primary);
+        border: $gray-500 1px solid;
+        border-radius: .6rem;
+        position: relative;
+		// background: linear-gradient($dark, $primary);
 		&.no-price {
 			background: none
 		}
 	
 		& > img {
-			-webkit-border-radius: .4rem;
-			-moz-border-radius: .4rem;
-			border-radius: .4rem;
+			-webkit-border-radius: .6rem;
+			-moz-border-radius: .6rem;
+			border-radius: .6rem;
 		}
 	}
 }
@@ -52,17 +53,22 @@
 
 
 .qty-container {
-    filter: opacity(0.8) brightness(0.0);
-    height: 50px;
-    width: 50px;
-}
-
-.qty-number {
-    color: white;
     position: absolute;
-    position-area: center;
-    font-family: pixel-gosub;
-    font-size: x-large;
-    padding-bottom: 7px;
-    padding-left: 4px;
+    top: 0.1em;
+    right: 0.1em;
+    .qty-bg {
+        filter: opacity(0.8) brightness(0.0);
+        height: 50px;
+        width: 50px;
+    }
+
+    .qty-number {
+        color: white;
+        position: absolute;
+        position-area: center;
+        font-family: pixel-gosub;
+        font-size: x-large;
+        padding-bottom: 7px;
+        padding-left: 4px;
+    }
 }
