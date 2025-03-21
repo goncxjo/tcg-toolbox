@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faShareNodes, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faShareNodes, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
@@ -10,7 +10,7 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import _ from 'lodash';
-import { NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../../components/cards/modals/export-img/export-img.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardInfoComponent } from '../../../../components/cards/card-info/card-info.component';
@@ -22,7 +22,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 @Component({
   selector: 'app-card-lists-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule],
+  imports: [ReactiveFormsModule, FontAwesomeModule, CurrencyPipe, AsyncPipe, NgbDropdownModule, CardInfoComponent, NgbTooltipModule, NgbCollapseModule],
   templateUrl: './card-lists-edit.component.html',
   styleUrl: './card-lists-edit.component.scss'
 })
@@ -41,6 +41,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   maximizeIcon = faUpRightAndDownLeftFromCenter;
   copyIcon = faCopy;
   refreshIcon = faArrowsRotate;
+  collapseIcon = faAngleUp;
 
   cards = computed(() => this.dataService.cards());
   total = computed(() => this.dataService.totals());
@@ -62,6 +63,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   dataService = inject(DataService);
   cardList$!: Observable<CardList>;
   
+  isCollapsed: boolean = false;
+
   constructor(
     private toastr: ToastrService,
     private loaderService: LoaderService,
