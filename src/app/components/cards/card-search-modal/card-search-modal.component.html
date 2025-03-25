@@ -70,7 +70,7 @@
     <div class="flex-grow-1">
         Seleccionadas: <span class="fw-bold">{{ this.selectedCards.length }}</span>
     </div>
-    <button type="button" class="btn btn-secondary"  (click)="activeModal.close('cancel')">
+    <button type="button" class="btn btn-secondary"  (click)="close()">
         Cancelar
     </button>
     @if (isUpdateMode) {

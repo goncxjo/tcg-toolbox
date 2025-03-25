@@ -13,8 +13,8 @@ import { DataService } from '../../../../core/services/data.service';
 import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { LogoComponent } from '../../../../layout/logo/logo.component';
 import { SortablejsDirective } from '@worktile/ngx-sortablejs';
-import { ContentInfoComponent } from '../../../../shared/content-info/content-info.component';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-export-img',
@@ -76,6 +76,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private clipboard: Clipboard,
+    private location: Location,
   ) { }
   
   ngOnInit(): void {
@@ -116,6 +117,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
     this.descargandoFoto = false;
     this.capturarFoto = false;
     this.modalService.close(response)
+    this.location.back();    
   }
 
   getPrecio(c: Card) {

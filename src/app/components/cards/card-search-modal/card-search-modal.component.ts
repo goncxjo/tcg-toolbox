@@ -6,7 +6,7 @@ import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../..
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subscription, catchError, debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
 import _ from 'lodash';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
 import { DataService } from '../../../core/services/data.service';
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
@@ -69,7 +69,8 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
     private tcgPlayerService: TcgPlayerService,
     private formBuilder: FormBuilder,
     private dataService: DataService,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private location: Location
   ) {
     if (!this.dataService.cardsLength()) {
       const tmpCards = cardsStorage.getItems()
@@ -159,6 +160,10 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
     this.activeModal.close('add');
   }
 
+  close() {
+    this.location.back();
+  }
+  
   ngOnDestroy() {
     this.filterSub.unsubscribe();
     this.termSub.unsubscribe();
