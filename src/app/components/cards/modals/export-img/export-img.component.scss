@@ -6,7 +6,7 @@
 }
 
 .bg-modal-content {
-	background-color: #e9ecef; // $gray-200
+	background-color: $gray-200
 }
 
 .export-font {
@@ -34,10 +34,6 @@
         border: $gray-500 1px solid;
         border-radius: .6rem;
         position: relative;
-		// background: linear-gradient($dark, $primary);
-		&.no-price {
-			background: none
-		}
 	
 		& > img {
 			-webkit-border-radius: .6rem;
@@ -54,21 +50,22 @@
 
 .qty-container {
     position: absolute;
-    top: 0.1em;
-    right: 0.1em;
+    bottom: 0.15em;
     .qty-bg {
-        filter: opacity(0.8) brightness(0.0);
-        height: 50px;
-        width: 50px;
+        filter: opacity(0.8) drop-shadow(0px 3px 3px rgba(0, 0, 0, .5));
+        height: 36px;
+        width: 36px;
+        
     }
 
     .qty-number {
-        color: white;
+        color: black;
         position: absolute;
         position-area: center;
         font-family: pixel-gosub;
         font-size: x-large;
         padding-bottom: 7px;
         padding-left: 4px;
+        line-height: 0;
     }
 }

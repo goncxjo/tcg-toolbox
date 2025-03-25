@@ -55,19 +55,19 @@
 					>
 						<div class="d-flex flex-row-reverse">
 							@if(card.infoReduced) {
-								<div class="card-actions d-flex flex-column justify-content-between bg-dark m-3 ms-0">
+								<div class="card-actions d-flex flex-column justify-content-between m-3 ms-0 border border-tertiary">
 									@if(!readonly) {
 										<button class="btn btn-sm btn-outline-danger btn-top border-0" (click)="removeCard(card)">
 											<fa-icon [icon]="closeIcon"/>
 										</button>
 										<div class="btn-group-vertical" role="group">
-											<button type="button" class="btn btn-sm" (click)="changeMultiplier(card, 1)">
+											<button type="button" class="btn btn-sm btn-outline-primary border-0 rounded-0" (click)="changeMultiplier(card, 1)">
 												<fa-icon [icon]="plusIcon"/>
 											</button>
-											<button type="button" class="btn btn-sm btn-dark px-0 border-0 active">
+											<button type="button" class="btn btn-sm btn-primary px-0 border-0" disabled>
 												{{ card.multiplier }}
 											</button>
-											<button type="button" class="btn btn-sm" (click)="changeMultiplier(card, -1)">
+											<button type="button" class="btn btn-sm btn-outline-primary border-0 rounded-0" (click)="changeMultiplier(card, -1)">
 												<fa-icon [icon]="minusIcon"/>
 											</button>
 										</div>
