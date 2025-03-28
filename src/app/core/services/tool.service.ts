@@ -29,6 +29,10 @@ export class ToolService {
     return this.tools.filter(t => t.path !== '');
   }
 
+  getSelectedTool() {
+    return this.tool();
+  }
+
   getSelectedToolPath() {
     return this.tool().path;
   }

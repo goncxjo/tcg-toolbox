@@ -3,15 +3,15 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Reso
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { LoaderService } from './core';
-import { distinctUntilChanged, filter, map, Subscription, tap } from 'rxjs';
+import { distinctUntilChanged, filter, map, Subscription } from 'rxjs';
 import { LoadingScreenComponent } from './layout/loading-screen/loading-screen.component';
-import { BreadcrumbComponent } from 'xng-breadcrumb';
 import { NgbCollapseModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SidebarService } from './core/services/sidebar.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { TopBannerComponent } from './layout/top-banner/top-banner.component';
+import { LogoToolComponent } from './layout/logo-tool/logo-tool.component';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -19,7 +19,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, BreadcrumbComponent, NgbCollapseModule, AdBannerComponent, TopBannerComponent],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, NgbCollapseModule, AdBannerComponent, TopBannerComponent, LogoToolComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
