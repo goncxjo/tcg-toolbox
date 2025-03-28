@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Tool } from '../../backend';
 import { ToolService } from '../../core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-logo-tool',
@@ -14,7 +15,16 @@ export class LogoToolComponent {
 
   toolService = inject(ToolService);
 
+  router = inject(Router);
+
   constructor() {
     this.tool = this.toolService.getSelectedTool();
+  }
+
+  onLogoClick() {
+    if (!this.tool) {
+      return;
+    }
+    this.router.navigate([`/${this.tool?.path}`]);
   }
 }

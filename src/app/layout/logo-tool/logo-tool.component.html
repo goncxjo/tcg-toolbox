@@ -1,6 +1,6 @@
-<div class="brand mb-3">
-  <div class="tool-logo" style="mask-image: url('assets/{{tool?.path}}-logo.svg');"></div>
-  <span id="app-tool-title" class="d-flex text-start">
+<div class="brand opacity-50">
+  <div class="tool-logo clickable" style="mask-image: url('assets/{{tool?.path}}-logo.svg');" (click)="onLogoClick()"></div>
+  <span id="app-tool-title" class="d-flex text-start no-pointer">
     <div class="right">
       <div>{{tool?.title}}</div>
     </div>
