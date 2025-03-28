@@ -18,19 +18,11 @@ export class UserService {
     return signOut(this.auth);
   }
 
-  getUserName() {
-    return this.auth.currentUser?.displayName ?? 'Invitado'
-  }
-
-  getUserPicture() {
-    return this.auth.currentUser?.photoURL
-  }
-
-  getCurrentUser() {
-    return this.auth.currentUser ?? {
-      displayName: 'Invitado',
-      photoURL: `assets/default-user.jpg`
-    };
+  getAvatar() {
+    if (!this.auth.currentUser) {
+      return `assets/default-user.jpg`;
+    }
+    return `https://api.dicebear.com/9.x/bottts-neutral/png?seed=${this.auth.currentUser.uid[0]}`
   }
 
   getUserId() {

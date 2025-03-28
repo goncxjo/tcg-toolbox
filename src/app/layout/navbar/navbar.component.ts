@@ -36,8 +36,8 @@ export class NavbarComponent {
     this.sidebarService.toggle();
 	}
 
-  getUser() {
-    return this.userService.getCurrentUser();
+  getAvatar() {
+    return this.userService.getAvatar();
   }
 
   isLoggedIn() {

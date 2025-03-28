@@ -29,21 +29,26 @@
         </li>
       </ul>
     </div>
-    @defer (on timer(1500ms)) {
-      <ul class="navbar-nav ms-2" placement="bottom" [ngbPopover]="popContent" [autoClose]="'outside'">
+    <ul class="navbar-nav ms-2" placement="bottom" [ngbPopover]="popContent" [autoClose]="'outside'">
       <li class="nav-item user-profile">
-        <img class="nav-user-profile" src="{{ getUser().photoURL }}" id="img">
+        <img class="nav-user-profile" src="{{ getAvatar() }}" id="img">
       </li>
     </ul>
-    }
   </div>
 </nav>
 
 
 <ng-template #popContent>
-  <span>
-    Hola, <b>{{ getUser().displayName }}!</b>
-  </span>
+  @if(isLoggedIn()) {
+    <span>
+      ¡Estás conectado!
+    </span>
+  }
+  @else {
+    <span>
+      No iniciaste sesión
+    </span>
+  }
   <div class="d-grid gap-2 mt-3">
     @if(!isLoggedIn()) {
     <button class="btn btn-primary" type="button" (click)="login()">Iniciar sesión</button>
