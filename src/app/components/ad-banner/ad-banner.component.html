@@ -1,5 +1,5 @@
 <div class="ad-banner">
-    <a [href]="ads[0].url">
-          <img [src]="ads[0].img" [alt]="ads[0].name" rel='noopener' target='_blank'>
+    <a (click)="onAdvertisingClick()" [href]="ads[0].url" rel='noopener' target='_blank'>
+          <img class="ad-banner-img" [src]="ads[0].img" [alt]="ads[0].name">
     </a>
 </div>
