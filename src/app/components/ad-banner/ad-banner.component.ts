@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-ad-banner',
   imports: [],
   templateUrl: './ad-banner.component.html',
-  styleUrl: './ad-banner.component.scss'
+  styleUrl: './ad-banner.component.scss',
+  standalone: true
 })
 export class AdBannerComponent {
   ads: any[] = [

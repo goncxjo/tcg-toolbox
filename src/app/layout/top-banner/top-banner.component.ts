@@ -7,7 +7,8 @@ import { ContentInfoComponent } from '../../shared/content-info/content-info.com
   selector: 'app-top-banner',
   imports: [DolarComponent, ContentInfoComponent],
   templateUrl: './top-banner.component.html',
-  styleUrl: './top-banner.component.scss'
+  styleUrl: './top-banner.component.scss',
+  standalone: true
 })
 export class TopBannerComponent {
   private toolService = inject(ToolService)
