@@ -25,7 +25,7 @@ export class CardListService {
 
   getAll(filters: CardListFilters): Observable<CardListList[]> {
     const _query = query(this._collection,
-      where('user', '==', this.userService.getUserId()),
+      where('user', '==', this.userService.userId()),
     );
 
     return this.httpService.run<CardListList[]>(
@@ -49,7 +49,7 @@ export class CardListService {
   }
   
   async update(entity: CardList) {
-    entity.user = this.userService.getUserId();
+    entity.user = this.userService.userId();
     const docRef = doc(this._firestore, PATH, entity.id);
     return this.httpService.run<CardList>( 
       from(updateDoc(docRef, {...entity})).pipe(

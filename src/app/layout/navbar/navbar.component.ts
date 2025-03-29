@@ -37,7 +37,7 @@ export class NavbarComponent {
 	}
 
   getAvatar() {
-    return this.userService.getAvatar();
+    return this.userService.avatar();
   }
 
   isLoggedIn() {

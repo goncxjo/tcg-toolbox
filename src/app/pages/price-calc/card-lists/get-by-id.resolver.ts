@@ -6,7 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { UserService } from "../../../core";
 
 export const getByIdResolver: ResolveFn<Object> = (route, state) => {
-    const userId = inject(UserService).getUserId();
+    const userId = inject(UserService).userId();
     const toastrService = inject(ToastrService);
     const router = inject(Router);
 
