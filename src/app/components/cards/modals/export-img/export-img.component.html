@@ -6,6 +6,9 @@
         </button>
 	</div>
 	<div class="modal-body bg-modal-content magicpattern">
+		<div class="col-12 screenshot-hide">
+			<h6>Configuración de cartas:</h6>
+		</div>
 		<form [formGroup]="form" class="row g-3 screenshot-hide mb-3">
 			<div class="col-12 col-md-3 col-lg-2">
 				<app-yes-no-select [name]="'showCurrency'" [innerLabel]="'Mostar precios: '"></app-yes-no-select>
@@ -29,6 +32,11 @@
 		</form>
 
 		<div class="row screenshot-hide mb-3">
+			<div class="col-12">
+				<h6>
+					¿Qué querés hacer con esta imagen?
+				</h6>
+			</div>
 			<div class="btn-group col-12 col-md-6 col-lg-4" role="group">
 				<button type="button" class="btn btn-primary btn-sm" (click)="download()">
 					<span *ngIf="!descargandoFoto">
@@ -36,7 +44,7 @@
 						Descargar 
 					</span>
 					<span *ngIf="descargandoFoto">
-						<fa-icon [icon]="syncIcon" class="me-1"/>
+						<fa-icon [icon]="syncIcon" class="me-1" animation="spin"/>
 						Descargando...
 					  </span>
 				</button>
@@ -46,7 +54,7 @@
 						Copiar
 					</span>
 					<span *ngIf="capturarFoto">
-						<fa-icon [icon]="syncIcon" class="me-1"/>
+						<fa-icon [icon]="syncIcon" class="me-1" animation="spin"/>
 						Copiando...
 					  </span>
 				</button>
@@ -63,7 +71,7 @@
 					<strong>Dólar referencia: </strong>{{ dolarService.venta | currency }}
 				</small>
 			</div>
-			<div class="col-12 col-md-6">
+			<!-- <div class="col-12 col-md-6">
 				<small class="text-secondary-emphasis">
 					<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }}
 				</small>
@@ -77,7 +85,7 @@
 				<small class="text-secondary-emphasis">
 					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy HH:mm:ss' }}
 				</small>
-			</div>
+			</div> -->
 		</div>
 
 		<div class="container-justify">
