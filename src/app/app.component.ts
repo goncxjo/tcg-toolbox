@@ -12,6 +12,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { TopBannerComponent } from './layout/top-banner/top-banner.component';
 import { LogoToolComponent } from './layout/logo-tool/logo-tool.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -19,7 +20,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, NgbCollapseModule, AdBannerComponent, TopBannerComponent, LogoToolComponent],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, NgbCollapseModule, AdBannerComponent, TopBannerComponent, LogoToolComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

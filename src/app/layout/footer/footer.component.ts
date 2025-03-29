@@ -1,23 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
+  standalone: true
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   // actualYear: number = (new Date()).getFullYear();
-  environmentName: string = '';
-  
-  constructor(
-    @Inject('ENVIRONMENT_NAME') environmentName: string,
-  ) {
-    this.environmentName = environmentName;
-  }
-
-  ngOnInit(): void {
-  }
-
+ 
   getFooterText() {
     return `Desarrollado por: @goncxjo`
   }
