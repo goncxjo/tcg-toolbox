@@ -179,15 +179,6 @@ from, to { transform: scale(1, 1); }
 	width: 2.5em;
 	height: 2.5em;
 	background-color: currentColor;
-
-	&.clickable {
-		cursor: pointer;
-		transition: filter 0.3s ease;
-
-		&:hover {
-			filter: brightness(0.5);
-		}
-	}
 }
 
 .no-pointer {
