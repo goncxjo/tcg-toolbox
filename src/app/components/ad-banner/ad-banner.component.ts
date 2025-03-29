@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Analytics, logEvent } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-ad-banner',
@@ -11,4 +12,10 @@ export class AdBannerComponent {
   ads: any[] = [
     { id: 'rancho-store', url: 'https://ranchopokemon.com/tienda/', img: 'assets/rancho-store.gif'}
   ]
+
+  private analytics = inject(Analytics);
+  
+  onAdvertisingClick() {
+    logEvent(this.analytics, 'ad_click');
+  }
 }
