@@ -1,28 +1,28 @@
 
+.app-tool-header {
+  display: flex;
+  color: var(--bs-gray-400);
+  filter:
+    drop-shadow(-1px -1px 0px var(--bs-gray-500))
+    drop-shadow(1px 1px 0px var(--bs-gray-100));
+}
+
 #app-tool-title {
   padding-left: 1rem;
-  & * {
-    font-family: pixel-gosub;
+  font-family: pixel-gosub;
+  font-size: xx-large;
+  line-height: 2rem;
+}
+
+
+@media (max-width: 768px) {
+
+  .app-tool-header {
+    justify-content: center;
   }
-}
 
-.brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-  display: flex;
-  align-items: center;
-  padding: 0px;
-}
-
-.right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size:large;
-  padding-bottom: 0.1em;
-}
-.right div {
-  width: 100%;
+  #app-tool-title {
+    font-size: x-large;
+    line-height: 2.15rem;
+  }
 }

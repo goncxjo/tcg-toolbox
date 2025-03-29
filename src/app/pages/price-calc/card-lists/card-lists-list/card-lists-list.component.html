@@ -8,19 +8,21 @@
                 <app-card-list-filters #cardListFilters></app-card-list-filters>
             </form>
         </div>
+        <div class="card-footer">
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
+                <button type="button" class="btn btn-sm btn-success" routerLink="new">
+                    <fa-icon [icon]="plusIcon" />
+                    Crear lista
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" (click)="applyFilter()">
+                    <fa-icon [icon]="searchIcon" />
+                    Buscar
+                </button>
+            </div>
+        
+        </div>
     </div>
-    
-    <div class="d-grid gap-3 d-sm-flex justify-content-sm-end mb-3">
-        <button type="button" class="btn btn-sm btn-success" routerLink="new">
-            <fa-icon [icon]="plusIcon" />
-            Crear lista
-        </button>
-        <button type="button" class="btn btn-sm btn-primary" (click)="applyFilter()">
-            <fa-icon [icon]="searchIcon" />
-            Buscar
-        </button>
-    </div>
-    
+        
     <div class="row">
         <div class="col">
             @if (rowData$ | async; as rowData) {
