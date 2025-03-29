@@ -1,11 +1,4 @@
 .ad-banner > a > img {
-    max-height: 62px;
+    max-height: 50px;
     width: 100%;
-}
-
-@media (max-width: 768px) {
-    .ad-banner > a > img {
-        max-height: 40px;
-        width: 100%;
-    }
 }
