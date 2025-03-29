@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import download from 'downloadjs';
 import html2canvas from 'html2canvas';
-import { Card, Dolar } from '../../../../backend';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { Card } from '../../../../backend';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CurrencySelectComponent } from '../../../../shared/select/currency-select/currency-select.component';
 import { YesNoSelectComponent } from '../../../../shared/select/yes-no-select/yes-no-select.component';
@@ -25,7 +25,6 @@ import { Location } from '@angular/common';
     FontAwesomeModule, 
     ReactiveFormsModule, 
     CurrencyPipe, 
-    DatePipe, 
     FontAwesomeModule, 
     CurrencySelectComponent, 
     YesNoSelectComponent, 
