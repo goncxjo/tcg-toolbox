@@ -33,38 +33,38 @@
     <form [formGroup]="form" [hidden]="!mostrarBusquedaAvanzada">
         <app-card-search-filters #cardSearchFilters></app-card-search-filters>
     </form>
-    @if (cards$ | async; as cards) {
-        <div class="list-group">
-            @for (card of resultCards; track $index) {
-                <button type="button" class="list-group-item list-group-item-action" [class.active]="isSelectedCard(card)" (click)="toggleSelection(card)" [style.background-image]="getBackgroundImage(card)">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="col d-flex flex-column text-truncate">
-                            <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight>
-                            <ngb-highlight [result]="card['expansion_name']" [term]="term" class="fs-6 text-truncate"></ngb-highlight>
-                            <ngb-highlight [result]="card.code.default" [term]="term" class="fs-6 text-truncate"></ngb-highlight>
-                        </div>
+    <div class="list-group">
+        @for (card of resultCards; track $index) {
+            <button type="button" class="list-group-item list-group-item-action" [class.active]="isSelectedCard(card)" (click)="toggleSelection(card)" [style.background-image]="getBackgroundImage(card)">
+                <div class="d-flex flex-row align-items-center w-70">
+                    <div class="d-flex flex-column text-truncate">
+                        <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight>
+                        <ngb-highlight [result]="card['expansion_name']" [term]="term" class="fs-6 text-truncate"></ngb-highlight>
+                        <ngb-highlight [result]="card.code.default" [term]="term" class="fs-6 text-truncate"></ngb-highlight>
                     </div>
-                </button>
-            }
-            @if(isValidTerm && resultCards.length == 0) {
-                <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
-                    <fa-icon [icon]="warningIcon" class="me-3"/>
-                    <span>
-                        No se han encontrado resultados
-                    </span>
                 </div>
-            }
+            </button>
+        }
+        @if(isValidTerm && noData) {
+            <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
+                <fa-icon [icon]="warningIcon" class="me-3"/>
+                <span>
+                    No se han encontrado resultados
+                </span>
+            </div>
+        }
+        @if (cards$ | async; as cards) {
             @if((page * pageSize) < cards.total) {  
                 <button type="button" class="text-bg-primary text-center list-group-item list-group-item-action" (click)="applyFilter(true)">
                     <div class="d-flex flex-row align-items-center">
-                        <div class="col d-flex flex-column text-truncate">
+                        <div class="d-flex flex-column text-truncate">
                             Mostrar más resultados
                         </div>
                     </div>
                 </button> 
             }
-        </div>
-    }
+        }
+    </div>
 </div>
 <div class="modal-footer">
     <div class="flex-grow-1">

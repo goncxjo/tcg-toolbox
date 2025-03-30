@@ -4,7 +4,7 @@ import { faArrowRight, faFilter, faSearch, faTimes, faTriangleExclamation } from
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Observable, Subscription, catchError, debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
+import { Observable, Subscription, catchError, debounceTime, distinctUntilChanged, finalize, of, tap } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe, Location } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
@@ -32,7 +32,7 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   emptyResult = of({ total: 0, result: []} as PageResult<Card>);
 
   cardSearchTextInput = new FormControl();
-  searching = false;
+  noData = false;
   termSub!: Subscription;
   filterSub!: Subscription;
   
@@ -50,7 +50,7 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   }
 
   get isValidTerm() {
-    return this.term != '' && this.term.length >= 3;
+    return this.term != '' && this.term?.length >= 3;
   }
 
   clearTerm() {
@@ -105,10 +105,9 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
 
     if (this.isValidTerm) {
       this.cards$ = this.tcgPlayerService.getCards(this.term, this.mapFilters(), this.page, this.pageSize).pipe(
-        tap(() => this.searching = true),
         tap((res) => (this.page > 1) ? this.resultCards.push(...res.result) : this.resultCards = res.result),
-        tap(() => this.searching = false),
         catchError(() => this.emptyResult),
+        finalize(() => this.noData = this.resultCards.length == 0),
       );  
     } else {
       this.cards$ = this.emptyResult;
@@ -144,7 +143,7 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   }
 
   getBackgroundImage(card: Card) {
-    return `linear-gradient(to left, transparent, var(--bs-list-group-bg) 90%), url('${card['image_url']}')`
+    return `linear-gradient(to left, transparent, var(--bs-list-group-bg) 90%), url('${card['image_url']}'), linear-gradient(to left, transparent, black 90%)`
   }
   
   sendData() {
