@@ -74,7 +74,7 @@ export class DataService {
     const alreadyExists = _.some(this.#cards(), (c) => c.tcg_player_id === card.tcg_player_id);
     if (!alreadyExists) {      
       const info = this.tcgPlayerService.getCardById(tcg_player_id);
-      const price = this.tcgPlayerService.getCardPrice(tcg_player_id);
+      const price = this.tcgPlayerService.getCardPrices(tcg_player_id);
 
       forkJoin([info, price]).subscribe(result => {
         const cardResult = result[0];
@@ -82,14 +82,27 @@ export class DataService {
 
         cardResult.multiplier = qty;
         
-        if (priceResult.tcg_player_foil) {
+        // MARKET PRICE
+        if (priceResult[0].tcg_player_foil) {
           cardResult.selectedPrice = 'tcg_player_foil'; 
-          cardResult.prices.set('tcg_player_foil', priceResult.tcg_player_foil);
+          cardResult.prices.set('tcg_player_foil', priceResult[0].tcg_player_foil);
         }
-        if (priceResult.tcg_player_normal) {
+        if (priceResult[0].tcg_player_normal) {
           cardResult.selectedPrice = 'tcg_player_normal'; 
-          cardResult.prices.set('tcg_player_normal', priceResult.tcg_player_normal);
+          cardResult.prices.set('tcg_player_normal', priceResult[0].tcg_player_normal);
         }
+        
+        // LISTED MEDIAN PRICE
+        if (priceResult[1].tcg_player_foil) {
+          cardResult.selectedPrice = 'tcg_player_foil_listed_median'; 
+          cardResult.prices.set('tcg_player_foil_listed_median', priceResult[1].tcg_player_foil);
+        }
+        if (priceResult[1].tcg_player_normal) {
+          cardResult.selectedPrice = 'tcg_player_normal_listed_median'; 
+          cardResult.prices.set('tcg_player_normal_listed_median', priceResult[1].tcg_player_normal);
+        }
+        
+        // CUSTOM PRICE
         if (card.selectedPrice == 'custom' && card.customPrice) {
           cardResult.selectedPrice = 'custom';
           cardResult.customCurrency = card.customCurrency;
