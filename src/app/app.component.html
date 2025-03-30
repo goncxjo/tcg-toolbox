@@ -1,9 +1,33 @@
-<app-navbar #navbar></app-navbar>
+<div #appContainer class="app-container">
+      <app-navbar #navbar></app-navbar>
+      <div class="body" [class.sidebar-collapsed]="isSidebarCollapsed">
+            <aside #collapse="ngbCollapse" [ngbCollapse]="isSidebarCollapsed" [horizontal]="true" [class.aside-background-color-dark]="isHome" [class.aside-background-color-light]="!isHome">
+                  <app-sidebar class="d-flex h-100"></app-sidebar>
+            </aside>
+            <main class="d-flex flex-column">
+                  <app-top-banner></app-top-banner>
+                  <!-- @defer (on timer(1000ms)) {
+                        <div class="container mb-1">
+                              <xng-breadcrumb #breadcrumb></xng-breadcrumb>
+                        </div>
+                  } -->
+                  <div class="flex-grow-1">
+                        @if(!isHome) {
 
-<div class="app-container">
-  <div class="container mb-4">
-    <router-outlet></router-outlet>
-  </div>
+                              <div class="container my-3">
+                                    <div class="row">
+                                          <div class="col">
+                                                <app-logo-tool></app-logo-tool>
+                                          </div>
+                                    </div>
+                              </div>
+                        }
+                        <router-outlet></router-outlet>
+                  </div>
+                  <app-ad-banner class="d-flex justify-content-center"></app-ad-banner>
+                  <app-footer></app-footer>
+            </main>
+      </div>
 </div>
 
-<app-footer></app-footer>
+<app-loading-screen></app-loading-screen>

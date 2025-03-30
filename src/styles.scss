@@ -1,113 +1,152 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200..900&display=swap');
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: "Source Sans 3", sans-serif;
+
+	// box-shadow: none !important;
 }
 
 body {
 	min-height: 100vh;
+	min-height: 100dvh;
+}
+
+app-root {
+	@extend .d-flex;
+	@extend .flex-column;
+	@extend .min-vh-100;
 }
 
 @font-face {
-	font-family: pixel-digivolve;
-	src: url('assets/fonts/Pixel\ Digivolve.otf') format("truetype");
+	font-family: pixel-gosub;
+	src: url('assets/fonts/PixelGosub-ZaRz.ttf') format("truetype");
 }
 
-@font-face {
-	font-family: pixel-digivolve-italic;
-	src: url('assets/fonts/Pixel\ Digivolve\ Italic.otf') format("truetype");
-}
+$font-family-base: "Montserrat", -apple-system, sans-serif !important;
+$app-navbar-height-default: 4rem;
 
-$border-width: 0;
-
-$font-family-base: "Montserrat",-apple-system,sans-serif !important;
-$app-navbar-height-default: 3.5rem;
-
+$web-font-path: false;
 /* Importing Bootstrap SCSS file. */
+@import 'bootswatch/dist/zephyr/variables';
 @import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/zephyr/bootswatch';
+
 // regular style toast
 @import 'ngx-toastr/toastr';
+@import 'ngx-toastr/toastr-bs5-alert';
 
-body {
-	background-color: $gray-200;
+@include media-breakpoint-down(md) {
+	.card-search-modal-height {
+		height: 100%;
+		max-width: none;
+		width: 100vw;
+		margin: 0;
+
+		& .modal-content {
+			height: 100%;
+			border-radius: 0;
+
+			&>* {
+				height: 100%;
+
+				& .modal-header {
+					padding: 0;
+
+					&>div>div>div {
+						border-radius: 0;
+					}
+				}
+
+				& .modal-body {
+					padding-top: 0;
+					padding-right: 0;
+					padding-left: 0;
+
+					&>.list-group {
+						border-radius: 0;
+					}
+				}
+			}
+		}
+	}
+
+	.modal-filter {
+		border-radius: 0;
+		border-top: 0;
+	}
+}
+
+.home-background-color {
+	--color-1: var(--bs-code-color);
+	--color-2: var(--bs-primary-text-emphasis);
+	--color-3: var(--bs-primary);
+	background:
+		linear-gradient(217deg, var(--color-1), rgba(255, 0, 0, 0) 70.71%),
+		linear-gradient(127deg, var(--color-2), rgba(0, 255, 0, 0) 70.71%),
+		linear-gradient(336deg, var(--color-3), rgba(0, 0, 255, 0) 70.71%);
+}
+
+.home-background-color-dark {
+	background-color: $primary-text-emphasis;
+}
+
+.home-background-color-light {
+	background-color: $gray-300;
 }
 
 hr {
 	border-width: 1px;
 }
 
-.app-container {
-	display: flex;
-	flex-direction: column;
-	min-height: calc(100vh - $app-navbar-height-default*2);
+.title-square {
+	font-family: pixel-gosub;
 }
 
-#ngb-typeahead-0 {
-	width: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 50vh;
-
-	.dropdown-item.active, .dropdown-item:active {
-		background-color: $gray-100;
-		color: black;
-	}
-}
-
-.cursor-loader {
-	cursor: wait;
-	* {
-		cursor: wait !important;
-	}
-}
-
-.loading-screen {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(255, 255, 255, 0.6);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 1000;
-  }
-  
-  /* card-info */
-  .list-group-item.list-group-item-action .bg-list-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 10px; 
-    height: 100%;
-    background-color: $gray-200;
-}
-
-.list-group-item.list-group-item-action.card-price-active .bg-list-item {
-    background-color: $primary;
-}
-
-.no-radius {
-	border-radius: 0;
-}
-
-.nav-default-height {
+.divider-nav-height {
 	height: $app-navbar-height-default;
 }
 
-.app-offcanvas {
-	height: calc($app-navbar-height-default - $hr-margin-y);
-	padding-top: $navbar-padding-y;
-	padding-bottom: 0;
-	
-    display: flex;
-    flex-wrap: inherit;
-    align-items: center;
-    justify-content: space-between;
-	font-size: $navbar-toggler-font-size;
+.xng-breadcrumb-root {
+	padding: 8px 0;
+	display: inline-block;
+}
+
+.xng-breadcrumb-separator {
+	padding: 0px 4px;
+}
+
+.xng-breadcrumb-link {
+	@extend .link-primary;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+// .nav-default-height {
+// 	height: $app-navbar-height-default;
+// }
+
+nav {
+
+	.input-group-sm>.form-control,
+	.input-group-sm>.form-select,
+	.input-group-sm>.input-group-text,
+	.input-group-sm>.btn {
+		padding: 0.19rem 0.5rem;
+		font-size: 0.875rem;
+		border-radius: var(--bs-border-radius-sm);
+	}
 }
 
 .offcanvas-footer {
@@ -115,60 +154,33 @@ hr {
 	height: $app-navbar-height-default;
 }
 
-.card-reduced-height {
-	height: 12rem;
+.no-cards {
+	height: 10em;
+	align-content: center;
+	@extend .text-muted;
+	@extend .text-center;
 }
 
-.card-reduced-img-container-height {
-	height: 10rem;
+.gelatine {
+animation: gelatine 0.5s infinite;
+}
+@keyframes gelatine {
+from, to { transform: scale(1, 1); }
+25% { transform: scale(0.9, 1.1); }
+50% { transform: scale(1.1, 0.9); }
+75% { transform: scale(0.95, 1.05); }
 }
 
-
-.translate-middle-sm-multiplier {
-    @extend .translate-middle;
+.tool-logo {
+	mask-size: 100%;
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
+	mask-position: center;
+	width: 2.5em;
+	height: 2.5em;
+	background-color: currentColor;
 }
 
-.translate-middle-sm-multiplier-buttons {
-    @extend .translate-middle;
-}
-
-@include media-breakpoint-down(sm) {
-	.translate-middle-sm-multiplier {
-		transform: translate(-75%, -25%) !important;
-	}
-	
-	.translate-middle-sm-multiplier-buttons {
-		transform: translate(-75%, -50%) !important;
-	}	
-}
-
-$bg-wsp: #25d366;
-$bg-fb: #1877f2;
-
-.btn-whatsapp {
-	--bs-btn-font-weight: 600;
-	--bs-btn-color: var(--bs-white);
-	--bs-btn-bg: var($bg-wsp);
-	--bs-btn-border-color: var($bg-wsp);
-	--bs-btn-hover-color: var(--bs-white);
-	--bs-btn-hover-bg: #{shade-color($bg-wsp, 10%)};
-	--bs-btn-hover-border-color: #{shade-color($bg-wsp, 10%)};
-	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-	--bs-btn-active-color: var(--bs-btn-hover-color);
-	--bs-btn-active-bg: #{shade-color($bg-wsp, 20%)};
-	--bs-btn-active-border-color: #{shade-color($bg-wsp, 20%)};
-}
-
-.btn-facebook {
-	--bs-btn-font-weight: 600;
-	--bs-btn-color: var(--bs-white);
-	--bs-btn-bg: var($bg-fb);
-	--bs-btn-border-color: var($bg-fb);
-	--bs-btn-hover-color: var(--bs-white);
-	--bs-btn-hover-bg: #{shade-color($bg-fb, 10%)};
-	--bs-btn-hover-border-color: #{shade-color($bg-fb, 10%)};
-	--bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-	--bs-btn-active-color: var(--bs-btn-hover-color);
-	--bs-btn-active-bg: #{shade-color($bg-fb, 20%)};
-	--bs-btn-active-border-color: #{shade-color($bg-fb, 20%)};
+.no-pointer {
+	cursor: default;
 }

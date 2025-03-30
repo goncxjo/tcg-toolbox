@@ -1,0 +1,43 @@
+<div class="card mb-3">
+	<div class="card-header text-bg-primary fw-bold">
+		Buscar
+	</div>
+	<div class="card-body">
+        <form [formGroup]="form">
+            <app-games-filters #gamesFilters></app-games-filters>
+        </form>
+	</div>
+</div>
+
+<div class="d-grid gap-3 d-sm-flex justify-content-sm-end mb-3">
+    <button type="button" class="btn btn-sm btn-success" (click)="applyFilter()" [disabled]="!selectedGame">
+        <fa-icon [icon]="searchIcon"/>
+        Buscar
+    </button>
+</div>	
+
+
+@if (data$ | async; as data) {
+    @for(item of items | slice: (page-1) * pageSize : page * pageSize; track item.id; let i = $index) {
+        <div class="card mb-2">
+            <div class="card-header text-bg-dark expansion-bg" (click)="toggleCollapse(i)" [class.border-bottom-0]="isCollapsed[i]" [style.background-image]="getBackgroundImage(item)">
+                <span class="expansion-name fw-bold">
+                    {{item.name}}
+                </span>
+            </div>
+            <div [ngbCollapse]="isCollapsed[i]">
+                <div class="card-body">
+                    <app-expansions [game]="selectedGame" [expansion]="item.urlName"></app-expansions>
+                </div>
+            </div>
+        </div>  
+    }
+
+    <div class="d-flex justify-content-center">
+        <ngb-pagination
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [collectionSize]="items.length"
+        />
+    </div>
+}

@@ -1,0 +1,11 @@
+<div class="row g-4 py-3 row-cols-2 row-cols-md-3 row-cols-lg-6">
+    @for (game of games; track $index) {
+        @if (game.isAvailable) {
+            <div class="col d-flex align-items-start card-game">
+                <div class="card" [class.soon]="game.disabled">
+                    <img [src]="setUrl(game)" [class.img-sm]="size === 'sm'">
+                </div>    
+            </div>
+        }
+    }
+  </div>

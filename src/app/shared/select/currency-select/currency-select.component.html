@@ -1,0 +1,8 @@
+<select #input class="form-select" [formControlName]="name">
+    @if (showOptionAll) {
+        <option [ngValue]="null">Todos</option>
+    }
+    <option value="ARS">{{innerLabel}}ARS</option>
+    <option value="USD">{{innerLabel}}USD</option>
+    
+</select>

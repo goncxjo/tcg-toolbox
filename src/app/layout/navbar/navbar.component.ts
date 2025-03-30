@@ -1,39 +1,55 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { NgbModalModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { LogoComponent } from '../logo/logo.component';
+import { CommonModule } from '@angular/common';
+import { CardSearchService } from '../../core';
+import { UserService } from '../../core/services/user.service';
+import { SidebarService } from '../../core/services/sidebar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
+  imports: [LogoComponent, CommonModule, FontAwesomeModule, NgbModalModule, NgbPopoverModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-  public isMenuCollapsed = true;
-  public appVersion: string = '';
-  public isLoading: boolean = false;
-  public closeResult: string = '';
+export class NavbarComponent {
+  searchIcon = faSearch;
+  menuIcon = faBars;
 
   constructor(
-    @Inject('APP_VERSION') appVersion: string,
-    private offcanvasService: NgbOffcanvas
-  ) {
-    this.appVersion = appVersion;
+    private cardSearchService: CardSearchService,
+    private userService: UserService,
+    private sidebarService: SidebarService,
+    private router: Router,
+
+  ) { }
+
+  openCardSearchModal() {
+    this.cardSearchService.openCardSearchModal();
   }
 
-  ngOnInit(): void {
-  }
-
-  getVersionText() {
-    return `v${this.appVersion}`
-  }
-
-	open(content: any) {
-    this.isMenuCollapsed = !this.isMenuCollapsed;
-		this.offcanvasService.open(content, { position: 'end', panelClass: 'bg-primary text-bg-dark' }).result.then(
-			(result) => {
-        this.isMenuCollapsed = !this.isMenuCollapsed;
-			},
-			(reason) => {
-			},
-		);
+	toggleSidebar() {
+    this.sidebarService.toggle();
 	}
+
+  getAvatar() {
+    return this.userService.avatar();
+  }
+
+  isLoggedIn() {
+    return this.userService.isLoggedIn();
+  }
+
+  login() {
+    this.userService.loginWithGoogle();
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/home']);
+  }
 }

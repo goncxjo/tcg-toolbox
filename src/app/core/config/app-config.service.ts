@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
 import { AppConfig } from "./app-config.model";
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AppConfigService {
 
     private httpClient!: HttpClient;
@@ -31,12 +33,12 @@ export class AppConfigService {
 
     // TODO: esto está por el AuthModule, ya que el método load no llega a traerle la data.
     // ver si es posible evitar esto.
-    getPromise() {
-        return this.httpClient.get(this.jsonFile);
+    getPromise(): Observable<AppConfig> {
+        return this.httpClient.get<AppConfig>(this.jsonFile || "{}");
     }
 
     get() {
-        return this.config;
+        return this.config || {};
     }
 
     InitAppConfig(): AppConfig {
@@ -50,9 +52,17 @@ export class AppConfigService {
             TCG_PLAYER_API_PRODUCT_ENDPOINT: environment.TCG_PLAYER_API_PRODUCT_ENDPOINT,
             TCG_PLAYER_API_PRICE_ENDPOINT: environment.TCG_PLAYER_API_PRICE_ENDPOINT,
             TCG_PLAYER_API_IMAGE_ENDPOINT: environment.TCG_PLAYER_API_IMAGE_ENDPOINT,
+            TCG_PLAYER_API_IMAGE_EXPANSION_ENDPOINT: environment.TCG_PLAYER_API_IMAGE_EXPANSION_ENDPOINT,
             TCG_PLAYER_PRODUCT_URL: environment.TCG_PLAYER_PRODUCT_URL,
             DOLAR_API_BASE_URL: environment.DOLAR_API_BASE_URL,
             CRYPTO_SECRET_KEY: environment.CRYPTO_SECRET_KEY,
+            FIREBASE_PROJECT_ID: environment.FIREBASE_PROJECT_ID,
+            FIREBASE_APP_ID: environment.FIREBASE_APP_ID,
+            FIREBASE_STORAGE_BUCKET: environment.FIREBASE_STORAGE_BUCKET,
+            FIREBASE_API_KEY: environment.FIREBASE_API_KEY,
+            FIREBASE_AUTH_DOMAIN: environment.FIREBASE_AUTH_DOMAIN,
+            FIREBASE_MESSAGING_SENDER_ID: environment.FIREBASE_MESSAGING_SENDER_ID,
+            FIREBASE_MEASUREMENT_ID: environment.FIREBASE_MEASUREMENT_ID,
             appVersion: environment.appVersion,
             production: environment.production,
         }

@@ -1,5 +1,5 @@
 {
-	"name": "tcg-price-calc",
+	"name": "tcg-toolbox",
 	"rewrites": [
 		{
 		  "source": "/tcgplayer-search/:path*",

@@ -1,0 +1,18 @@
+.list-group { 
+    .list-group-item {
+        background-repeat: no-repeat;
+        background-size: 45%;
+        background-position: 105% 27%;
+        background-color: var(--bs-list-group-bg);
+
+        &.active {
+            color: var(--bs-list-group-color);
+            border-color: var(--bs-list-group-border-color);
+            border-left: 10px solid var(--bs-list-group-active-border-color);
+        }
+    }
+}
+
+.w-70 {
+    width: 70%;
+}

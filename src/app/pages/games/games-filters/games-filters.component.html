@@ -1,0 +1,16 @@
+<div class="mb-3">
+    <form [formGroup]="childForm" class="row g-3">
+        <div class="col-md-6">
+            <label for="game" class="form-label">Juego <span class="text-danger">*</span></label>
+            <app-game-select [name]="'game'"></app-game-select>
+        </div>
+        <div class="col-md-6">
+            <label for="expansion" class="form-label">Nombre <span class="text-black-50">(Opcional)</span></label>
+            <input type="text" class="form-control" id="expansion" formControlName="expansion">
+        </div>
+        <div class="col-md-6">
+            <label for="showPreRelease" class="form-label">Mostrar Pre-Release</label>
+            <app-yes-no-select [name]="'showPreRelease'"></app-yes-no-select>
+        </div>
+    </form>
+</div>

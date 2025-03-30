@@ -1,0 +1,47 @@
+$nav-brand-padding: 0.7em;
+
+#app-title {
+  padding-left: 3.5rem;
+  color: white;
+  & * {
+    font-family: pixel-gosub;
+  }
+}
+
+.brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  display: flex;
+  align-items: center;
+  padding: 0px;
+}
+
+#brand-logo {
+  position: absolute;
+  height: 2.5em;
+  padding-left: 0.5em;
+  align-content: center;
+
+  &.lg {
+    height: 3em;
+  }
+}
+
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size:small;
+  line-height: 1;
+  padding-bottom: 0.1em;
+}
+.right div {
+  width: 100%;
+}

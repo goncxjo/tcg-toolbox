@@ -1,0 +1,28 @@
+@if (data$ | async; as cards) {
+    <div class="list-group">
+        @for (card of cards; track $index) {
+            <button type="button" class="list-group-item list-group-item-action" [style.background-image]="getBackgroundImage(card)">
+            <!-- [class.active]="isSelectedCard(card)" (click)="toggleSelection(card)"  -->
+                <div class="d-flex flex-row align-items-center">
+                    <div class="col d-flex flex-column text-truncate">
+                        <!-- <ngb-highlight [result]="card.name" [term]="term" class="text-truncate"></ngb-highlight> -->
+                         <p>{{card.name}}</p>
+                        <small class="text-truncate">{{card['expansion_name']}}</small>
+                        <small class="text-truncate">{{card.code.default}}</small>
+                    </div>
+                </div>
+            </button>
+        }
+        @empty {
+            <div class="alert alert-warning d-flex flex-row align-items-center justify-content-center m-0">
+                <!-- <fa-icon [icon]="warningIcon" class="me-3"/> -->
+                <span>
+                    No se han encontrado resultados
+                </span>
+            </div>
+        }
+    </div>
+}
+<div class="modal-footer bg-body justify-content-center border-top">
+<p>Cartas seleccionadas: {{ this.selectedCards.length }}</p>
+</div>

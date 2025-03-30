@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, concatMap, forkJoin, map, take } from 'rxjs';
-import { AppConfigService } from 'src/app/core';
 import { BlueprintCardTrader, Card, ExpansionCardTrader, ProductCardTrader } from '../models';
 import * as _ from 'lodash';
-import * as uuid from 'uuid';
+import { AppConfigService } from '../../core';
 
 @Injectable({
     providedIn: 'root'

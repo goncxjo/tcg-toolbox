@@ -1,0 +1,72 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+.app-subtitle {
+    border-left: 1px white solid;
+}
+
+.bg-modal-content {
+	background-color: $gray-200
+}
+
+.export-font {
+    font-size: 0.65rem;
+}
+
+.bg-badge-unit-price-export-card {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: auto;
+}
+
+.bg-badge-total-export-card {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: auto;
+}
+
+.card-export-item {
+    width: auto;
+
+	.img-container {
+        border: $gray-500 1px solid;
+        border-radius: .6rem;
+        position: relative;
+	
+		& > img {
+			-webkit-border-radius: .6rem;
+			-moz-border-radius: .6rem;
+			border-radius: .6rem;
+		}
+	}
+}
+
+.close-btn:focus {
+    box-shadow: none;
+}
+
+
+.qty-container {
+    position: absolute;
+    bottom: 0.15em;
+    .qty-bg {
+        // filter: opacity(0.8) drop-shadow(0px 3px 3px rgba(0, 0, 0, .5));
+        opacity: .8;
+        height: 36px;
+        width: 36px;
+        
+    }
+
+    .qty-number {
+        color: black;
+        position: absolute;
+        position-area: center;
+        font-family: pixel-gosub;
+        font-size: x-large;
+        padding-bottom: 7px;
+        padding-left: 4px;
+        line-height: 0;
+    }
+}

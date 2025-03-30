@@ -1,0 +1,190 @@
+<div class="container">
+	<!-- @if (showCustomDolar) {
+		<div class="input-group mb-3">
+			<span class="input-group-text">$</span>
+			<input type="number" [min]="0" class="form-control" id="custom" [formControl]="customDolarInput">
+			<span class="input-group-text">.00</span>
+		</div>
+	} -->
+	
+	<div class="card mb-3">
+		<div class="card-header text-bg-primary fw-bold d-flex align-items-center py-2 pe-2">
+			<span>Cartas</span>
+			<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
+				<div class="btn-group card-item-actions me-2" role="group">
+					<button type="button" class="btn btn-sm btn-success" (click)="sort('precio', 'asc')">
+						<fa-icon [icon]="sortUpIcon" />
+					</button>
+					<button type="button" class="btn btn-sm btn-success" (click)="sort('precio', 'desc')">
+						<fa-icon [icon]="sortDownIcon" />
+					</button>
+				</div>
+				<div class="btn-group me-2">
+					<button type="button" class="btn btn-sm btn-success" (click)="toggleDolar()">
+						{{ dolarService.userCurrency() }}
+						&nbsp;
+						<fa-icon [icon]="refreshIcon" />
+					</button>
+					<!-- <div class="btn-group" ngbDropdown role="group">
+						<button type="button" class="btn btn-sm btn-success" ngbDropdownToggle></button>
+						<div class="dropdown-menu" ngbDropdownMenu>
+							<button ngbDropdownItem (click)="toggleCustomDolar()">
+								@if (!showCustomDolar) {
+									Fijar dólar custom
+								}
+								@else {
+									Quitar dólar custom
+								}
+							</button>
+						</div>
+					</div> -->
+				</div>
+				<button type="button" class="btn btn-primary" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+					<fa-icon [icon]="collapseIcon" [rotate]="isCollapsed ? '180' : '0'"/>
+				</button>
+			</div>
+		</div>
+		<div class="card-body p-0" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+			@if (cardList$ | async; as cardList) {
+			<div class="card-list-container row g-0">
+				@for(card of cards(); track card) {
+					<div class="card-item-container"
+						[class.col-12]="!card.infoReduced"
+						[class.col-md-6]="card.infoReduced"
+						[class.col-lg-4]="card.infoReduced"
+					>
+						<div class="d-flex">
+							@defer {
+								<div class="p-3" [class.pe-0]="card.infoReduced">
+									<app-card-info [data]="card"></app-card-info>
+								</div>
+								@if(card.infoReduced) {
+									<div class="card-actions d-flex flex-column justify-content-between m-3 ms-0 border border-tertiary">
+										@if(!readonly) {
+											<button class="btn btn-sm btn-outline-danger btn-top border-0 shadow-none" (click)="removeCard(card)">
+												<fa-icon [icon]="closeIcon"/>
+											</button>
+											<div class="btn-group-vertical shadow-none" role="group">
+												<button type="button" class="btn btn-sm btn-outline-primary border-0 rounded-0 shadow-none" (click)="changeMultiplier(card, 1)">
+													<fa-icon [icon]="plusIcon"/>
+												</button>
+												<button type="button" class="btn btn-sm btn-primary px-0 border-0" disabled>
+													{{ card.multiplier }}
+												</button>
+												<button type="button" class="btn btn-sm btn-outline-primary border-0 rounded-0 shadow-none" (click)="changeMultiplier(card, -1)">
+													<fa-icon [icon]="minusIcon"/>
+												</button>
+											</div>
+										}
+										@else {
+											<button class="btn btn-sm btn-top border-0 shadow-none" disabled>
+												x{{ card.multiplier }}
+											</button>
+										}
+										<button class="btn btn-sm btn-outline-warning btn-bottom border-0 shadow-none" (click)="toggleInfoReduced(card)">
+											<fa-icon [icon]="maximizeIcon"/>
+										</button>
+		
+									</div>
+								}
+							}
+							@placeholder{
+								<div class="card-body p-3">
+									<h5 class="card-title placeholder-glow">
+										<span class="placeholder col-8"></span>
+									</h5>
+									<p class="card-text placeholder-glow">
+										<span class="placeholder col-7"></span>
+										<span class="placeholder col-4"></span>
+										<span class="placeholder col-4"></span>
+										<span class="placeholder col-6"></span>
+										<span class="placeholder col-4"></span>
+										<span class="placeholder col-6"></span>
+										<span class="placeholder col-6"></span>
+									</p>
+								</div>
+							}
+						</div>
+					</div>
+				}
+			</div>
+			}
+			@if(noData) {
+				<div class="d-flex flex-column no-cards text-center text-muted justify-content-center px-4">
+					<p class="card-text">No agregaste ninguna carta.</p>
+					<p class="card-text">Agregá cartas utilizando el buscador de barra superior</p>
+				</div>
+			}
+		</div>
+		<div class="card-footer text-bg-dark">
+			<p class="card-text fw-bold text-end">
+				TOTAL =<span class="ms-1">{{ total() | currency }}</span>
+			</p>
+		</div>
+	</div>
+	
+	@defer {
+		@if(!readonly) {
+			<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
+				@if (isLoggedIn() && !showDetails && !id && !noData) {
+					<button class="btn btn-success" type="button" (click)="toggleDetails()">
+						<fa-icon [icon]="plusIcon"></fa-icon> Crear lista
+					</button>
+				}
+				@else if (isLoggedIn() && showDetails && !id && !noData) {
+					<button class="btn btn-secondary" type="button" (click)="toggleDetails()">
+						<fa-icon [icon]="closeIcon"></fa-icon> Cancelar
+					</button>
+				}
+				@if(!noData) {
+					<button type="button" class="btn btn-primary " (click)="openExportImg()">
+						<fa-icon [icon]="shareIcon" /> Compartir
+					</button>	
+					<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
+						<fa-icon [icon]="trashIcon"></fa-icon> Limpiar lista
+					</button>
+				}
+			</div>
+		}
+		@else {
+			<div class="d-grid gap-3 d-sm-flex justify-content-md-center">
+				<button type="button" class="btn btn-primary" (click)="openExportImg()">
+					<fa-icon [icon]="shareIcon" /> Compartir
+				</button>
+				<button type="button" class="btn btn btn-success" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
+					<fa-icon [icon]="copyIcon"/> Copiar URL
+				</button>	
+			</div>
+		}
+		@if(showDetails) {
+		<div class="card my-3">
+			<div class="card-header text-bg-primary">
+				Detalle de la lista
+			</div>
+			<div class="card-body">
+				<form class="row g-3 mb-3" [formGroup]="form">
+					<div class="col-12 col-md-6">
+						<label for="name" class="form-label">Nombre  <span class="text-danger" [hidden]="readonly">*</span></label>
+						<input type="text" class="form-control" id="name" formControlName="name">
+					</div>
+					<!-- <div class="col-md-6">
+						<label for="customDolar" class="form-label">Fijar dolar</label>
+						<input type="number" class="form-control" id="customDolar" min="0">
+					</div> -->
+					<div class="col-12 col-md-6">
+						<label for="description" class="form-label">Descripción <span class="text-black-50" [hidden]="readonly">(Opcional)</span></label>
+						<input type="textarea" class="form-control" id="description" formControlName="description">
+					</div>
+				</form>
+				@if(!readonly) {
+					<div class="d-grid gap-3 d-sm-flex justify-content-sm-end">
+						<button class="btn btn-primary" type="button" (click)="save()">
+							<fa-icon [icon]="saveIcon"></fa-icon> Guardar
+						</button>
+					</div>	
+				}
+			</div>
+		</div>
+		}
+	}
+</div>

@@ -1,0 +1,131 @@
+<div class="modal-content" #content>
+	<div class="modal-header navbar text-bg-dark align-content-center">
+		<app-logo class="flex-grow-1" [preventRedirect]="true"></app-logo>
+        <button class="close-btn navbar-toggler border-0 p-2 text-white screenshot-hide" type="button" (click)="close('close')">
+			&#x2715;
+        </button>
+	</div>
+	<div class="modal-body bg-modal-content magicpattern">
+		<div class="col-12 screenshot-hide">
+			<h6>Configuración de cartas:</h6>
+		</div>
+		<form [formGroup]="form" class="row g-3 screenshot-hide mb-3">
+			<div class="col-12 col-md-3 col-lg-2">
+				<app-yes-no-select [name]="'showCurrency'" [innerLabel]="'Mostar precios: '"></app-yes-no-select>
+			</div>
+
+			<div class="col-12 col-md-3 col-lg-2">
+				<app-currency-select [name]="'currency'" [innerLabel]="'Moneda: '" *ngIf="mostrarPrecios" (change)="onCurrencyChange($event	)"></app-currency-select>
+			</div>
+
+			<div class="btn-group col-12 col-md-3 col-lg-2" role="group">
+				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(-0.5)" [disabled]="colExport < 2">
+					<fa-icon [icon]="searchMinusIcon" />
+				</button>
+				<button type="button" class="btn btn-primary btn-sm active" disabled >
+					Zoom
+				</button>
+				<button type="button" class="btn btn-primary btn-sm" (click)="zoom(0.5)" [disabled]="colExport > 5">
+					<fa-icon [icon]="searchPlusIcon" />
+				</button>
+			</div>
+		</form>
+
+		<div class="row screenshot-hide mb-3">
+			<div class="col-12">
+				<h6>
+					¿Qué querés hacer con esta imagen?
+				</h6>
+			</div>
+			<div class="btn-group col-12 col-md-6 col-lg-4" role="group">
+				<button type="button" class="btn btn-primary btn-sm" (click)="download()">
+					<span *ngIf="!descargandoFoto">
+						<fa-icon [icon]="downloadIcon" class="me-1"/>
+						Descargar 
+					</span>
+					<span *ngIf="descargandoFoto">
+						<fa-icon [icon]="syncIcon" class="me-1" animation="spin"/>
+						Descargando...
+					  </span>
+				</button>
+				<button type="button" class="btn btn-success btn-sm" (click)="screenshot()">
+					<span *ngIf="!capturarFoto">
+						<fa-icon [icon]="copyIcon" class="me-1"/>
+						Copiar
+					</span>
+					<span *ngIf="capturarFoto">
+						<fa-icon [icon]="syncIcon" class="me-1" animation="spin"/>
+						Copiando...
+					  </span>
+				</button>
+			</div>
+		</div>
+
+		<div class="alert alert-info my-4 screenshot-hide" role="alert">
+			¡Acomodá las cartas como vos quieras!
+		</div>
+
+		<div class="row row-cols-1 mb-3 d-none screenshot-show" *ngIf="mostrarPrecios">
+			<div class="col-12 col-md-6">
+				<small class="text-secondary-emphasis">
+					<strong>Dólar referencia: </strong>{{ dolarService.venta | currency }}
+				</small>
+			</div>
+			<!-- <div class="col-12 col-md-6">
+				<small class="text-secondary-emphasis">
+					<strong>Moneda seleccionada: </strong>{{ this.form.getRawValue().currency }}
+				</small>
+			</div>
+			<div class="col-12 col-md-6">
+				<small class="text-secondary-emphasis">
+					<strong>Precio total: </strong>{{ getPrecioTotal() | currency}}
+				</small>
+			</div>
+			<div class="col-12 col-md-6">
+				<small class="text-secondary-emphasis">
+					<strong>Fecha generación: </strong>{{ actualDate | date:'dd/MM/yyyy HH:mm:ss' }}
+				</small>
+			</div> -->
+		</div>
+
+		<div class="container-justify">
+			<div class="row g-3 justify-content-center" [sortablejs]="cards()" [sortablejsOptions]="options">
+				@for(item of cards(); track item) {
+				<div class="card-export-item p-0 m-2 text-center">
+					<div class="img-container d-flex justify-content-center align-items-center" [class.no-price]="!mostrarPrecios">
+						<img class="img-card" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-not-found.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
+						<span class="qty-container d-flex">
+							<img class="qty-bg" src="assets/empty-logo.svg" alt="TCG Price Calculator">
+							<span class="qty-number">{{ item.multiplier }}</span>
+						</span>
+					</div>
+
+					<span class="bg-badge-unit-price-export-card bg-primary badge d-block export-font mt-1" *ngIf="mostrarPrecios">
+						<span *ngIf="item.multiplier > 1">
+							{{ getPrecio(item) | currency }}
+						</span>
+						<span *ngIf="item.multiplier == 1">
+							&nbsp;
+						</span>
+					</span>	
+
+					<span class="bg-badge-total-export-card bg-dark badge d-block export-font" *ngIf="mostrarPrecios">
+						{{ getPrecio(item) * item.multiplier | currency }}
+					</span>
+
+				</div>
+			}
+			</div>
+		</div>
+	</div>
+	
+	@defer {
+		<div class="modal-footer bg-primary text-light">
+			<div class="alert p-0 text-end fw-bolder screenshot-hide" *ngIf="mostrarPrecios">
+				<span>Total:
+					<strong>{{ getPrecioTotal() | currency}}</strong>
+				</span>
+			</div>
+		</div>
+	}
+</div>

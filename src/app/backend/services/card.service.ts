@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Card } from '../models';
+import { Card, PageResult } from '../models';
 import { SearchProductResultTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import { Observable, map } from 'rxjs';
 
@@ -10,12 +10,13 @@ export class CardService {
 
   constructor() { }
 
-  public getListTcgPlayerCards(response$: Observable<SearchTcgPlayer>, imageEndpoint: string, productUrl: string): Observable<Card[]> {
+  public getListTcgPlayerCards(response$: Observable<SearchTcgPlayer>, imageEndpoint: string, productUrl: string): Observable<PageResult<Card>> {
     return response$.pipe(
       map((response: SearchTcgPlayer) => {
-        const results: SearchProductResultTcgPlayer[] = response.results[0].results;
+        const total = response.results[0].totalResults;
+        const searchResults: SearchProductResultTcgPlayer[] = response.results[0].results;
         let cards: Card[] = [];
-        results.forEach(res => {
+        searchResults.forEach(res => {
           try {
             const card = new Card();
             card.setFromTcgPlayer(res, imageEndpoint, productUrl);
@@ -24,14 +25,10 @@ export class CardService {
             console.log(`ocurrió un error al obtener información de la carta #${res.productId}`);
           }
         });
-        return cards;
-        // .sort((a, b) => {
-        //   if (a.releaseDate != null && b.releaseDate != null) {
-        //     if (a.releaseDate < b.releaseDate) return 1;
-        //     if (a.releaseDate > b.releaseDate) return -1;
-        //   }
-        //   return 0;
-        // });    
+        return {
+          total: total,
+          result: cards
+        };
       })
       )
     }

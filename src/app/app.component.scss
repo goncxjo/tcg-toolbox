@@ -1,3 +1,68 @@
-app-footer {
-    margin-top: auto;
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+$width-sidebar: 300px;
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    
+    & aside { 
+        overflow-y: auto;
+        text-wrap: nowrap;
+        max-width: $width-sidebar;
+        &.aside-background-color-light {
+            border-right: 1px solid $gray-500;
+        }
+    }
+
+    & main {
+        flex: 1;
+        overflow-y: auto;
+
+        & > app-ad-banner {
+            z-index: 10;
+            position: sticky;
+            bottom: 0;
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    }
+}
+
+.aside-background-color-dark {
+	background-color: rgba(0,0,0,0.5);
+	scrollbar-color: white transparent;
+	color: white;
+}
+	
+	.aside-background-color-light {
+	background-color: $gray-400;
+}
+
+@media (max-width: 768px) {
+    div.body {
+        
+        &:not(.sidebar-collapsed) {
+            width: calc(100% + $width-sidebar);
+        }
+        &.sidebar-collapsed {
+            width: 100%;
+        }
+        
+        @include transition($transition-collapse-width);
+    }
 }

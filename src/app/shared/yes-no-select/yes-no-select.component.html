@@ -1,5 +1,0 @@
-<select #input [(ngModel)]="value" class="form-select flex-grow-1" [disabled]="isDisabled"
-    (ngModelChange)="onModelChange($event)" (blur)="onTouch()" [compareWith]="compareSelectedValue">
-    <option [ngValue]="true">{{innerLabel}}Sí</option>
-    <option [ngValue]="false">{{innerLabel}}No</option>
-</select>

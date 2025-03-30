@@ -1,75 +1,99 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
-import { LoaderService } from './backend/services/loader.service';
+import { Component, effect, HostListener } from '@angular/core';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, ResolveEnd, ResolveStart, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/navbar/navbar.component';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { LoaderService } from './core';
+import { distinctUntilChanged, filter, map, Subscription } from 'rxjs';
+import { LoadingScreenComponent } from './layout/loading-screen/loading-screen.component';
+import { NgbCollapseModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { SidebarService } from './core/services/sidebar.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
+import { TopBannerComponent } from './layout/top-banner/top-banner.component';
+import { LogoToolComponent } from './layout/logo-tool/logo-tool.component';
+import { FooterComponent } from './layout/footer/footer.component';
+
+// Ag-Grid-Angular: Register all community features
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, LoadingScreenComponent, NgbCollapseModule, AdBannerComponent, TopBannerComponent, LogoToolComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
-  title: string = 'Cargando...';
-  // @ViewChild('httpLoader') httpLoader!: ElementRef;
-  @ViewChild('navbar') navbar!: NavbarComponent;
+export class AppComponent {
+  title = 'tcg-toolbox';
+  isHome: boolean = false;
+  isSidebarCollapsed: boolean = false;
+  bs!: Subscription;
 
   constructor(
-    private titleService: Title,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private loaderService: LoaderService,
-    private renderer: Renderer2,
-    private meta: Meta
-    ) {
+    private modalService: NgbModal,
+    private sidebarService: SidebarService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    effect(() => {
+      this.isSidebarCollapsed = this.sidebarService.isCollapsed();
+    })
   }
 
-  ngAfterViewInit() {
-    // const httpLoader = this.httpLoader.nativeElement;
-    this.loaderService.httpProgress().subscribe((status: boolean) => {
-      if (status) {
-        // this.renderer.removeClass(httpLoader, 'd-none');
-        this.navbar.isLoading = true;
-      } else {
-        // this.renderer.addClass(httpLoader, 'd-none');
-        this.navbar.isLoading = false;
+  readonly breakpoint$: any;
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: Event) {
+    if (this.modalService.hasOpenModals()) {
+      this.modalService.dismissAll();
+    }
+  }
+
+  ngOnInit() {
+    this.bs = this.breakpointObserver
+    .observe([Breakpoints.Small, Breakpoints.XSmall])
+    .pipe(distinctUntilChanged()).subscribe(() => this.collapseIfSmallScreen());
+
+    this.router.events.pipe(
+      filter(
+        (e) =>
+          e instanceof NavigationStart ||
+          e instanceof NavigationEnd ||
+          e instanceof NavigationCancel ||
+          e instanceof NavigationError ||
+          e instanceof ResolveStart ||
+          e instanceof ResolveEnd
+      ),
+      map((e) => e instanceof NavigationStart || e instanceof ResolveStart)
+    ).subscribe(loading => {
+      loading ? this.loaderService.show() : this.loaderService.hide();    
+      this.collapseIfSmallScreen();  
+      switch (this.router.url) {
+        case '/':
+        case '/home':
+          document.body.className = 'home-background-color';
+          this.isHome = true
+          break;
+          default:
+            document.body.className = 'home-background-color-light';
+            this.isHome = false
+          break;
       }
     });
   }
-
-  ngOnInit(): void {
-    this.updateMetaTags();
-
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => {
-        let title: string | null = null;
-        let showPageTitle = true;
-
-        let child = this.activatedRoute.firstChild;
-        while (child?.firstChild) {
-          child = child.firstChild;
-        }
-        if (child?.snapshot.data['title']) {
-          title = child.snapshot.data['title'];
-        }
-        if (child?.snapshot.data['pageTitleHidden']) {
-          showPageTitle = !child.snapshot.data['pageTitleHidden'];
-        }
-        return { title, showPageTitle };
-      }),
-    ).subscribe((cfg) => this.setTitle(cfg));
+  
+  collapseIfSmallScreen(): void {
+    if(this.breakpointObserver.isMatched(Breakpoints.Small) || this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
+      this.sidebarService.collapse();
+    } else {
+      this.sidebarService.expand();
+    }
   }
 
-  updateMetaTags() {
-    const url = `${window.location.protocol}//${window.location.hostname}`;
-    this.meta.updateTag({property: 'og:url', content: `${url}`})
-    this.meta.updateTag({property: 'twitter:url', content: `${url}`})
-  }
-
-  private setTitle(cfg: any) {
-    this.title = cfg.showPageTitle ? cfg.title : '';
-    this.titleService.setTitle('Price Calculator' + (cfg.title ? ' - ' + cfg.title : ''));
+  ngOnDestroy() {
+    this.bs.unsubscribe()
   }
 }
+

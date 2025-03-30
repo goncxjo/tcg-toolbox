@@ -1,0 +1,12 @@
+@if (data$ | async; as items) {
+    <select
+        multiple
+        class="form-select flex-grow-1"
+        [formControlName]="name"
+        size="7"
+    >
+        @for (item of items; track $index) {
+            <option [ngValue]="item.id">{{item.name}}</option>
+        }
+    </select>
+}

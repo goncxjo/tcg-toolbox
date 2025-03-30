@@ -1,0 +1,11 @@
+<select #input class="form-select" [formControlName]="name">
+    @if (data$ | async; as items) {
+        @if (showOptionAll) {
+            <option [ngValue]="null">Todos</option>
+        }
+        @for (item of items; track $index) {
+            <option [ngValue]="item.id">{{item.name}}</option>
+        }
+    }
+</select>
+    

@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
-import { AppConfigService } from 'src/app/core';
-import { Card, CardPrice } from '../models';
+import { Card, CardPrice, Dictionary, PageResult } from '../models';
 import { CardPriceTcgPlayer, CardPriceTcgPlayerType, ExpansionTcgPlayer, ProductPriceTcgPlayer, SearchTcgPlayer } from '../models/tcg-player';
 import * as _ from 'lodash';
 import { FiltersTcgPlayerQuery, createTcgPlayerQuery } from './tcg-player-search-query';
 import { CardService } from './card.service';
+import { AppConfigService } from '../../core';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,9 @@ export class TcgPlayerService {
     private searchEndpoint: string;
     private priceEndpoint: string;
     private imageEndpoint: string;
+    private imageExpansionEndpoint: string;
     private productUrl: string;
+    private categoryMappings: Dictionary<string> = {};
 
     constructor(
         private httpClient: HttpClient,
@@ -25,18 +27,18 @@ export class TcgPlayerService {
         this.searchEndpoint = this.appConfigService.config.TCG_PLAYER_API_SEARCH_ENDPOINT;
         this.priceEndpoint = this.appConfigService.config.TCG_PLAYER_API_PRICE_ENDPOINT;
         this.imageEndpoint = this.appConfigService.config.TCG_PLAYER_API_IMAGE_ENDPOINT;
+        this.imageExpansionEndpoint = this.appConfigService.config.TCG_PLAYER_API_IMAGE_EXPANSION_ENDPOINT;
         this.productUrl = this.appConfigService.config.TCG_PLAYER_PRODUCT_URL;
+        
+        this.categoryMappings['digimon']='63'
+        this.categoryMappings['one-piece']='68'
+        this.categoryMappings['dragon-ball-super']='80'
+        this.categoryMappings['pokemon']='3'
+        this.categoryMappings['yu-gi-oh']='2'
+        this.categoryMappings['magic']='1'
     }
-  
-    public getDigimonCards(value: string, filters: FiltersTcgPlayerQuery): Observable<Card[]> {
-        if (value == '' || value.toLocaleLowerCase() == 'mon' || value.length < 3) {
-            return of<Card[]>([]);
-        }
-
-        if(filters.isPreRelease && filters.expansions.length == 0) {
-            value = value.concat(' Pre-Release');
-        }
-
+ 
+    public getCards(value: string, filters: FiltersTcgPlayerQuery, page: number = 1, pageSize: number = 20): Observable<PageResult<Card>> {
         const url = `${this.searchEndpoint}/search/request`;
         const params = {
             q: value,
@@ -45,13 +47,13 @@ export class TcgPlayerService {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         });
-        var query = createTcgPlayerQuery(0, filters);
+        var query = createTcgPlayerQuery(0, filters, page, pageSize);
 
         const response$ = this.httpClient.post<SearchTcgPlayer>(url, JSON.stringify(query), { params: params, headers: headers });
         return this.cardService.getListTcgPlayerCards(response$, this.imageEndpoint, this.productUrl);
     }
 
-    public getDigimonCardById(tcg_player_id: number): Observable<Card> {
+    public getCardById(tcg_player_id: number): Observable<Card> {
         const url = `${this.searchEndpoint}/product/${tcg_player_id}/details`;
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
@@ -115,8 +117,8 @@ export class TcgPlayerService {
         );
     }
 
-    public getDigimonExpansions(): Observable<ExpansionTcgPlayer[]> {
-        const url = `${this.priceEndpoint}/Catalog/SetNames?active=true&categoryId=63&mpfev=2196`;
+    public getExpansions(game: string): Observable<ExpansionTcgPlayer[]> {
+        const url = `${this.priceEndpoint}/Catalog/SetNames?active=true&categoryId=${this.categoryMappings[game]}`;
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
         });
@@ -125,5 +127,10 @@ export class TcgPlayerService {
                 return _.sortBy(response.results, 'releaseDate').reverse();
             })
         );
+    }
+
+    public getDigimonImageExpansionURL(expansion: ExpansionTcgPlayer): string {
+        const setName = expansion.cleanSetName.replaceAll(' ', '');
+        return `${this.imageExpansionEndpoint.replace('{name}', setName)}`;
     }
 }

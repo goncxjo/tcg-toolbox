@@ -1,0 +1,12 @@
+.expansion-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.expansion-bg {
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-size: 30%;
+}

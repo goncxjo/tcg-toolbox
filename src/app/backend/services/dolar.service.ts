@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as rxjs from 'rxjs';
-import { AppConfigService } from 'src/app/core';
 import { DivisasBluelytics, Dolar } from '../models';
+import { AppConfigService } from '../../core';
 
 @Injectable({
     providedIn: 'root'
