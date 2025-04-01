@@ -51,7 +51,9 @@
   }
   <div class="d-grid gap-2 mt-3">
     @if(!isLoggedIn()) {
-    <button class="btn btn-primary" type="button" (click)="login()">Iniciar sesión</button>
+    <button class="btn btn-primary" type="button" (click)="login()">
+      Iniciar sesión con &nbsp; <img src="assets/google.svg" alt="Google" width="50" height="18" class="svg-invert">
+    </button>
     }
     @else {
     <!-- <button class="btn btn-primary" type="button">Editar perfil</button> -->
