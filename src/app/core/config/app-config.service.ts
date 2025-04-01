@@ -63,6 +63,7 @@ export class AppConfigService {
             FIREBASE_AUTH_DOMAIN: environment.FIREBASE_AUTH_DOMAIN,
             FIREBASE_MESSAGING_SENDER_ID: environment.FIREBASE_MESSAGING_SENDER_ID,
             FIREBASE_MEASUREMENT_ID: environment.FIREBASE_MEASUREMENT_ID,
+            ADVERTISING_BANNER_HIDDEN: environment.ADVERTISING_BANNER_HIDDEN,
             appVersion: environment.appVersion,
             production: environment.production,
         }

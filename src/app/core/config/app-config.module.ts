@@ -16,7 +16,9 @@ function CryptoSecretKeyFactory(config: AppConfigService) {
 function AppIsProductionFactory(config: AppConfigService) {
   return config.get().production;
 }
-
+function AdvertisingBannerHiddenFactory(config: AppConfigService) {
+  return config.get().ADVERTISING_BANNER_HIDDEN;
+}
 export function initializeApplicationConfig(): EnvironmentProviders {
   return makeEnvironmentProviders([
     {
@@ -40,6 +42,10 @@ export function initializeApplicationConfig(): EnvironmentProviders {
     },
     { provide: "production",
       useFactory: AppIsProductionFactory,
+      deps: [AppConfigService],
+    },
+    { provide: "ADVERTISING_BANNER_HIDDEN",
+      useFactory: AdvertisingBannerHiddenFactory,
       deps: [AppConfigService],
     },
   ]);

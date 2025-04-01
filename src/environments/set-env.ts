@@ -31,6 +31,7 @@ const setEnv = () => {
   FIREBASE_AUTH_DOMAIN: '${process.env['FIREBASE_AUTH_DOMAIN']}',
   FIREBASE_MESSAGING_SENDER_ID: '${process.env['FIREBASE_MESSAGING_SENDER_ID']}',
   FIREBASE_MEASUREMENT_ID: '${process.env['FIREBASE_MEASUREMENT_ID']}',
+  ADVERTISING_BANNER_HIDDEN: ${process.env['ADVERTISING_BANNER_HIDDEN']},
 	appVersion: '${appVersion}',
 	production: true,
   };
