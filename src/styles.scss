@@ -171,6 +171,16 @@ from, to { transform: scale(1, 1); }
 75% { transform: scale(0.95, 1.05); }
 }
 
+.rubberBand:hover {
+	animation: gelatine 0.5s;
+}
+@keyframes rubberBand {
+	from, to { transform: scale(1, 1); }
+	25% { transform: scale(0.9, 1.1); }
+	50% { transform: scale(1.1, 0.9); }
+	75% { transform: scale(0.95, 1.05); }
+}
+
 .tool-logo {
 	mask-size: 100%;
 	-webkit-mask-repeat: no-repeat;
@@ -179,6 +189,10 @@ from, to { transform: scale(1, 1); }
 	width: 2.5em;
 	height: 2.5em;
 	background-color: currentColor;
+}
+
+.svg-invert {
+	filter: invert(1);
 }
 
 .no-pointer {

@@ -13,6 +13,7 @@ import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { TopBannerComponent } from './layout/top-banner/top-banner.component';
 import { LogoToolComponent } from './layout/logo-tool/logo-tool.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { inject, Inject } from '@angular/core';
 
 // Ag-Grid-Angular: Register all community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -29,14 +30,17 @@ export class AppComponent {
   isHome: boolean = false;
   isSidebarCollapsed: boolean = false;
   bs!: Subscription;
+  adBannerHidden: boolean = false;
 
   constructor(
     private router: Router,
     private loaderService: LoaderService,
     private modalService: NgbModal,
     private sidebarService: SidebarService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    @Inject('ADVERTISING_BANNER_HIDDEN') private advertisingBannerHidden: boolean
   ) {
+    this.adBannerHidden = this.advertisingBannerHidden;
     effect(() => {
       this.isSidebarCollapsed = this.sidebarService.isCollapsed();
     })
