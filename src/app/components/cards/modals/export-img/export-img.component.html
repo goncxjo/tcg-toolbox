@@ -100,18 +100,20 @@
 						</span>
 					</div>
 
-					<span class="bg-badge-unit-price-export-card bg-primary badge d-block export-font mt-1" *ngIf="mostrarPrecios">
-						<span *ngIf="item.multiplier > 1">
-							{{ getPrecio(item) | currency }}
-						</span>
-						<span *ngIf="item.multiplier == 1">
-							&nbsp;
+					<div class="border border-secondary-subtle rounded-3 mt-1">
+						<span class="bg-badge-unit-price-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
+							<span *ngIf="item.multiplier > 1">
+								{{ getPrecio(item) | currency }}
+							</span>
+							<span *ngIf="item.multiplier == 1">
+								&nbsp;
 						</span>
 					</span>	
 
-					<span class="bg-badge-total-export-card bg-dark badge d-block export-font border" *ngIf="mostrarPrecios">
+					<span class="bg-badge-total-export-card bg-dark badge d-block export-font" *ngIf="mostrarPrecios">
 						{{ getPrecio(item) * item.multiplier | currency }}
 					</span>
+				</div>
 
 				</div>
 			}
