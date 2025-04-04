@@ -33,7 +33,8 @@
                         (gridSizeChanged)="agGridService.onGridSizeChanged($event)" (gridReady)="agGridService.onGridReady($event)"
                         [suppressDragLeaveHidesColumns]="true"
                         [suppressMoveWhenColumnDragging]="true"
-                        [gridOptions]="agGridService.gridOptions">
+                        [gridOptions]="agGridService.gridOptions"
+                        [theme]="agGridService.getTheme()">
                     </ag-grid-angular>
                 }
                 @else {

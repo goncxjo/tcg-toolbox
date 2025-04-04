@@ -1,10 +1,15 @@
-import { Injectable } from '@angular/core';
-import { FirstDataRenderedEvent, GridApi, GridOptions, GridReadyEvent, GridSizeChangedEvent, RowHeightParams, SizeColumnsToContentStrategy, SizeColumnsToFitGridStrategy, SizeColumnsToFitProvidedWidthStrategy } from 'ag-grid-community';
+import { Injectable, inject } from '@angular/core';
+import { colorSchemeDarkBlue, colorSchemeLightWarm, FirstDataRenderedEvent, GridApi, GridOptions, GridReadyEvent, GridSizeChangedEvent, RowHeightParams, SizeColumnsToContentStrategy, SizeColumnsToFitGridStrategy, SizeColumnsToFitProvidedWidthStrategy, themeQuartz } from 'ag-grid-community';
+import { AppThemeService } from './app-theme.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgGridService {
+  appThemeService: AppThemeService = inject(AppThemeService);
+  themeLight = themeQuartz.withPart(colorSchemeLightWarm);
+  themeDark = themeQuartz.withPart(colorSchemeDarkBlue);
+
   public gridOptions: GridOptions = {
     alwaysShowHorizontalScroll: true,
     columnDefs: [],
@@ -60,5 +65,13 @@ export class AgGridService {
   onGridReady(params: GridReadyEvent) {
     this.minRowHeight = params.api.getSizesForCurrentTheme().rowHeight;
     this.currentRowHeight = this.minRowHeight;
+  }
+
+  getTheme() {
+    const theme = this.appThemeService.theme();
+    if (theme === 'dark') {
+      return this.themeDark;
+    }
+    return this.themeLight;
   }
 }

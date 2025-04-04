@@ -11,10 +11,10 @@
       <app-logo class="flex-grow-1"></app-logo>
       <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
         <div class="input-group input-group-sm">
-          <span class="input-group-text bg-light border-light">
+          <span class="input-group-text bg-primary-subtle border-0">
             <fa-icon [icon]="searchIcon" />
           </span>
-          <input type="text" class="search-bar form-control bg-light border-light" placeholder="Buscar carta...">
+          <input type="text" class="search-bar form-control bg-primary-subtle border-0" placeholder="Buscar carta...">
         </div>
       </form>
     </div>
@@ -50,6 +50,9 @@
     </span>
   }
   <div class="d-grid gap-2 mt-3">
+    <button class="btn btn-primary" type="button" (click)="toggleTheme()">
+      Tema {{ theme.label }} <fa-icon [icon]="theme.icon" />
+    </button>
     @if(!isLoggedIn()) {
     <button class="btn btn-primary" type="button" (click)="login()">
       Iniciar sesión con &nbsp; <img src="assets/google.svg" alt="Google" width="50" height="18" class="svg-invert">

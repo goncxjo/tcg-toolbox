@@ -1,6 +1,6 @@
 <div @myInsertTrigger class="row" *ngIf="!data.infoReduced else cardReduced">
 	<div class="img-container col-sm-12 col-lg-6 mb-3 mb-lg-0 h-100">
-		<img [src]="data.image_url" class="img-fluid mh-100" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
+		<img [src]="data.image_url" class="img-fluid mh-100 rounded-4" onerror="this.onerror=null;this.src='assets/card-back.png';"/>
 	</div>
 
 	<div class="col-sm-12 col-md">
@@ -82,7 +82,7 @@
 
 				<div class="mt-3">
 					<span class="fw-bold text-primary card-price" *ngIf="getPrecioCarta()">
-						<span class="text-dark card-format">Precio: </span>
+						<span class="text-body card-format">Precio: </span>
 						{{ getPrecioCarta().toFixed(2) | currency }}
 					</span>
 					<span class="card-price" *ngIf="!getPrecioCarta()">
@@ -104,7 +104,7 @@
 <ng-template #cardReduced>
 	<div @myInsertTrigger class="row">
 		<div class="img-container card-reduced-img-container-height col-5">
-			<img [src]="data.image_url" class="img-fluid mh-100" onerror="this.onerror=null;this.src='assets/card-not-found.png';"/>
+			<img [src]="data.image_url" class="img-fluid mh-100 rounded-2" onerror="this.onerror=null;this.src='assets/card-not-found.png';"/>
 		</div>
 	
 		<div class="col d-flex flex-column font-small lh-sm ps-0">
@@ -113,7 +113,7 @@
 			<small class="text-muted">{{ data.code.default + ' # ' + data.rarity_name }}</small>
 
 			<div class="d-flex flex-column my-2 fw-bold" *ngIf="getPrecioCarta()">
-				<small class="text-dark">
+				<small class="text-body">
 					Precio:
 				</small>
 				<small class="text-primary ms-2">
