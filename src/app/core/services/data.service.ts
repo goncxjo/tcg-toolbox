@@ -82,29 +82,29 @@ export class DataService {
 
         cardResult.multiplier = qty;
         
-        // MARKET PRICE
-        if (priceResult[0].tcg_player_foil) {
-          cardResult.selectedPrice = 'tcg_player_foil'; 
-          cardResult.prices.set('tcg_player_foil', priceResult[0].tcg_player_foil);
-        }
-        if (priceResult[0].tcg_player_normal) {
-          cardResult.selectedPrice = 'tcg_player_normal'; 
-          cardResult.prices.set('tcg_player_normal', priceResult[0].tcg_player_normal);
-        }
-        
         // LISTED MEDIAN PRICE
         if (priceResult[1].tcg_player_foil) {
-          cardResult.selectedPrice = 'tcg_player_foil_listed_median'; 
+          cardResult.selectedPrice = card.selectedPrice || 'tcg_player_foil_listed_median'; 
           cardResult.prices.set('tcg_player_foil_listed_median', priceResult[1].tcg_player_foil);
         }
         if (priceResult[1].tcg_player_normal) {
-          cardResult.selectedPrice = 'tcg_player_normal_listed_median'; 
+          cardResult.selectedPrice = card.selectedPrice || 'tcg_player_normal_listed_median'; 
           cardResult.prices.set('tcg_player_normal_listed_median', priceResult[1].tcg_player_normal);
+        }
+
+        // MARKET PRICE
+        if (priceResult[0].tcg_player_foil) {
+          cardResult.selectedPrice = card.selectedPrice || 'tcg_player_foil'; 
+          cardResult.prices.set('tcg_player_foil', priceResult[0].tcg_player_foil);
+        }
+        if (priceResult[0].tcg_player_normal) {
+          cardResult.selectedPrice = card.selectedPrice || 'tcg_player_normal'; 
+          cardResult.prices.set('tcg_player_normal', priceResult[0].tcg_player_normal);
         }
         
         // CUSTOM PRICE
         if (card.selectedPrice == 'custom' && card.customPrice) {
-          cardResult.selectedPrice = 'custom';
+          cardResult.selectedPrice = card.selectedPrice;
           cardResult.customCurrency = card.customCurrency;
           cardResult.customPrice = card.customPrice;
           cardResult.prices.set('custom', this.getCustomPrice(card.customCurrency, card.customPrice));

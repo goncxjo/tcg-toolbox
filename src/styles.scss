@@ -30,6 +30,8 @@ $font-family-base: "Montserrat", -apple-system, sans-serif !important;
 $app-navbar-height-default: 4rem;
 
 $web-font-path: false;
+$enable-dark-mode: true;
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootswatch/dist/zephyr/variables';
 @import 'bootstrap/scss/bootstrap';
@@ -97,6 +99,33 @@ $web-font-path: false;
 .home-background-color-light {
 	background-color: $gray-300;
 }
+
+body[data-bs-theme="dark"] {
+	&.home-background-color {
+		background: var(--bs-body-bg);
+	}
+	
+	&.home-background-color-light {
+		background-color: var(--bs-body-bg);
+	}
+	
+	& .aside-background-color-light {
+		background-color: var(--bs-body-bg) !important;
+	}
+
+	& .bg-modal-content {
+		background-color: var(--bs-body-bg);
+	}
+
+	& .app-tool-header {
+		filter: none;	
+	}
+
+	& .app-tool-header:hover {
+		filter: brightness(0.9)
+	}
+}
+
 
 hr {
 	border-width: 1px;
