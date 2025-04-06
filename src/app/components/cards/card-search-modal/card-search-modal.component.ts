@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowRight, faFilter, faSearch, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faFilter, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +24,7 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
 
   searchIcon = faSearch;
   warningIcon = faTriangleExclamation;
-  filtersIcon = faFilter;
+  filtersIcon = faSliders;
   closeIcon = faTimes;
   goIcon = faArrowRight
 
@@ -116,13 +116,11 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
 
   toggleBusquedaAvanzada() {
     this.mostrarBusquedaAvanzada = !this.mostrarBusquedaAvanzada;
-    if(!this.mostrarBusquedaAvanzada) {
-      this.form.reset();
-    }
   }
 
   mapFilters(): FiltersTcgPlayerQuery {
     var values = this.form.getRawValue();
+    
     return {
       expansions: values?.expansion ? [values?.expansion] : [],
       categories: values?.category ? [values?.category] : [],

@@ -20,7 +20,7 @@ import { AsyncPipe } from '@angular/common';
 export class RarityMultiSelectComponent implements OnInit, AfterContentInit {
   data$!: Observable<ListItem[]>;
 
-  chlidForm: any;
+  childForm: any;
 
   @Input() isDisabled: boolean = false;
   @Input() name: string = '';
@@ -30,8 +30,8 @@ export class RarityMultiSelectComponent implements OnInit, AfterContentInit {
   ) { }
 
   ngAfterContentInit(): void {
-    this.chlidForm = this.parentForm.form;
-    this.chlidForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
+    this.childForm = this.parentForm.form;
+    this.childForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
   }
 
   ngOnInit(): void {

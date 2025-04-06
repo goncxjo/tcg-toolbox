@@ -34,7 +34,11 @@
                         [suppressDragLeaveHidesColumns]="true"
                         [suppressMoveWhenColumnDragging]="true"
                         [gridOptions]="agGridService.gridOptions"
-                        [theme]="agGridService.getTheme()">
+                        [theme]="agGridService.getTheme()"
+                        [pagination]="true"
+                        [paginationPageSize]="10"
+                        [paginationPageSizeSelector]="[5,10,20,50,100]"
+                        >
                     </ag-grid-angular>
                 }
                 @else {

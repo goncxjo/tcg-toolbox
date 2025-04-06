@@ -1,6 +1,6 @@
-<select #input class="form-select" [formControlName]="name">
+<select #input class="form-select" [formControlName]="name()">
     @if (data$ | async; as items) {
-        @if (showOptionAll) {
+        @if (showOptionAll()) {
             <option [ngValue]="null">Todos</option>
         }
         @for (item of items; track $index) {
