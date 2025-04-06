@@ -59,6 +59,7 @@ export class CardListService {
   }
   
   async create(entity: CardList) {
+    entity.user = this.userService.userId();
     return this.httpService.run<CardList>( 
       from(addDoc(this._collection, {...entity})).pipe(
         map((res: DocumentReference) => this.createEntity(res, res.id))
