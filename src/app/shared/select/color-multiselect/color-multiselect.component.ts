@@ -21,7 +21,7 @@ import { AsyncPipe } from '@angular/common';
 export class ColorMultiSelectComponent implements  OnInit, AfterContentInit {
   data$!: Observable<ListItem[]>;
 
-  chlidForm: any;
+  childForm: any;
 
   @Input() isDisabled: boolean = false;
   @Input() name: string = '';
@@ -31,8 +31,8 @@ export class ColorMultiSelectComponent implements  OnInit, AfterContentInit {
   ) { }
 
   ngAfterContentInit(): void {
-    this.chlidForm = this.parentForm.form;
-    this.chlidForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
+    this.childForm = this.parentForm.form;
+    this.childForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
   }
   ngOnInit(): void {
     this.data$ = this.getDigimonColors();

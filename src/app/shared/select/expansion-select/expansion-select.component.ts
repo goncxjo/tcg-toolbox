@@ -2,7 +2,7 @@ import { Component, Input, AfterContentInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroupDirective, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import { ExpansionTcgPlayer, Game, TcgPlayerService } from '../../../backend';
-import { Observable, Subscription, debounceTime, distinctUntilChanged, map, take, tap } from 'rxjs';
+import { Observable, Subscription, debounceTime, distinctUntilChanged, map, of, take, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -21,20 +21,12 @@ import { AsyncPipe } from '@angular/common';
 export class ExpansionSelectComponent implements AfterContentInit, OnDestroy {
   data$!: Observable<ExpansionTcgPlayer[]>;
 
-  chlidForm: any;
+  childForm: any;
 
   @Input() isDisabled: boolean = true;
   @Input() showOptionAll: boolean = false;
   @Input() name: string = '';
   susc!: Subscription;
-
-  // private _game!: Game;
-  // @Input() set game(value: Game) {
-  //   if (value) {
-  //     this._game = value;
-  //     this.data$ = this.tcgPlayerService.getExpansions(this._game.name);
-  //   }
-  // }
 
   constructor(
     private tcgPlayerService: TcgPlayerService,
@@ -42,30 +34,30 @@ export class ExpansionSelectComponent implements AfterContentInit, OnDestroy {
   ) { }
 
   ngAfterContentInit(): void {
-    this.chlidForm = this.parentForm.form;
-    this.chlidForm.addControl(this.name, new FormControl(''));
+    this.childForm = this.parentForm.form;
+    this.childForm.addControl(this.name, new FormControl(''));
     this.ctrl.disable();
 
-    this.susc = this.chlidForm.controls['game'].valueChanges
+    this.susc = this.childForm.controls['game'].valueChanges
     .pipe(
-      tap(() => this.disableInput(true)),
+      tap(() => this.ctrl.disable()),
       debounceTime(300),
       distinctUntilChanged()
     )
     .subscribe((value: string) => {
       if (value) {
         this.data$ = this.tcgPlayerService.getExpansions(value);
-        this.disableInput(false)
+        this.ctrl.enable();
+      }
+      else {
+        this.data$ = of([]);
+        this.ctrl.setValue('');
       }
     });
   }
 
   get ctrl(): FormControl {
-    return this.chlidForm.controls[this.name] as FormControl;
-  }
-
-  disableInput(value: boolean): void {
-    value ? this.ctrl.disable() : this.ctrl.enable();
+    return this.childForm.controls[this.name] as FormControl;
   }
 
   getExpansionImage(expansion: ExpansionTcgPlayer): string {
