@@ -3,6 +3,9 @@ import _, { Dictionary } from "lodash";
 let nameMappings: Dictionary<string> = {};
 nameMappings["digimon"] = "digimon-card-game";
 nameMappings["one-piece"] = "one-piece-card-game";
+nameMappings["yu-gi-oh"] = "yugioh";
+nameMappings["magic"] = "magic";
+nameMappings["pokemon"] = "pokemon";
 
 
 export function createTcgPlayerQuery(productId: number = 0, filters: FiltersTcgPlayerQuery, page: number = 1, pageSize: number = 20): any {
@@ -12,7 +15,13 @@ export function createTcgPlayerQuery(productId: number = 0, filters: FiltersTcgP
 		size: 20,
 		filters: {
 			term: {
-				productLineName: [nameMappings["digimon"], nameMappings["one-piece"]],
+				productLineName: [
+					nameMappings["digimon"],
+					nameMappings["one-piece"],
+					nameMappings["yu-gi-oh"],
+					nameMappings["magic"],
+					nameMappings["pokemon"]
+				],
 				productTypeName: ['Cards'],
 			},
 			range: {},

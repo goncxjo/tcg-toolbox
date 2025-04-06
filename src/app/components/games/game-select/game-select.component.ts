@@ -1,4 +1,4 @@
-import { Component, Input, AfterContentInit } from '@angular/core';
+import { Component, Input, AfterContentInit, input } from '@angular/core';
 import { FormControl, FormGroupDirective, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import { Observable, map, of } from 'rxjs';
@@ -21,12 +21,12 @@ import { GameService } from '../../../backend/services/game.service';
 export class GameSelectComponent implements AfterContentInit {
   data$!: Observable<any[]>;
 
-  chlidForm: any;
+  childForm: any;
 
-  @Input() isDisabled: boolean = false;
-  @Input() showOptionAll: boolean = false;
-  @Input() showOnlyAvailable: boolean = false;
-  @Input() name: string = '';
+  isDisabled = input<boolean>(false);
+  showOptionAll = input<boolean>(false);
+  showOnlyAvailable = input<boolean>(false);
+  name = input<string>('');
 
   constructor(
     private gameService: GameService,
@@ -35,14 +35,14 @@ export class GameSelectComponent implements AfterContentInit {
 
   ngOnInit() {
     let res = this.gameService.getAll();
-    if(this.showOnlyAvailable) {
+    if(this.showOnlyAvailable()) {
       res = _.filter(res, (g) => !g.disabled)
     }
     this.data$ = of(res);
   }
   
   ngAfterContentInit(): void {
-    this.chlidForm = this.parentForm.form;
-    this.chlidForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled}));
+    this.childForm = this.parentForm.form;
+    this.childForm.addControl(this.name, new FormControl({value: '', disabled: this.isDisabled()}));
   }
 }

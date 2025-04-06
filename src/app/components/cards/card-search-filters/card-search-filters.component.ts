@@ -40,7 +40,7 @@ export class CardSearchFiltersComponent {
   infoIcon = faCircleExclamation;
   childForm: any;
 
-  gameSelected!: Game;
+  gameLocked: boolean = false;
   @Input() isDisabled: boolean = false;
   
   constructor(
@@ -50,10 +50,32 @@ export class CardSearchFiltersComponent {
   ngAfterContentInit(): void {
     this.childForm = this.parentForm.form;
     this.childForm.addControl('game', new FormControl({ value: '', disabled: this.isDisabled }));
+    this.childForm.addControl('gameLocked', new FormControl({ value: '', disabled: this.isDisabled }));
     this.childForm.addControl('expansion', new FormControl({ value: '', disabled: this.isDisabled }));
+
+    setTimeout(() => {
+      const gameSelected = localStorage.getItem('game');
+      this.gameLocked = !!gameSelected;
+      if (this.gameLocked) {
+        this.childForm.get('game')?.setValue(gameSelected);
+        this.childForm.get('gameLocked')?.setValue(this.gameLocked);
+        this.gameCtrl.disable();
+      }
+    }, 200);
   }
 
-  onGameChanged($event: any) {
-    // this.gameSelected = $event.target;
-  }    
+  get gameCtrl(): FormControl {
+    return this.childForm.controls['game'] as FormControl;
+  }
+
+  onGameLockedChanged($event: any) {
+    this.gameLocked = $event.target.checked;
+    if (this.gameLocked) {
+      localStorage.setItem('game', this.childForm.get('game')?.value);
+      this.gameCtrl.disable();
+    } else {
+      localStorage.removeItem('game');
+      this.gameCtrl.enable();
+    }
+  }
 }

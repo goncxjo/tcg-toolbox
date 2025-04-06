@@ -2,33 +2,22 @@
     <div @myInsertRemoveTrigger class="card modal-filter">
         <div class="card-body">    
             <form [formGroup]="childForm" class="row g-3">
-                <!-- <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="isPreRelease" formControlName="isPreRelease" (change)="onIsPreReleaseChanged($event)">
-                        <label class="form-check-label" for="isPreRelease">Pre-Release</label>
-                    </div>
-                </div> -->
                 <div class="col-12 col-lg-6">
                     <label for="game" class="form-label">Juego</label>
-                    <app-game-select [name]="'game'" [showOnlyAvailable]="true"></app-game-select>
+                    <app-game-select [name]="'game'" [showOnlyAvailable]="true" [showOptionAll]="true"></app-game-select>
                 </div>
+                @if(gameCtrl.value) {
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gameLocked" formControlName="gameLocked" (change)="onGameLockedChanged($event)">
+                            <label class="form-check-label" for="gameLocked">Recordar decisión</label>
+                        </div>
+                    </div>
+                }
                 <div class="col-12 col-lg-6">
                     <label for="expansion" class="form-label">Expansión</label>
                     <app-expansion-select [name]="'expansion'" [showOptionAll]="true"></app-expansion-select>
                 </div>
-               
-                <!-- <div class="col-md-6">
-                    <label for="category" class="form-label">Categoría</label>
-                    <app-category-select [name]="'category'" [showOptionAll]="true"></app-category-select>
-                </div> 
-                <div class="col-6">
-                    <label for="color" class="form-label">Color</label>
-                    <app-color-multiselect [name]="'colors'"></app-color-multiselect>
-                </div> 
-                <div class="col-6">
-                    <label for="rarity" class="form-label">Rareza</label>
-                    <app-rarity-multiselect [name]="'rarities'"></app-rarity-multiselect>
-                </div> -->
             </form>
         </div>
     </div>
