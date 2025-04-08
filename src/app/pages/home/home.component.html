@@ -37,15 +37,9 @@
                     <h3 class="fs-2">{{tool.title}}</h3>
                     <p>{{tool.description}}</p>
                     <div class="d-flex d-grid gap-3 mb-3">
-                        <!-- TODO: implementar paths dinámicos -->
-                        @if(isLoggedIn()) {
-                        <button type="button" class="btn btn-primary" [routerLink]="['/', tool.path,'card-lists']">
-                            Mis listas
-                        </button>
-                        }
                         <button type="button" class="btn btn-primary"
-                            [routerLink]="['/', tool.path,'card-lists', 'new']">
-                            Calcular
+                            [routerLink]="['/', tool.path]">
+                            Abrir
                         </button>
                     </div>
                 </div>
