@@ -24,7 +24,7 @@ export class CardSearchService {
 
         modalRef.result.then((result: string) => {
             if (result == "new") {
-                this.router.navigate(['price-calc','card-lists', 'new']);
+                this.router.navigate(['price-calc']);
             }
         })
     }

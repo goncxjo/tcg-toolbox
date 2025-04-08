@@ -116,16 +116,16 @@
 				</div>
 			}
 		</div>
-		<div class="card-footer text-bg-dark">
+		<div class="card-footer">
 			<p class="card-text fw-bold text-end">
-				TOTAL =<span class="ms-1">{{ total() | currency }}</span>
+				TOTAL:<span class="ms-1">{{ total() | currency }}</span>
 			</p>
 		</div>
 	</div>
 	
 	@defer {
-		@if(!readonly) {
-			<div class="d-grid gap-3 d-sm-flex justify-content-md-center mb-3">
+		<div class="d-grid gap-3 d-sm-flex justify-content-md-center mb-3">
+			@if(!readonly) {
 				@if (isLoggedIn() && !showDetails && !id && !noData) {
 					<button class="btn btn-success" type="button" (click)="toggleDetails()">
 						<fa-icon [icon]="plusIcon"></fa-icon> Crear lista
@@ -137,25 +137,27 @@
 					</button>
 				}
 				@if(!noData) {
-					<button type="button" class="btn btn-primary " (click)="openExportImg()">
-						<fa-icon [icon]="shareIcon" /> Compartir
-					</button>	
 					<button class="btn btn-danger" type="button" (click)="openConfirmClear()">
 						<fa-icon [icon]="trashIcon"></fa-icon> Limpiar lista
 					</button>
 				}
-			</div>
-		}
-		@else {
-			<div class="d-grid gap-3 d-sm-flex justify-content-md-center mb-3">
-				<button type="button" class="btn btn-primary" (click)="openExportImg()">
-					<fa-icon [icon]="shareIcon" /> Compartir
-				</button>
+			}
+			@else {
 				<button type="button" class="btn btn btn-success" (click)="copyUrl()" ngbTooltip="URL Copiada :)" [autoClose]="'outside'" triggers="click">
 					<fa-icon [icon]="copyIcon"/> Copiar URL
 				</button>	
-			</div>
-		}
+			}
+			@if(!noData) {
+				<button type="button" class="btn btn-primary " (click)="openExportImg()">
+					<fa-icon [icon]="shareIcon" /> Compartir
+				</button>
+			}
+			@if(isLoggedIn()) {
+				<button type="button" class="btn btn-secondary" [routerLink]="['/','price-calc','card-lists']">
+					<fa-icon [icon]="cardlistIcon" /> Ver mis listas
+				</button>
+			}
+		</div>
 		@if(showDetails) {
 		<div class="card mb-3">
 			<div class="card-header text-bg-primary">

@@ -2,10 +2,9 @@ import { Routes } from '@angular/router';
 import { CardListsListComponent } from './card-lists-list/card-lists-list.component';
 import { CardListsEditComponent } from './card-lists-edit/card-lists-edit.component';
 import { getByIdResolver }  from './get-by-id.resolver';
-import { createResolver } from './create.resolver';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/price-calc','card-lists','new']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/price-calc']);
 
 export const CARD_LISTS_ROUTES: Routes = [
   {
@@ -16,17 +15,6 @@ export const CARD_LISTS_ROUTES: Routes = [
       title: 'Listas',
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-  },
-  {
-    path: 'new',
-    data: {
-      title: 'Crear',
-      breadcrumb: 'Crear'
-    },
-    resolve: {
-      entity: createResolver
-    },
-    component: CardListsEditComponent,
   },
   {
     path: ':id',
