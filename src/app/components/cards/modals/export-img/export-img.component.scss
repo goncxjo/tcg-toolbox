@@ -35,10 +35,11 @@
         border-radius: .6rem;
         position: relative;
 	
-		& > img {
+		& > .img-card {
 			-webkit-border-radius: .6rem;
 			-moz-border-radius: .6rem;
 			border-radius: .6rem;
+            transition: height 0.2s , width 0.2s;
 		}
 	}
 }
