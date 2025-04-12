@@ -9,12 +9,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CurrencySelectComponent } from '../../../../shared/select/currency-select/currency-select.component';
 import { YesNoSelectComponent } from '../../../../shared/select/yes-no-select/yes-no-select.component';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
-import { DataService } from '../../../../core/services/data.service';
 import { faCopy, faDownload, faSearchMinus, faSearchPlus, faSync } from '@fortawesome/free-solid-svg-icons';
 import { LogoComponent } from '../../../../layout/logo/logo.component';
 import { SortablejsDirective } from '@worktile/ngx-sortablejs';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Location } from '@angular/common';
+import { CardListStore } from '../../../../core/services/card-list.store';
 
 @Component({
   selector: 'app-export-img',
@@ -52,13 +52,13 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
 
   form!: FormGroup;
 
-  cards = computed(() => this.dataService.cards());
+  // cards = computed(() => this.cardListStore.cards());
   actualDate: Date = new Date();
   url: string = window.document.URL.replaceAll('/edit', '');
 
-  getPrecioTotal() {
-    return this.dataService.totals()
-  }
+  // getPrecioTotal() {
+  //   return this.cardListStore.totals()
+  // }
   
   colExport: number = 3;
   cardHeight: string = `calc(88px * ${this.colExport})`;
@@ -68,8 +68,8 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   capturarFoto: boolean = false;
 
   dolarService = inject(DolarDataService);
-  dataService = inject(DataService);
-
+  cardListStore = inject(CardListStore);
+  
   constructor(
     private modalService: NgbActiveModal,
     private formBuilder: FormBuilder,
@@ -81,7 +81,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
     this.form = this.buildForm();
     
-    this.cards().forEach(card => {
+    this.cardListStore.cards().forEach(card => {
       if (!card.image_base64) {
         this.getBase64ImageFromUrl(card.image_url)
         .then(result => {
@@ -120,7 +120,7 @@ export class ExportImgComponent implements OnInit, AfterContentInit {
   }
 
   getPrecio(c: Card) {
-    return this.dataService.getPrice(c);
+    return this.cardListStore.getPrice(c);
   }
 
   zoom(i: number){

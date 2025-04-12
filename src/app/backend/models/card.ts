@@ -65,39 +65,7 @@ export class Card {
 			this.multiplier += i;
 		}
 	}
-
-	// exportEntity() {
-	// 	const model = {
-	// 		tcg_player_id: this.tcg_player_id,
-	// 		code: this.code.default,
-	// 		multiplier: this.multiplier,
-	// 		customPrice: this.prices.get('custom')
-	// 	} as CardExport;
-	// 	return model;
-	// }
-
-	// exportString() {
-	// 	const model = this.exportEntity();
-	// 	const customPrice: string = `${model.customPrice?.currency_symbol} ${model.customPrice?.currency_value}`
-	// 	return `${model.tcg_player_id}_${model.code}_${model.multiplier}_${customPrice}`;
-	// }
-
-	// mapExportToEntity(value: string) {
-	// 	try {
-	// 		const [tcg_player_id, code, multiplier, customPriceString] = value.split('_');
-	// 		const customPrice = new CardPrice();
-	// 		customPrice.setPrice(customPriceString);
 	
-	// 		this.tcg_player_id = parseInt(tcg_player_id);
-	// 		this.code = new CardCode(code);
-	// 		this.multiplier = parseInt(multiplier);
-	// 		this.prices.set('custom', customPrice);
-				
-	// 	} catch (error) {
-	// 		console.log(`error al mapear #${value}`)
-	// 	}
-	// }
-
 	getPrecioOrDefault() {
 		if (this.selectedPrice) {
 			return this.prices.get(this.selectedPrice);

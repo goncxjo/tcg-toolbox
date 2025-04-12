@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
-import { DataService } from '../../../core/services/data.service';
 import { map, Observable, take } from 'rxjs';
 import _ from 'lodash';
 import { AsyncPipe } from '@angular/common';
+import { CardListStore } from '../../../core/services/card-list.store';
 
 @Component({
   selector: 'app-expansions',
@@ -18,9 +18,10 @@ export class ExpansionsComponent {
   @Input() game: string = '';
   @Input() expansion: string = '';
 
+  private dataService = inject(CardListStore)
+
   constructor(
     private tcgPlayerService: TcgPlayerService,
-    private dataService: DataService
   ) {
     this.selectedCards = _.clone(this.dataService.cards())
   }
