@@ -43,6 +43,8 @@ src/assets/config/*
 /src/environments/environment.*.ts
 /src/environments/.env
 /src/proxy.conf.*
+.env
+
 # Firebase
 .firebase
 *-debug.log
