@@ -1,11 +1,9 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBan, faCheck, faPen, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { Dolar, DolarService } from '../../backend';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import _ from 'lodash';
 import { CurrencyPipe } from '@angular/common';
-import { take } from 'rxjs';
 import { DolarDataService } from '../../core/services/dolar.data.service';
 
 @Component({

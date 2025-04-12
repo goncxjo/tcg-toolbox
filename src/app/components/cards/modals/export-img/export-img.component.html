@@ -89,8 +89,8 @@
 		</div>
 
 		<div class="container-justify">
-			<div class="row g-3 justify-content-center" [sortablejs]="cards()" [sortablejsOptions]="options">
-				@for(item of cards(); track item) {
+			<div class="row g-3 justify-content-center" [sortablejs]="cardListStore.cards()" [sortablejsOptions]="options">
+				@for(item of cardListStore.cards(); track item) {
 				<div class="card-export-item p-0 m-2 text-center">
 					<div class="img-container d-flex justify-content-center align-items-center" [class.no-price]="!mostrarPrecios">
 						<img class="img-card" [src]="item.image_base64" onerror="this.onerror=null;this.src='assets/card-not-found.png';" [style.height]="cardHeight" [style.width]="cardWidth"/>
@@ -125,7 +125,7 @@
 		<div class="modal-footer bg-primary text-light">
 			<div class="alert p-0 text-end fw-bolder" *ngIf="mostrarPrecios">
 				<span>TOTAL:
-					<strong>{{ getPrecioTotal() | currency}}</strong>
+					<strong>{{ cardListStore.total() | currency}}</strong>
 				</span>
 			</div>
 		</div>

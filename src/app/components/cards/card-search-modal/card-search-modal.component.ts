@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowRight, faFilter, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faSearch, faSliders, faTimes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal, NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
 import { Card, FiltersTcgPlayerQuery, PageResult, TcgPlayerService } from '../../../backend';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -8,9 +8,9 @@ import { Observable, Subscription, catchError, debounceTime, distinctUntilChange
 import _ from 'lodash';
 import { AsyncPipe, Location } from '@angular/common';
 import { CardSearchFiltersComponent } from '../card-search-filters/card-search-filters.component';
-import { DataService } from '../../../core/services/data.service';
 import { cardsStorage } from '../../../utils/type-safe-localstorage/card-storage';
 import { CardListFiltersComponent } from '../../../pages/price-calc/card-lists/card-list-filters/card-list-filters.component';
+import { CardListStore } from '../../../core/services/card-list.store';
 
 @Component({
   selector: 'app-card-search-modal',
@@ -62,22 +62,23 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   }
 
   get isUpdateMode() {
-    return this.dataService.updateMode;
+    return this.cardListStore.updateMode();
   }
+
+  cardListStore = inject(CardListStore);
 
   constructor(
     private tcgPlayerService: TcgPlayerService,
     private formBuilder: FormBuilder,
-    private dataService: DataService,
     public activeModal: NgbActiveModal,
     private location: Location
   ) {
-    if (!this.dataService.cardsLength()) {
+    if (!this.cardListStore.cardListLength()) {
       const tmpCards = cardsStorage.getItems()
-      this.dataService.setFromTmp(tmpCards);
+      this.cardListStore.setFromTmp(tmpCards);
     }
     setTimeout(() => {
-      this.selectedCards = _.clone(this.dataService.cards())
+      this.selectedCards = _.clone(this.cardListStore.cards())
     }, 1000);
   }
 
@@ -145,7 +146,7 @@ export class CardSearchModalComponent implements AfterViewInit, OnDestroy {
   }
   
   sendData() {
-    this.dataService.update(this.selectedCards);
+    this.cardListStore.update(this.selectedCards);
   }
 
   create() {

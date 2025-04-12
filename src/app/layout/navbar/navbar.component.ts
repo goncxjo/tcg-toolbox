@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faMoon, faSearch, faSun } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogoComponent } from '../logo/logo.component';
 import { CommonModule } from '@angular/common';
-import { CardSearchService } from '../../core';
+import { CardSearchService, ToolService } from '../../core';
 import { UserService } from '../../core/services/user.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { Router } from '@angular/router';
@@ -34,13 +34,12 @@ export class NavbarComponent {
     dark: { name: 'dark', icon: faMoon, label: 'Oscuro'}
   }
 
-  constructor(
-    private cardSearchService: CardSearchService,
-    private userService: UserService,
-    private sidebarService: SidebarService,
-    private appThemeService: AppThemeService,
-    private router: Router,
-  ) { }
+  private cardSearchService = inject(CardSearchService);
+  private userService = inject(UserService);
+  private sidebarService = inject(SidebarService);
+  private appThemeService = inject(AppThemeService);
+  toolService = inject(ToolService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.theme = this.getTheme();

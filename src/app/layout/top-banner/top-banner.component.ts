@@ -13,7 +13,7 @@ import { ContentInfoComponent } from '../../shared/content-info/content-info.com
 export class TopBannerComponent {
   private toolService = inject(ToolService)
 
-  infoMsgPriceCalc: string = `<strong>RECORDATORIO: </strong>Los precios son obtenidos de TCGplayer y otras tiendas, los cuales no reflejan los precios reales de tu región. El uso de esta herramienta es única y exclusivamente para tener un punto de referencia a la hora de comerciar entre pares.`;
+  infoMsgPriceCalc: string = `<strong>RECORDATORIO: </strong>Los precios son obtenidos de TCGplayer, los cuales no reflejan los precios reales de tu región. El uso de esta herramienta es única y exclusivamente para tener un punto de referencia a la hora de comerciar entre pares.`;
 
 
 

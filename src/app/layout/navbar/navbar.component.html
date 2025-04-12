@@ -7,28 +7,39 @@
         </a>
       </li>
     </ul>
-    <div class="collapse navbar-collapse">
-      <app-logo class="flex-grow-1"></app-logo>
-      <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
-        <div class="input-group input-group-sm">
-          <span class="input-group-text bg-primary-subtle border-0">
-            <fa-icon [icon]="searchIcon" />
-          </span>
-          <input type="text" class="search-bar form-control bg-primary-subtle border-0" placeholder="Buscar carta...">
-        </div>
-      </form>
+    <div class="collapse navbar-collapse justify-content-between">
+      <app-logo></app-logo>
+      @if(toolService.isPriceCalculator()) {
+        <form class="d-flex search-bar-container" role="search" (click)="openCardSearchModal()">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-primary-subtle border-0">
+              <fa-icon [icon]="searchIcon" />
+            </span>
+            <input type="text" class="search-bar form-control bg-primary-subtle border-0" placeholder="Buscar carta...">
+          </div>
+        </form>
+      }
     </div>
 
-    <div class="d-flex flex-grow-1 d-lg-none">
-      <app-logo [showTitle]="false" class="flex-grow-1 align-content-center me-3"></app-logo>
-      <ul class="navbar-nav me-auto ms-3 mb-lg-0" (click)="openCardSearchModal()">
-        <li class="nav-item">
-          <a class="nav-link nav-search-button">
-            <fa-icon [icon]="searchIcon" />
-          </a>
-        </li>
-      </ul>
+    <div class="d-flex flex-grow-1 justify-content-between d-lg-none">
+      <app-logo class="align-content-center me-3"></app-logo>
+      @if(toolService.isPriceCalculator()) {
+        <ul class="navbar-nav ms-3 mb-lg-0" (click)="openCardSearchModal()">
+          <li class="nav-item">
+            <a class="nav-link nav-search-button">
+              <fa-icon [icon]="searchIcon" />
+            </a>
+          </li>
+        </ul>
+      }
     </div>
+    <ul class="navbar-nav ms-3 mb-lg-0" (click)="toggleTheme()">
+      <li class="nav-item">
+        <a class="nav-link nav-search-button">
+            <fa-icon [icon]="theme.icon" />
+        </a>
+      </li>
+    </ul>
     <ul class="navbar-nav ms-2" placement="bottom" [ngbPopover]="popContent" [autoClose]="'outside'">
       <li class="nav-item user-profile">
         <img class="nav-user-profile" src="{{ getAvatar() }}" id="img">
@@ -50,9 +61,6 @@
     </span>
   }
   <div class="d-grid gap-2 mt-3">
-    <button class="btn btn-primary" type="button" (click)="toggleTheme()">
-      <fa-icon [icon]="theme.icon" />
-    </button>
     @if(!isLoggedIn()) {
     <button class="btn btn-primary" type="button" (click)="login()">
       Iniciar sesión con &nbsp; <img src="assets/google.svg" alt="Google" width="50" height="18" class="svg-invert">

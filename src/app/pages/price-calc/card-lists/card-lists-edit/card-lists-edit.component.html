@@ -47,7 +47,7 @@
 		<div class="card-body p-0" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
 			@if (cardList$ | async; as cardList) {
 			<div class="card-list-container row g-0">
-				@for(card of cards(); track card) {
+				@for(card of cardListStore.cards(); track card) {
 					<div class="card-item-container"
 						[class.col-12]="!card.infoReduced"
 						[class.col-md-6]="card.infoReduced"
@@ -118,7 +118,7 @@
 		</div>
 		<div class="card-footer">
 			<p class="card-text fw-bold text-end">
-				TOTAL:<span class="ms-1">{{ total() | currency }}</span>
+				TOTAL:<span class="ms-1">{{ cardListStore.total() | currency }}</span>
 			</p>
 		</div>
 	</div>

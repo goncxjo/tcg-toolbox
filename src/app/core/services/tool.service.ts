@@ -1,5 +1,5 @@
 import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { Tool } from '../../backend';
+import { Tool, ToolTypes } from '../../backend';
 import _ from 'lodash';
 
 @Injectable({
@@ -7,8 +7,8 @@ import _ from 'lodash';
 })
 export class ToolService {
   private tools: Tool[] = [
-    { path: '', title: '', description: '' },
-    { path: 'price-calc', title: 'Price Calculator', description: 'Con esta herramienta podés calcular precios de cartas TCG y verlas en distintas monedas.' }
+    { path: ToolTypes.NOT_SELECTED, title: '', description: '' },
+    { path: ToolTypes.PRICE_CALCULATOR, title: 'Price Calculator', description: 'Con esta herramienta podés calcular precios de cartas TCG y verlas en distintas monedas.' }
   ];
   private tool: WritableSignal<Tool> = signal(this.tools[0]);
 
@@ -35,5 +35,9 @@ export class ToolService {
 
   getSelectedToolPath() {
     return this.tool().path;
+  }
+
+  isPriceCalculator() {
+    return this.tool().path == ToolTypes.PRICE_CALCULATOR;
   }
 }

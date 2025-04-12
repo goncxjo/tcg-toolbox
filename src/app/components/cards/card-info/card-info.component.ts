@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy } from '@angular/core';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { style, transition, trigger, animate } from '@angular/animations';
 import { Card, CardPrice } from '../../../backend';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DataService } from '../../../core/services/data.service';
 import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { CardListStore } from '../../../core/services/card-list.store';
 
 @Component({
   selector: 'app-card-info',
@@ -30,9 +30,8 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
   customPriceInput = new FormControl();
   customPrice$!: Subscription;
 
-  constructor(
-    private dataService: DataService,
-  ) {}
+  private cardListStore = inject(CardListStore)
+
 
   ngAfterViewInit() {
     this.setPrecioCarta();
@@ -49,11 +48,11 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
   }
 
   getPrecioCarta() {
-    return this.dataService.getPrice(this.data)
+    return this.cardListStore.getPrice(this.data)
   }
   
   setPrecioCarta() {
-    this.dataService.setPrice(this.data);
+    this.cardListStore.setPrice(this.data);
   }
 
   esUnidad() {

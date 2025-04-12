@@ -4,7 +4,6 @@ import { faAngleUp, faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar,
 import { LoaderService } from '../../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
-import { DataService } from '../../../../core/services/data.service';
 import { Card, CardList, CardListService } from '../../../../backend';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -18,6 +17,7 @@ import { cardsStorage } from '../../../../utils/type-safe-localstorage/card-stor
 import { UserService } from '../../../../core/services/user.service';
 import { ConfirmComponent } from '../../../../shared/modals/confirm/confirm.component';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { CardListStore } from '../../../../core/services/card-list.store';
 
 @Component({
   selector: 'app-card-lists-edit',
@@ -54,9 +54,6 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   collapseIcon = faAngleUp;
   cardlistIcon = faTableList;
 
-  cards = computed(() => this.dataService.cards());
-  total = computed(() => this.dataService.totals());
-
   form!: FormGroup;
 
   readonly: boolean = false;
@@ -71,7 +68,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   id: string = '';
 
   dolarService = inject(DolarDataService);
-  dataService = inject(DataService);
+  cardListStore = inject(CardListStore);
   cardList$!: Observable<CardList>;
   
   isCollapsed: boolean = false;
@@ -90,7 +87,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   get noData() {
-    return this.cards().length == 0;
+    return this.cardListStore.cards().length == 0;
   }
 
   ngOnInit(): void {
@@ -109,17 +106,17 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
             this.form.get('description')?.disable()
           }
           if (cardList.id) {
-            this.dataService.set(cardList.cards);
-            this.dataService.updateMode = true;
+            this.cardListStore.set(cardList.cards);
+            this.cardListStore.setUpdateMode(true);
             this.id = cardList.id;
             this.form.patchValue(cardList);
           } else {
-            if (!this.dataService.cardsLength()) {
+            if (!this.cardListStore.cardListLength()) {
               const tmpCards = cardsStorage.getItems();
-              this.dataService.setFromTmp(tmpCards);
+              this.cardListStore.setFromTmp(tmpCards);
             }
             setTimeout(() => {
-              cardList.cards = _.clone(this.cards());
+              cardList.cards = _.clone(this.cardListStore.cards());
             }, 1000);
           }
           return cardList;
@@ -139,22 +136,22 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   getPrice(card: Card) {
-    return this.dataService.getPrice(card);
+    return this.cardListStore.getPrice(card);
   }
   
   removeCard(card: Card) {
-    this.dataService.remove(card);
+    this.cardListStore.remove(card);
   }
 
   changeMultiplier(card: Card, i: number) {
-    this.dataService.updateCardMultiplier(card, i);
+    this.cardListStore.updateCardMultiplier(card, i);
   }
 
 
   sort(metodo: string, valor: string) {
     switch (metodo) {
       case 'precio':
-        this.cards().sort((a: Card, b: Card) => {
+        this.cardListStore.cards().sort((a: Card, b: Card) => {
           if (valor == 'asc') {
             return this.getPrice(a) * a.multiplier - this.getPrice(b) * b.multiplier;
           }
@@ -191,7 +188,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
 
     window.history.pushState(window.history.state, "modalOpened", `${window.document.URL}/#`);
 		const modalInstance = this.modalService.open(ExportImgComponent, { fullscreen: true });
-    modalInstance.componentInstance.cards = this.cards;
+    modalInstance.componentInstance.cards = this.cardListStore.cards();
     modalInstance.result.then(onModalSuccess, onError);
   }
 
@@ -249,7 +246,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
         description: formRawValue.description ?? '',
         createdAt: formRawValue?.createdAt ?? '',
         updatedAt: formRawValue?.updatedAt ?? '',
-        cards: this.dataService.getAllMiniCard()
+        cards: this.cardListStore.getAllMiniCard()
       };
 
       if (this.id) {
@@ -275,7 +272,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
       }
       try {
         cardsStorage.clearItems();
-        this.dataService.clear();
+        this.cardListStore.clear();
       } catch (error) {
         this.toastr.error('Ha ocurrido un problema', 'Error');
       }
@@ -300,8 +297,8 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.dataService.updateMode = false;
-    this.dataService.clear();
+    this.cardListStore.setUpdateMode(false);
+    this.cardListStore.clear();
     if (this.id) {
       cardsStorage.clearItems();
     }
