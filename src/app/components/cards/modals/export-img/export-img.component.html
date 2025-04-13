@@ -100,8 +100,8 @@
 						</span>
 					</div>
 
-					<div class="border border-secondary-subtle rounded-3 mt-1">
-						<span class="bg-badge-unit-price-export-card bg-primary badge d-block export-font" *ngIf="mostrarPrecios">
+					<div class="border border-secondary-subtle rounded-3 mt-1" *ngIf="mostrarPrecios">
+						<span class="bg-badge-unit-price-export-card bg-primary badge d-block export-font">
 							<span *ngIf="item.multiplier > 1">
 								{{ getPrecio(item) | currency }}
 							</span>
