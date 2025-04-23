@@ -8,3 +8,4 @@ export * from './dictionary';
 export * from './page-result'
 export * from './tool';
 export * from './tool.types';
+export * from './card-prices.types';

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject, Input, OnDestroy } from '@angular/core';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import { style, transition, trigger, animate } from '@angular/animations';
-import { Card, CardPrice } from '../../../backend';
+import { Card, CardPrice, CardPriceTypes } from '../../../backend';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -66,6 +66,21 @@ export class CardInfoComponent implements AfterViewInit, OnDestroy {
   onPriceSelected(priceSelected: string) {
     this.data.selectedPrice = priceSelected;
     this.setPrecioCarta();
+  }
+
+  getPrecioSeleccionado() {
+    switch(this.data.selectedPrice) {
+      case CardPriceTypes.TCG_PLAYER.LISTED_MEDIAN.FOIL:
+        return ['TCG Player', 'Median', 'Foil'];
+      case CardPriceTypes.TCG_PLAYER.LISTED_MEDIAN.NORMAL:
+        return ['TCG Player', 'Median'];
+      case CardPriceTypes.TCG_PLAYER.MARKET.FOIL:
+        return ['TCG Player', 'Market', 'Foil'];
+      case CardPriceTypes.TCG_PLAYER.MARKET.NORMAL:
+        return ['TCG Player', 'Market'];
+      default:
+        return ['Precio personalizado'];
+    }
   }
 
   ngOnDestroy(): void {
