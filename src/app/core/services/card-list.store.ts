@@ -1,5 +1,5 @@
 import { patchState, signalStore, withComputed, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
-import { Card, CardPrice, TcgPlayerService } from '../../backend';
+import { Card, CardPrice, CardPriceTypes, TcgPlayerService } from '../../backend';
 import { computed, effect, inject } from '@angular/core';
 import _ from 'lodash';
 import { DolarDataService } from './dolar.data.service';
@@ -51,30 +51,30 @@ export const CardListStore = signalStore(
 
                     // LISTED MEDIAN PRICE
                     if (priceResult[1].tcg_player_foil) {
-                        cardResult.selectedPrice = card.selectedPrice || 'tcg_player_foil_listed_median';
-                        cardResult.prices.set('tcg_player_foil_listed_median', priceResult[1].tcg_player_foil);
+                        cardResult.selectedPrice = card.selectedPrice || CardPriceTypes.TCG_PLAYER.LISTED_MEDIAN.FOIL;
+                        cardResult.prices.set(CardPriceTypes.TCG_PLAYER.LISTED_MEDIAN.FOIL, priceResult[1].tcg_player_foil);
                     }
                     if (priceResult[1].tcg_player_normal) {
-                        cardResult.selectedPrice = card.selectedPrice || 'tcg_player_normal_listed_median';
-                        cardResult.prices.set('tcg_player_normal_listed_median', priceResult[1].tcg_player_normal);
+                        cardResult.selectedPrice = card.selectedPrice || CardPriceTypes.TCG_PLAYER.LISTED_MEDIAN.NORMAL;
+                        cardResult.prices.set(CardPriceTypes.TCG_PLAYER.LISTED_MEDIAN.NORMAL, priceResult[1].tcg_player_normal);
                     }
 
                     // MARKET PRICE
                     if (priceResult[0].tcg_player_foil) {
-                        cardResult.selectedPrice = card.selectedPrice || 'tcg_player_foil';
-                        cardResult.prices.set('tcg_player_foil', priceResult[0].tcg_player_foil);
+                        cardResult.selectedPrice = card.selectedPrice || CardPriceTypes.TCG_PLAYER.MARKET.FOIL;
+                        cardResult.prices.set(CardPriceTypes.TCG_PLAYER.MARKET.FOIL, priceResult[0].tcg_player_foil);
                     }
                     if (priceResult[0].tcg_player_normal) {
-                        cardResult.selectedPrice = card.selectedPrice || 'tcg_player_normal';
-                        cardResult.prices.set('tcg_player_normal', priceResult[0].tcg_player_normal);
+                        cardResult.selectedPrice = card.selectedPrice || CardPriceTypes.TCG_PLAYER.MARKET.NORMAL;
+                        cardResult.prices.set(CardPriceTypes.TCG_PLAYER.MARKET.NORMAL, priceResult[0].tcg_player_normal);
                     }
 
                     // CUSTOM PRICE
-                    if (card.selectedPrice == 'custom' && card.customPrice) {
+                    if (card.selectedPrice == CardPriceTypes.CUSTOM && card.customPrice) {
                         cardResult.selectedPrice = card.selectedPrice;
                         cardResult.customCurrency = card.customCurrency;
                         cardResult.customPrice = card.customPrice;
-                        cardResult.prices.set('custom', this.getCustomPrice(card.customCurrency, card.customPrice));
+                        cardResult.prices.set(CardPriceTypes.CUSTOM, this.getCustomPrice(card.customCurrency, card.customPrice));
                     }
 
                     patchState(store, { cards: [...store.cards(), cardResult] });
@@ -106,7 +106,8 @@ export const CardListStore = signalStore(
                 card.tcg_player_id = t.tcgPlayerId;
                 card.multiplier = t.qty;
                 card.selectedPrice = t.selectedPrice;
-                card.prices.set('custom', this.getCustomPrice(t.customCurrency, t.customPrice));
+                card.customPrice = t.customPrice;
+                card.prices.set(CardPriceTypes.CUSTOM, this.getCustomPrice(t.customCurrency, t.customPrice));
                 return card;
             });
 
@@ -127,10 +128,10 @@ export const CardListStore = signalStore(
             const updatedCardList = _.map(store.cards(), (c) => {
                 if (c.tcg_player_id == card.tcg_player_id) {
                     c.selectedPrice = card.selectedPrice;
-                    const customPrice = card.prices.get('custom');
+                    const customPrice = card.prices.get(CardPriceTypes.CUSTOM);
                     if (customPrice) {
-                        card.prices.delete('custom');
-                        card.prices.set('custom', customPrice);
+                        card.prices.delete(CardPriceTypes.CUSTOM);
+                        card.prices.set(CardPriceTypes.CUSTOM, customPrice);
                     }
                 }
                 return c;
@@ -153,8 +154,8 @@ export const CardListStore = signalStore(
                 tcgPlayerId: card.tcg_player_id ?? 0,
                 qty: card.multiplier,
                 selectedPrice: card.selectedPrice,
-                customCurrency: card.prices?.get('custom')?.currency_symbol ?? 'ARS',
-                customPrice: card.prices?.get('custom')?.currency_value ?? 0
+                customCurrency: card.prices?.get(CardPriceTypes.CUSTOM)?.currency_symbol ?? 'ARS',
+                customPrice: card.prices?.get(CardPriceTypes.CUSTOM)?.currency_value ?? 0
             }
         },
         getAllMiniCard() {
