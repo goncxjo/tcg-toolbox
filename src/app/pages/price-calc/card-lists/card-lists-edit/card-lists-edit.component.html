@@ -51,11 +51,11 @@
 					<div class="card-item-container"
 						[class.col-12]="!card.infoReduced"
 						[class.col-md-6]="card.infoReduced"
-						[class.col-lg-4]="card.infoReduced"
+						[class.col-xl-4]="card.infoReduced"
 					>
 						<div class="d-flex">
 							@defer {
-								<div class="p-3" [class.pe-0]="card.infoReduced">
+								<div class="p-3 flex-grow-1" [class.pe-0]="card.infoReduced">
 									<app-card-info [data]="card"></app-card-info>
 								</div>
 								@if(card.infoReduced) {
