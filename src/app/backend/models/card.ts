@@ -79,7 +79,23 @@ export class Card {
 			});
 			return precio;
 		}
-	  }
+	}
+	
+	mapExportToEntity(value: string) {
+		try {
+			const [tcg_player_id, code, multiplier, customPriceString] = value.split('_');
+			const customPrice = new CardPrice();
+			customPrice.setPrice(customPriceString);
+	
+			this.tcg_player_id = parseInt(tcg_player_id);
+			this.code = new CardCode(code);
+			this.multiplier = parseInt(multiplier);
+			this.prices.set('custom', customPrice);
+				
+		} catch (error) {
+			console.log(`error al mapear #${value}`)
+		}
+	}
 }
 
 export class CardPrices {

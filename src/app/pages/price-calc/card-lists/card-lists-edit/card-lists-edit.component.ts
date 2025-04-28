@@ -7,7 +7,7 @@ import { DolarDataService } from '../../../../core/services/dolar.data.service';
 import { Card, CardList, CardListService } from '../../../../backend';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, Subscription, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { Observable, Subscription, debounceTime, distinctUntilChanged, map, take } from 'rxjs';
 import _ from 'lodash';
 import { NgbCollapseModule, NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExportImgComponent } from '../../../../components/cards/modals/export-img/export-img.component';
@@ -18,6 +18,7 @@ import { UserService } from '../../../../core/services/user.service';
 import { ConfirmComponent } from '../../../../shared/modals/confirm/confirm.component';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CardListStore } from '../../../../core/services/card-list.store';
+import { CryptoService } from '../../../../core/services/crypto.service';
 
 @Component({
   selector: 'app-card-lists-edit',
@@ -66,6 +67,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
 
   title: string = '';
   id: string = '';
+  importData: string = '';
 
   dolarService = inject(DolarDataService);
   cardListStore = inject(CardListStore);
@@ -83,7 +85,18 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
     private service: CardListService,
     private userService: UserService,
     private clipboard: Clipboard,
+    private cryptoService: CryptoService,
   ) {
+    this.activatedRoute.params.pipe(
+      take(1),
+    ).subscribe((params) => {
+      this.id = params['id'];
+    });
+    
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      this.importData = params.get('importData') || '';
+    }); 
+
   }
 
   get noData() {
@@ -110,6 +123,16 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
             this.cardListStore.setUpdateMode(true);
             this.id = cardList.id;
             this.form.patchValue(cardList);
+          } else if (this.importData) {
+            let res = this.cryptoService.decryptJsonUriFriendly(this.importData);
+            res.forEach((c: string) => {
+              setTimeout(() => {
+                const card = new Card();
+                card.mapExportToEntity(c);
+                this.cardListStore.add(card);
+              }, 10);
+            });
+            this.router.navigate([], { queryParams: {} });
           } else {
             if (!this.cardListStore.cardListLength()) {
               const tmpCards = cardsStorage.getItems();
