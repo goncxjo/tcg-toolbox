@@ -10,7 +10,7 @@ import { Analytics, logEvent } from '@angular/fire/analytics';
 })
 export class AdBannerComponent {
   ads: any[] = [
-    { id: 'rancho-store', url: 'https://ranchopokemon.com/tienda/', img: 'assets/rancho-store.gif'}
+    { id: 'rancho-store', url: 'https://ranchostoretcg.com.ar/', img: 'assets/rancho-store.gif'}
   ]
 
   private analytics = inject(Analytics);
