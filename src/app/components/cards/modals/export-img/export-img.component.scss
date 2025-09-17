@@ -52,6 +52,9 @@
 .qty-container {
     position: absolute;
     bottom: 0.15em;
+    place-content: center;
+    align-items:center;
+    justify-content:center;
     .qty-bg {
         opacity: .8;        
     }
