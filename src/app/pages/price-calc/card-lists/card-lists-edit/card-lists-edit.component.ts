@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, computed, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAngleUp, faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faShareNodes, faTableList, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faArrowDown91, faArrowsRotate, faArrowUp19, faCommentDollar, faCopy, faEye, faFloppyDisk, faImage, faMinus, faPlus, faShareNodes, faSort, faStarOfLife, faTableList, faTimes, faTrash, faUpRightAndDownLeftFromCenter } from '@fortawesome/free-solid-svg-icons';
 import { LoaderService } from '../../../../core';
 import { ToastrService } from 'ngx-toastr';
 import { DolarDataService } from '../../../../core/services/dolar.data.service';
@@ -40,6 +40,7 @@ import { CryptoService } from '../../../../core/services/crypto.service';
 export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy {
   sortUpIcon = faArrowUp19;
   sortDownIcon = faArrowDown91;
+  sortIcon = faSort;
   imageIcon = faImage;
   shareIcon = faShareNodes;
   closeIcon = faTimes;
@@ -54,6 +55,7 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
   refreshIcon = faArrowsRotate;
   collapseIcon = faAngleUp;
   cardlistIcon = faTableList;
+  cloneIcon = faStarOfLife;
 
   form!: FormGroup;
 
@@ -181,7 +183,40 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
           return this.getPrice(b) * b.multiplier - this.getPrice(a) * a.multiplier;
         });
         break;
-    
+      case 'nombre':
+        this.cardListStore.cards().sort((a: Card, b: Card) => {
+          if (valor == 'asc') {
+            return a.name.localeCompare(b.name);
+          }
+          return b.name.localeCompare(a.name);
+        });
+        break;
+      case 'cantidad':
+        this.cardListStore.cards().sort((a: Card, b: Card) => {
+          if (valor == 'asc') {
+            return a.multiplier - b.multiplier;
+          }
+          return b.multiplier - a.multiplier;
+        });
+        break;
+      case 'codigo':
+        this.cardListStore.cards().sort((a: Card, b: Card) => {
+          let result = valor == 'asc' ? a.code.expansion_code.localeCompare(b.code.expansion_code) : b.code.expansion_code.localeCompare(a.code.expansion_code);
+
+          if (result == 0) {
+            result = valor == 'asc' ? a.code.id - b.code.id : b.code.id - a.code.id;
+          }
+          return result;
+        });
+        break;
+      case 'rareza':
+        this.cardListStore.cards().sort((a: Card, b: Card) => {
+          if (valor == 'asc') {
+            return a.rarity_name.localeCompare(b.rarity_name);
+          }
+          return b.rarity_name.localeCompare(a.rarity_name);
+        });
+        break;
       default:
         break;
     }
@@ -282,6 +317,11 @@ export class CardListsEditComponent implements OnInit, AfterViewInit, OnDestroy 
     } catch (error) {
       this.toastr.error('Ha ocurrido un problema', 'Error');
     }
+  }
+
+  clone() {
+    this.id = '';
+    this.save();
   }
 
   isLoggedIn() {

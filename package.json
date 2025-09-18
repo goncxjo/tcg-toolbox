@@ -1,6 +1,6 @@
 {
   "name": "tcg-toolbox",
-  "version": "2.0.0.25260",
+  "version": "2.0.0.25261",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
