@@ -11,13 +11,35 @@
 		<div class="card-header text-bg-primary fw-bold d-flex align-items-center py-2 pe-2">
 			<span>Cartas</span>
 			<div class="btn-toolbar justify-content-end flex-grow-1" role="toolbar">
-				<div class="btn-group card-item-actions me-2" role="group">
+				<!-- <div class="btn-group card-item-actions me-2" role="group">
 					<button type="button" class="btn btn-sm btn-success" (click)="sort('precio', 'asc')">
 						<fa-icon [icon]="sortUpIcon" />
 					</button>
 					<button type="button" class="btn btn-sm btn-success" (click)="sort('precio', 'desc')">
 						<fa-icon [icon]="sortDownIcon" />
 					</button>
+				</div> -->
+				<div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+					<button
+						type="button"
+						class="btn btn-success me-2"
+						id="dropdownManual"
+						(focus)="myDrop.open()"
+					>
+					<fa-icon [icon]="sortIcon" />
+				</button>
+					<div ngbDropdownMenu aria-labelledby="dropdownManual">
+						<button ngbDropdownItem (click)="sort('nombre', 'asc')">[Nombre] A-Z</button>
+						<button ngbDropdownItem (click)="sort('nombre', 'desc')">[Nombre] Z-A</button>
+						<button ngbDropdownItem (click)="sort('rareza', 'asc')">[Rareza] A-Z</button>
+						<button ngbDropdownItem (click)="sort('rareza', 'desc')">[Rareza] Z-A</button>
+						<button ngbDropdownItem (click)="sort('codigo', 'asc')">[Código] A-Z</button>
+						<button ngbDropdownItem (click)="sort('codigo', 'desc')">[Código] Z-A</button>
+						<button ngbDropdownItem (click)="sort('precio', 'asc')">[Precio] menor a Mayor</button>
+						<button ngbDropdownItem (click)="sort('precio', 'desc')">[Precio] Mayor a menor</button>
+						<button ngbDropdownItem (click)="sort('cantidad', 'asc')">[Cantidad] menor a Mayor</button>
+						<button ngbDropdownItem (click)="sort('cantidad', 'desc')">[Cantidad] Mayor a menor</button>
+					</div>
 				</div>
 				<div class="btn-group me-2">
 					<button type="button" class="btn btn-sm btn-success" (click)="toggleDolar()">
