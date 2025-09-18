@@ -13,6 +13,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
             let errorStatus = getErrorStatusCode(error);
             let errorMessage = getErrorMessage(error);
             let showError = true;
+            let showServerError = false;
 
             switch (errorStatus) {
                 case 0:
@@ -20,7 +21,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                     router.navigate(['/']);
                     notificationService.showWarning(errorMessage);
                     break;
-                case 401:
+                    case 401:
                 case 403:
                     router.navigate(['/unauthorized']);
                     break;
@@ -28,13 +29,17 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                     errorMessage = 'El registro no existe o fue eliminado';
                     router.navigate(['/']);
                     break;
-                default:
-                    errorMessage = 'Ocurrió un error al conectarse con el servidor. Aún puede continuar utilizando el buscador';
+                    default:
+                    showError = false;
+                    showServerError = true;
                     break;
             }
 
             if (showError) {
                 notificationService.showDanger(errorMessage);
+            }
+            if (showServerError) {
+                notificationService.showServerNotResponding();
             }
 
             return throwError(() => errorMessage);
