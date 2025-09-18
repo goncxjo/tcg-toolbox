@@ -162,8 +162,11 @@
 				</button>	
 			}
 			@if(!noData) {
-				<button type="button" class="btn btn-primary " (click)="openExportImg()">
+				<button type="button" class="btn btn-primary" (click)="openExportImg()">
 					<fa-icon [icon]="shareIcon" /> Compartir
+				</button>
+				<button type="button" class="btn btn-warning" (click)="clone()">
+					<fa-icon [icon]="cloneIcon" /> Clonar
 				</button>
 			}
 			@if(isLoggedIn()) {
